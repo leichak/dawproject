@@ -1,4 +1,4 @@
-pub mod main_structure {
+pub mod XMLElements {
     pub enum RootElement {
         Arrangement,
         BoolParameter,
@@ -61,6 +61,6 @@ pub mod main_structure {
 #[test]
 
 fn test() {
-    use crate::main_structure::main_structure::RootElement;
+    use crate::xml_elements::XMLElements::RootElement;
     let b: String = RootElement::Project.into();
 }
