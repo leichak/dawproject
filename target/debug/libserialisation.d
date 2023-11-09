@@ -1,1 +1,1 @@
-/Users/daniel/Documents/repositories/dawproject/target/debug/libserialisation.rlib: /Users/daniel/Documents/repositories/dawproject/src/lib.rs /Users/daniel/Documents/repositories/dawproject/src/main_structure.rs
+/Users/daniel/Documents/repositories/dawproject/target/debug/libserialisation.rlib: /Users/daniel/Documents/repositories/dawproject/src/lib.rs /Users/daniel/Documents/repositories/dawproject/src/reader.rs /Users/daniel/Documents/repositories/dawproject/src/xml_elements.rs
