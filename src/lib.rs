@@ -30,6 +30,16 @@ mod daw_project {
                             println!("{}", name)
                         }
                         RootElement::Unknown => {}
+                        RootElement::Arrangement => todo!(),
+                        RootElement::BoolParameter => todo!(),
+                        RootElement::Channel => todo!(),
+                        RootElement::EnumParameter => todo!(),
+                        RootElement::IntegerParameter => todo!(),
+                        RootElement::MetaData => todo!(),
+                        RootElement::RealParameter => todo!(),
+                        RootElement::Scene => todo!(),
+                        RootElement::TimeSignatureParameter => todo!(),
+                        RootElement::Track => todo!(),
                     }
                 }
                 Ok(XmlEvent::EndElement { name }) => {
