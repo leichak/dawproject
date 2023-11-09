@@ -2,7 +2,7 @@ mod main_structure;
 
 mod daw_project {
 
-    use crate::main_structure::main_structure::main_names;
+    use crate::main_structure::main_structure::RootElement;
 
     use std::io::BufReader;
     use std::{fs::File, path::PathBuf};
@@ -20,16 +20,16 @@ mod daw_project {
         for e in parser {
             match e {
                 Ok(XmlEvent::StartElement { name, .. }) => {
-                    let result: main_names = name.to_string().into();
+                    let result: RootElement = name.to_string().into();
 
                     match name.to_string().into() {
-                        main_names::Project => {
+                        RootElement::Project => {
                             println!("{}", name)
                         }
-                        main_names::Parameter => {
+                        RootElement::Parameter => {
                             println!("{}", name)
                         }
-                        main_names::Unknown => {}
+                        RootElement::Unknown => {}
                     }
                 }
                 Ok(XmlEvent::EndElement { name }) => {

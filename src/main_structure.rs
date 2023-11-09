@@ -1,27 +1,27 @@
 pub mod main_structure {
-    pub enum main_names {
+    pub enum RootElement {
         Project,
         Parameter,
         Unknown,
     }
 
-    impl From<String> for main_names {
+    impl From<String> for RootElement {
         fn from(s: String) -> Self {
             match s.as_str() {
-                "Project" => main_names::Project,
-                "Parameter" => main_names::Parameter,
+                "Project" => RootElement::Project,
+                "Parameter" => RootElement::Parameter,
 
-                _ => main_names::Unknown,
+                _ => RootElement::Unknown,
             }
         }
     }
 
-    impl Into<String> for main_names {
+    impl Into<String> for RootElement {
         fn into(self) -> String {
             match self {
-                main_names::Project => "Project".to_string(),
-                main_names::Parameter => "Parameter".to_string(),
-                main_names::Unknown => "Unknown".to_string(),
+                RootElement::Project => "Project".to_string(),
+                RootElement::Parameter => "Parameter".to_string(),
+                RootElement::Unknown => "Unknown".to_string(),
             }
         }
     }
@@ -31,6 +31,6 @@ pub mod main_structure {
 #[test]
 
 fn test() {
-    use crate::main_structure::main_structure::main_names;
-    let b: String = main_names::Project.into();
+    use crate::main_structure::main_structure::RootElement;
+    let b: String = RootElement::Project.into();
 }
