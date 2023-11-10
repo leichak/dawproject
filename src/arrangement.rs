@@ -1,7 +1,6 @@
-pub mod arrangement {
-    use timeline::lanes;
-    use timeline::markers;
-    use timeline::points;
+use crate::timeline::lanes;
+use crate::timeline::markers;
+use crate::timeline::points;
+use crate::timeline::timeline;
 
-    pub struct Arrangement {}
-}
+pub struct Arrangement {}

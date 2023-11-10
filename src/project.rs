@@ -8,12 +8,11 @@ This struct represents project, it conists following data:
 - Clip Launcher scenes of this file
  */
 
-use application::*;
-use arrangement::*;
-use lane::*;
-use scene::*;
-use transport::*;
-
+use crate::application::Application;
+use crate::arrangement::Arrangement;
+use crate::lane::Lane;
+use crate::scene::Scene;
+use crate::transport::Transport;
 struct Project {
     pub version: String,
     application: Application,

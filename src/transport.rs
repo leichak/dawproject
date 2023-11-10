@@ -1,4 +1,1 @@
-pub mod transport {
-
-    struct Transport {}
-}
+pub struct Transport {}
