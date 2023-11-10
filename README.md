@@ -1,11 +1,7 @@
-
 # DAWproject Rust Crate
 
 DAWproject
 Open exchange format for user data between Digital Audio Workstations (DAWs)
-
-## Repository reference
-https://github.com/bitwig/dawproject
 
 ## Motivation
 The DAWproject format in Rust provides a vendor-agnostic way to transfer user data between different music applications (DAWs).
@@ -21,7 +17,7 @@ The goal of this Rust crate is to export all translatable project data (audio/no
 | Audio        | Audio Events/Clips, Fades, Crossfades, Amplitude, Pan, Time Warping, Transpose | - | Audio Events/Clips, Fades, Crossfades, Amplitude, Pan |
 | Notes        | Notes, Note Expressions | Notes | -                                  |
 | Automation   | Tempo, Time Signature, MIDI Messages, Volume, Pan, Mute, Sends, Plug-in Parameters, Built-in Device Parameters | Tempo, Time Signature, MIDI Messages, SysEx Messages | Volume, Pan, Video Related Parameters, Plug-ins |
-  
+
 ## Status
 The format is version 1.0 and stable.
 
@@ -52,7 +48,7 @@ The format is version 1.0 and stable.
 - The crate is built in Rust.
 - It uses plain XML/ZIP and can be used with any programming language that can parse those.
 - The DOM is defined by Rust structs with RustDoc comments for documentation.
-  
+
 ## Building the Library, Documentation, and Tests
 Requires Rust to build.
 
@@ -77,9 +73,8 @@ DAWproject 1.0 is currently supported by the following DAWs:
 - Bitwig Studio 5.0.9
 - PreSonus Studio One 6.5
 
-Feel free to contribute to add support for more DAWs.
+Feel free to contribute to adding support for more DAWs.
 
-
-Progress tasks:
-
-- employ quick_xml with serde as deserialisation mechanism
+## To-Do List
+[x] Reflect all structures in files and appropriate mods.
+[ ] Implement XML deserialization using serde.
