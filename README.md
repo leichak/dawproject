@@ -76,5 +76,5 @@ DAWproject 1.0 is currently supported by the following DAWs:
 Feel free to contribute to adding support for more DAWs.
 
 ## To-Do List
-[x] Reflect all structures in files and appropriate mods.
-[ ] Implement XML deserialization using serde.
+- [x] Reflect all structures in files and appropriate mods.
+- [ ] Implement XML deserialization using serde.
