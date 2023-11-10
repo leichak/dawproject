@@ -1,3 +1,6 @@
 pub mod application {
-    struct Application {}
+    struct Application {
+        String: name,
+        String: version,
+    }
 }

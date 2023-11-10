@@ -1,4 +1,5 @@
 mod parser;
+mod timeline;
 mod xml_elements;
 
 #[cfg(test)]
