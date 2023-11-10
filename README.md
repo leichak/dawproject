@@ -4,6 +4,9 @@
 DAWproject
 Open exchange format for user data between Digital Audio Workstations (DAWs)
 
+## Repository reference
+https://github.com/bitwig/dawproject
+
 ## Motivation
 The DAWproject format in Rust provides a vendor-agnostic way to transfer user data between different music applications (DAWs).
 
@@ -75,3 +78,8 @@ DAWproject 1.0 is currently supported by the following DAWs:
 - PreSonus Studio One 6.5
 
 Feel free to contribute to add support for more DAWs.
+
+
+Progress tasks:
+
+- employ quick_xml with serde as deserialisation mechanism
