@@ -78,3 +78,5 @@ Feel free to contribute to adding support for more DAWs.
 ## To-Do List
 - [x] Reflect all structures in files and appropriate mods.
 - [ ] Implement XML deserialization using quick_xml and serde.
+- - [ ] Move to quick-xml 
+- - [ ] Employ Serde deserialisation using Rust structs directly
