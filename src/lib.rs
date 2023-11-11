@@ -19,6 +19,7 @@ mod unit;
 mod xml_elements;
 
 pub use serde::{Deserialize, Serialize};
+static mut ID: u32 = 0;
 
 #[cfg(test)]
 #[test]

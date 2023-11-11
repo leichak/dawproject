@@ -3,5 +3,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
 pub struct Point {
+    #[serde(rename = "@time")]
     pub time: f64,
 }

@@ -17,18 +17,21 @@ use crate::transport::Transport;
 use serde;
 use serde::*;
 
-#[derive(Deserialize)]
+// Here name of field corresponds to xml
+
+#[derive(serde::Deserialize)]
 struct Project {
     #[serde(rename = "@version")]
     pub version: String,
-    #[serde(rename = "@application")]
+    #[serde(rename = "Application")]
     application: Application,
-    #[serde(rename = "@transport")]
+    #[serde(rename = "Transport")]
     transport: Transport,
-    #[serde(rename = "@line")]
-    line: Vec<Lane>,
-    #[serde(rename = "@arrangement")]
+    #[serde(rename = "Structure")]
+    structure: Vec<Lane>,
+    #[serde(rename = "Arrangement")]
     arrangement: Arrangement,
-    #[serde(rename = "@scenes")]
+    #[serde(rename = "Scenes")]
+    #[serde(default)]
     scenes: Vec<Scene>,
 }

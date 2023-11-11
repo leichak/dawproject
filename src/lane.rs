@@ -4,12 +4,12 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
 pub struct Lane {
+    #[serde(rename = "@id")]
     id: String,
 }
 
 impl Lane {
     pub fn new() -> Self {
-        // It should return string id unique
         Lane {
             id: "random_string".to_string(),
         }
