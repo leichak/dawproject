@@ -8,3 +8,4 @@ edition = "2021"
 [dependencies]
 xml = "0.8.10"
 quick-xml = "0.31.0"
+serde = {version = "1.0.192"   ,  features = ["derive"] }

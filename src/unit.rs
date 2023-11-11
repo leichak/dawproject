@@ -1,3 +1,6 @@
+use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize)]
 pub enum Unit {
     linear,
     normalized,

@@ -12,12 +12,23 @@ use crate::application::Application;
 use crate::arrangement::Arrangement;
 use crate::lane::Lane;
 use crate::scene::Scene;
+
 use crate::transport::Transport;
+use serde;
+use serde::*;
+
+#[derive(Deserialize)]
 struct Project {
+    #[serde(rename = "@version")]
     pub version: String,
+    #[serde(rename = "@application")]
     application: Application,
+    #[serde(rename = "@transport")]
     transport: Transport,
+    #[serde(rename = "@line")]
     line: Vec<Lane>,
+    #[serde(rename = "@arrangement")]
     arrangement: Arrangement,
+    #[serde(rename = "@scenes")]
     scenes: Vec<Scene>,
 }

@@ -1,4 +1,8 @@
+use serde::{Deserialize, Serialize};
+
 /* This is struct that needs to provide unique id, in original code it derives from referencable */
+
+#[derive(Deserialize)]
 pub struct Lane {
     id: String,
 }

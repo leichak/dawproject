@@ -18,6 +18,8 @@ mod transport;
 mod unit;
 mod xml_elements;
 
+pub use serde::{Deserialize, Serialize};
+
 #[cfg(test)]
 #[test]
 fn test_parsing() {
