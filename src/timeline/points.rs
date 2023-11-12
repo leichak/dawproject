@@ -3,7 +3,7 @@ use super::point::Point;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
-struct Points {
+pub struct Points {
     #[serde(rename = "@points")]
     points: Vec<Point>, //The contained points. They should all be of the same type and match the target parameter. */
     #[serde(rename = "@unit")]

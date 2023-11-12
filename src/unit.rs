@@ -2,13 +2,14 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
 pub enum Unit {
-    linear,
-    normalized,
-    percent,
-    decibel,
-    hertz,
-    semitones,
-    seconds,
-    beats,
-    bpm,
+    #[serde(rename = "@linear")]
+    Linear,
+    Normalized,
+    Percent,
+    Decibel,
+    Hertz,
+    Semitones,
+    Seconds,
+    Beats,
+    Bpm,
 }

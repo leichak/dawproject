@@ -1,7 +1,5 @@
 #[derive(serde::Deserialize)]
 pub struct TimeSignatureParameter {
-    #[serde(rename = "@parameterID")]
-    parameter_id: i32,
     #[serde(rename = "@name")]
     name: String, // attribute
     #[serde(rename = "@color")]
@@ -10,6 +8,8 @@ pub struct TimeSignatureParameter {
     comment: String, // att
     #[serde(rename = "@id")]
     id: String,
+    #[serde(rename = "@parameterID")]
+    parameter_id: i32,
     #[serde(rename = "@numerator")]
     numerator: i32,
     #[serde(rename = "@denominator")]
