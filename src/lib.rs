@@ -7,7 +7,6 @@ mod expression_type;
 mod integer_parameter;
 mod lane;
 mod parameter;
-mod parser;
 mod project;
 mod real_parameter;
 mod scene;
