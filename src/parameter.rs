@@ -1,9 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 pub struct Parameter {
-    #[serde(rename = "@parameterID")]
-    parameter_id: i32,
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "@name")]
@@ -12,4 +10,6 @@ pub struct Parameter {
     color: String, // att
     #[serde(rename = "@comment")]
     comment: String, // att
+    #[serde(rename = "@parameterID")]
+    parameter_id: i32,
 }
