@@ -1,3 +1,6 @@
+use serde::Deserialize;
+
+
 enum MixerRole {
     regular,
     master,

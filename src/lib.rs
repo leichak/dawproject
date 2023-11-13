@@ -95,6 +95,7 @@ fn parse_track() {
      */
 
     use content_type::ContentType;
+    use quick_xml::de::from_str;
     use serde::Deserialize;
 
     #[derive(Deserialize)]
@@ -119,13 +120,13 @@ fn parse_track() {
         comment: String, // att
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     enum TrackChannel {
         Track,
         Channel,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct Track {
         // Extends lane
         #[serde(rename = "@id")]
@@ -137,17 +138,18 @@ fn parse_track() {
         #[serde(rename = "@comment")]
         comment: String, // att
         #[serde(rename = "$value")]
+        #[serde(default)]
         contentType: Vec<ContentType>,
         #[serde(rename = "@loaded")]
         loaded: bool,
         #[serde(rename = "$value")]
+        #[serde(default)]
         track_channel: Vec<TrackChannel>,
     }
 
-    let xml = r#"<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <Project version = "1.0"><Application version = "2.0"></Application> </Project>"#;
+    let xml = r#"<Track contentType="notes" loaded="true" id="id2" name="Bass" color="2312323" comment="dupa"></Track>"#;
 
-    let mut obj: Parameter = from_str(xml).unwrap();
+    let mut obj: Track = from_str(xml).unwrap();
 
     println!("Deserialized object {:?} ", obj);
 }
