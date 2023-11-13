@@ -1,7 +1,7 @@
 use serde::Deserialize;
 
 #[derive(Deserialize)]
-struct BoolParameter {
+pub(crate) struct BoolParameter {
     #[serde(rename = "@parameterID")]
     parameter_id: i32,
     #[serde(rename = "@id")]

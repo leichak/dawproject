@@ -146,10 +146,306 @@ fn parse_track() {
         #[serde(default)]
         track_channel: Vec<TrackChannel>,
     }
-
-    let xml = r#"<Track contentType="notes" loaded="true" id="id2" name="Bass" color="2312323" comment="dupa"></Track>"#;
+    // https://rahul-thakoor.github.io/rust-raw-string-literals/ HASH IN Raw string literals, when it is r# # raw it does not use escape parameters
+    let xml = r##"<Track contentType="notes" loaded="true" id="id2" name="Bass" color="#2312323" comment="dupa"></Track>"##;
 
     let mut obj: Track = from_str(xml).unwrap();
 
     println!("Deserialized object {:?} ", obj);
+}
+
+#[test]
+fn parse_channel() {
+    /*
+    Channel Schema
+
+    <xs:complexType name="channel">
+      <xs:complexContent>
+        <xs:extension base="lane">
+          <xs:sequence>
+            <xs:element name="Devices" minOccurs="0">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:choice minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="Device"/>
+                    <xs:element ref="Vst2Plugin"/>
+                    <xs:element ref="Vst3Plugin"/>
+                    <xs:element ref="ClapPlugin"/>
+                    <xs:element ref="BuiltinDevice"/>
+                    <xs:element ref="Equalizer"/>
+                    <xs:element ref="Compressor"/>
+                    <xs:element ref="NoiseGate"/>
+                    <xs:element ref="Limiter"/>
+                    <xs:element ref="AuPlugin"/>
+                  </xs:choice>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Mute" type="boolParameter" minOccurs="0"/>
+            <xs:element name="Pan" type="realParameter" minOccurs="0"/>
+            <xs:element name="Sends" minOccurs="0">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="Send" type="send" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="Volume" type="realParameter" minOccurs="0"/>
+          </xs:sequence>
+          <xs:attribute name="audioChannels" type="xs:int"/>
+          <xs:attribute name="destination" type="xs:IDREF"/>
+          <xs:attribute name="role" type="mixerRole"/>
+          <xs:attribute name="solo" type="xs:boolean"/>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+     */
+
+    use crate::bool_parameter::BoolParameter;
+    use crate::parameter::Parameter;
+    use serde::Deserialize;
+
+    #[derive(Deserialize)]
+    struct FileReference {
+        #[serde(rename = "@path")]
+        path: String,
+        #[serde(rename = "@external")]
+        external: bool,
+    }
+
+    #[derive(Deserialize)]
+    struct DeviceRole {}
+
+    #[derive(Deserialize)]
+    struct Device {
+        // Extends referenceable
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+    }
+
+    #[derive(Deserialize)]
+    struct Plugin {
+        // Extends device
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+        // End of extension
+        #[serde(rename = "@pluginVersion")]
+        plugin_version: String,
+    }
+
+    #[derive(Deserialize)]
+    struct Vst2Plugin {
+        // Extends plugin
+        // Extends device
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+        // End of extension
+        #[serde(rename = "@pluginVersion")]
+        plugin_version: String,
+    }
+
+    #[derive(Deserialize)]
+    struct Vst3Plugin {
+        // Extends Plugin
+        // Extends device
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+        // End of extension
+        #[serde(rename = "@pluginVersion")]
+        plugin_version: String,
+    }
+
+    #[derive(Deserialize)]
+    struct ClapPlugin {
+        // Extends Plugin
+        // Extends device
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+        // End of extension
+        #[serde(rename = "@pluginVersion")]
+        plugin_version: String,
+    }
+
+    #[derive(Deserialize)]
+    struct BuiltinDevice {
+        // Extends device
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+    }
+
+    #[derive(Deserialize)]
+    struct Equalizer {
+        // Extends builtinDevice
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+        // End of extension
+        // Here vector of 3 elements
+    }
+
+    #[derive(Deserialize)]
+    struct Compressor {}
+
+    #[derive(Deserialize)]
+    struct NoiseGate {}
+
+    #[derive(Deserialize)]
+    struct Limiter {}
+
+    #[derive(Deserialize)]
+    struct AuPlugin {}
+
+    #[derive(Deserialize)]
+    enum DeviceTypes {
+        Device,
+        Vst2Plugin,
+        Vst3Plugin,
+        ClapPlugin,
+        BuiltinDevice,
+        Equalizer,
+        Compressor,
+        NoiseGate,
+        Limiter,
+        AuPlugin,
+    }
+
+    #[derive(Deserialize)]
+    struct Devices {
+        #[serde(default)]
+        #[serde(rename = "$value")]
+        devices: Vec<DeviceTypes>,
+    }
+
+    #[derive(Deserialize)]
+    struct Channel {
+        // Extends lane
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "@name")]
+        name: String, // attribute
+        #[serde(rename = "@color")]
+        color: String, // att
+        #[serde(rename = "@comment")]
+        comment: String, // att
+        #[serde(rename = "Devices")]
+        devices: Devices,
+    }
 }
