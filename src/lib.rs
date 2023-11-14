@@ -107,7 +107,7 @@ fn parse_track() {
         vca,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     pub struct Channel {
         // Extends lane
         #[serde(rename = "@id")]
@@ -121,10 +121,12 @@ fn parse_track() {
     }
 
     #[derive(Deserialize, Debug)]
-    enum TrackChannel {
-        Track,
-        Channel,
+    enum TrackChannelEnum {
+        Track(Track),
+        Channel(Channel),
     }
+
+    type TrackChannel = Vec<TrackChannelEnum>;
 
     #[derive(Deserialize, Debug)]
     struct Track {
@@ -137,6 +139,8 @@ fn parse_track() {
         color: String, // att
         #[serde(rename = "@comment")]
         comment: String, // att
+        #[serde(default)]
+        params: TrackChannel,
         #[serde(rename = "$value")]
         #[serde(default)]
         contentType: Vec<ContentType>,
@@ -214,13 +218,19 @@ fn parse_channel() {
     }
 
     #[derive(Deserialize)]
-    struct DeviceRole {}
+    enum DeviceRole {
+        instrument,
+        noteFX,
+        audioFX,
+        analyzer,
+    }
 
     #[derive(Deserialize)]
     struct Device {
         // Extends referenceable
         #[serde(rename = "@id")]
         id: String,
+        // Extension end
         #[serde(rename = "Enabled")]
         enabled: BoolParameter,
         #[serde(rename = "@deviceRole")]
@@ -401,19 +411,150 @@ fn parse_channel() {
         // Here vector of 3 elements
     }
 
-    #[derive(Deserialize)]
-    struct Compressor {}
+    use crate::real_parameter::RealParameter;
 
     #[derive(Deserialize)]
-    struct NoiseGate {}
+    enum CompressorParamsEnum {
+        Attack(RealParameter),
+        AutoMakeup(BoolParameter),
+        InputGain(RealParameter),
+        OutputGain(RealParameter),
+        Ratio(RealParameter),
+        Release(RealParameter),
+        Threshold(RealParameter),
+    }
+
+    type CompressorParams = Vec<CompressorParamsEnum>;
 
     #[derive(Deserialize)]
-    struct Limiter {}
+    struct Compressor {
+        // Extendes builtInDevice
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+        // Extension ends
+        #[serde(default)]
+        params: CompressorParams,
+    }
 
     #[derive(Deserialize)]
-    struct AuPlugin {}
+    enum NoiseGateParamsEnum {
+        Attack(RealParameter),
+        Range(RealParameter),
+        Ratio(RealParameter),
+        Release(RealParameter),
+        Threshold(RealParameter),
+    }
+
+    type NoiseGateParams = Vec<NoiseGateParamsEnum>;
 
     #[derive(Deserialize)]
+    struct NoiseGate {
+        // Extendes builtInDevice
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+        #[serde(default)]
+        params: NoiseGateParams,
+    }
+
+    #[derive(Deserialize)]
+    enum LimiterParamsEnum {
+        Attack(RealParameter),
+        InputGain(RealParameter),
+        OutputGain(RealParameter),
+        Release(RealParameter),
+        Threshold(RealParameter),
+    }
+
+    type LimiterParams = Vec<LimiterParamsEnum>;
+
+    #[derive(Deserialize)]
+    struct Limiter {
+        // Extendes builtInDevice
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+        // Extension ends
+        #[serde(default)]
+        params: LimiterParams,
+    }
+
+    #[derive(Deserialize)]
+    struct AuPlugin {
+        // Extends Plugin
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(rename = "Enabled")]
+        enabled: BoolParameter,
+        #[serde(rename = "@deviceRole")]
+        device_role: DeviceRole,
+        #[serde(rename = "@loaded")]
+        loaded: bool,
+        #[serde(rename = "@deviceName")]
+        device_name: String,
+        #[serde(rename = "@deviceID")]
+        device_id: String,
+        #[serde(rename = "@deviceVendor")]
+        device_vendor: String,
+        #[serde(rename = "State")]
+        state: FileReference,
+        #[serde(rename = "Parameters")]
+        #[serde(default)]
+        automated_parameters: Vec<Parameter>,
+        #[serde(rename = "@pluginVersion")]
+        plugin_version: String,
+    }
+
+    #[derive(Deserialize, Debug)]
     enum DeviceTypes {
         Device,
         Vst2Plugin,
@@ -427,7 +568,7 @@ fn parse_channel() {
         AuPlugin,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct Devices {
         #[serde(default)]
         #[serde(rename = "$value")]
@@ -435,6 +576,56 @@ fn parse_channel() {
     }
 
     #[derive(Deserialize)]
+    enum SendParamsEnum {
+        Pan(RealParameter),
+        Volume(RealParameter),
+    }
+
+    #[derive(Deserialize)]
+    enum SendTypeEnum {
+        Pre,
+        Post,
+    }
+
+    #[derive(Deserialize)]
+    struct SendType {
+        #[serde(rename = "$value")]
+        field: Vec<SendTypeEnum>,
+    }
+
+    type SendParams = Vec<SendParamsEnum>;
+
+    #[derive(Deserialize)]
+    struct Send {
+        // Extends referenceable
+        #[serde(rename = "@id")]
+        id: String,
+        #[serde(default)]
+        params: SendParams,
+        #[serde(rename = "@destination")]
+        destination: String,
+        #[serde(rename = "@type")]
+        send_type: SendType,
+    }
+
+    #[derive(Deserialize, Debug)]
+    struct Sends {
+        #[serde(default)]
+        #[serde(rename = "$value")]
+        devices: Vec<DeviceTypes>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    enum ChannelElementsEnum {
+        Devices(Devices),
+        Mute(BoolParameter),
+        Pan(RealParameter),
+        Sends(Sends),
+    }
+
+    type ChannelElements = Vec<ChannelElementsEnum>;
+
+    #[derive(Deserialize, Debug)]
     struct Channel {
         // Extends lane
         #[serde(rename = "@id")]
@@ -445,7 +636,15 @@ fn parse_channel() {
         color: String, // att
         #[serde(rename = "@comment")]
         comment: String, // att
-        #[serde(rename = "Devices")]
-        devices: Devices,
+        #[serde(default)]
+        channel_elements: ChannelElements,
+        #[serde(rename = "@audioChannels")]
+        audio_channels: i32,
+        #[serde(rename = "@destination")]
+        destination: i32,
+        #[serde(rename = "@role")]
+        role: String,
+        #[serde(rename = "@solo")]
+        solo: bool,
     }
 }
