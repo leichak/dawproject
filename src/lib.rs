@@ -207,6 +207,7 @@ fn parse_channel() {
 
     use crate::bool_parameter::BoolParameter;
     use crate::parameter::Parameter;
+    use quick_xml::de::from_str;
     use serde::Deserialize;
 
     #[derive(Deserialize)]
@@ -582,6 +583,7 @@ fn parse_channel() {
     }
 
     #[derive(Deserialize)]
+    #[serde(rename_all = "lowercase")]
     enum SendTypeEnum {
         Pre,
         Post,
@@ -626,6 +628,22 @@ fn parse_channel() {
     type ChannelElements = Vec<ChannelElementsEnum>;
 
     #[derive(Deserialize, Debug)]
+    #[serde(rename_all(deserialize = "lowercase"))]
+    enum MixerRoleEnum {
+        Regular,
+        Master,
+        Effect,
+        SubMix,
+        Vca,
+    }
+
+    #[derive(Deserialize, Debug)]
+    struct MixerRole {
+        #[serde(rename = "$value")]
+        field: Vec<MixerRoleEnum>,
+    }
+
+    #[derive(Deserialize, Debug)]
     struct Channel {
         // Extends lane
         #[serde(rename = "@id")]
@@ -643,8 +661,26 @@ fn parse_channel() {
         #[serde(rename = "@destination")]
         destination: i32,
         #[serde(rename = "@role")]
-        role: String,
+        role: MixerRole,
         #[serde(rename = "@solo")]
         solo: bool,
     }
+
+    let xml = r#"
+    <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id3">
+    <Devices>
+      <ClapPlugin deviceID="org.surge-synth-team.surge-xt" deviceName="Surge XT" deviceRole="instrument" loaded="true" id="id7" name="Surge XT">
+        <Parameters/>
+        <Enabled value="true" id="id8" name="On/Off"/>
+        <State path="plugins/d19b1f6e-bbb6-42fe-a6c9-54b41d97a05d.clap-preset"/>
+      </ClapPlugin>
+    </Devices>
+    <Mute value="false" id="id6" name="Mute"/>
+    <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id5" name="Pan"/>
+    <Volume max="2.000000" min="0.000000" unit="linear" value="0.659140" id="id4" name="Volume"/>
+  </Channel>"#;
+
+    let mut obj: Channel = from_str(xml).unwrap();
+
+    println!("Deserialized object {:?} ", obj);
 }
