@@ -113,11 +113,11 @@ fn parse_track() {
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "@name")]
-        name: String, // attribute
+        name: Option<String>,
         #[serde(rename = "@color")]
         color: String, // att
         #[serde(rename = "@comment")]
-        comment: String, // att
+        comment: Option<String>, // att
     }
 
     #[derive(Deserialize, Debug)]
@@ -134,11 +134,11 @@ fn parse_track() {
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "@name")]
-        name: String, // attribute
+        name: Option<String>,
         #[serde(rename = "@color")]
-        color: String, // att
+        color: Option<String>, // att
         #[serde(rename = "@comment")]
-        comment: String, // att
+        comment: Option<String>, // att
         #[serde(default)]
         params: TrackChannel,
         #[serde(rename = "$value")]
@@ -160,6 +160,14 @@ fn parse_track() {
 
 #[test]
 fn parse_channel() {
+    let xml = r#"
+    <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id3">
+    <Devices>
+    </Devices>
+    <Mute value="false" id="id6" name="Mute"/>
+    <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id5" name="Pan"/>
+    <Volume max="2.000000" min="0.000000" unit="linear" value="0.659140" id="id4" name="Volume"/>
+  </Channel>"#;
     /*
     Channel Schema
 
@@ -233,22 +241,22 @@ fn parse_channel() {
         id: String,
         // Extension end
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
     }
 
     #[derive(Deserialize)]
@@ -257,22 +265,22 @@ fn parse_channel() {
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
         // End of extension
         #[serde(rename = "@pluginVersion")]
         plugin_version: String,
@@ -281,26 +289,25 @@ fn parse_channel() {
     #[derive(Deserialize)]
     struct Vst2Plugin {
         // Extends plugin
-        // Extends device
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
         // End of extension
         #[serde(rename = "@pluginVersion")]
         plugin_version: String,
@@ -309,26 +316,25 @@ fn parse_channel() {
     #[derive(Deserialize)]
     struct Vst3Plugin {
         // Extends Plugin
-        // Extends device
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
         // End of extension
         #[serde(rename = "@pluginVersion")]
         plugin_version: String,
@@ -337,26 +343,25 @@ fn parse_channel() {
     #[derive(Deserialize)]
     struct ClapPlugin {
         // Extends Plugin
-        // Extends device
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
         // End of extension
         #[serde(rename = "@pluginVersion")]
         plugin_version: String,
@@ -368,22 +373,58 @@ fn parse_channel() {
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    enum EqParamsEnum {
+        Band(EqBand),
+        InputGain(RealParameter),
+        OutputGain(RealParameter),
+    }
+
+    #[derive(Deserialize, Debug)]
+    enum EqBandParamsEnum {
+        Freq(RealParameter),
+        Gain(RealParameter),
+        Q(RealParameter),
+        Enabled(BoolParameter),
+    }
+
+    #[derive(Deserialize, Debug)]
+    struct EqBand {
+        #[serde(default)]
+        eq_band_params: Vec<EqBandParamsEnum>,
+        #[serde(rename = "@type")]
+        eq_type: EqBandTypeEnum,
+        #[serde(rename = "@order")]
+        order: Option<i32>,
+    }
+
+    #[derive(Deserialize, Debug)]
+    enum EqBandTypeEnum {
+        highPass,
+        lowPass,
+        bandPass,
+        highShelf,
+        lowShelf,
+        bell,
+        notch,
     }
 
     #[derive(Deserialize)]
@@ -392,24 +433,25 @@ fn parse_channel() {
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
         // End of extension
-        // Here vector of 3 elements
+        #[serde(default)]
+        eq_band_params: Vec<EqParamsEnum>,
     }
 
     use crate::real_parameter::RealParameter;
@@ -433,22 +475,22 @@ fn parse_channel() {
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
         // Extension ends
         #[serde(default)]
         params: CompressorParams,
@@ -471,22 +513,22 @@ fn parse_channel() {
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
         #[serde(default)]
         params: NoiseGateParams,
     }
@@ -508,22 +550,22 @@ fn parse_channel() {
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
         // Extension ends
         #[serde(default)]
         params: LimiterParams,
@@ -535,22 +577,22 @@ fn parse_channel() {
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "Enabled")]
-        enabled: BoolParameter,
+        enabled: Option<BoolParameter>,
         #[serde(rename = "@deviceRole")]
         device_role: DeviceRole,
         #[serde(rename = "@loaded")]
-        loaded: bool,
+        loaded: Option<bool>,
         #[serde(rename = "@deviceName")]
         device_name: String,
         #[serde(rename = "@deviceID")]
-        device_id: String,
+        device_id: Option<String>,
         #[serde(rename = "@deviceVendor")]
-        device_vendor: String,
+        device_vendor: Option<String>,
         #[serde(rename = "State")]
-        state: FileReference,
+        state: Option<FileReference>,
         #[serde(rename = "Parameters")]
         #[serde(default)]
-        automated_parameters: Vec<Parameter>,
+        automated_parameters: Option<Vec<Parameter>>,
         #[serde(rename = "@pluginVersion")]
         plugin_version: String,
     }
@@ -576,11 +618,11 @@ fn parse_channel() {
         devices: Vec<DeviceTypes>,
     }
 
-    #[derive(Deserialize)]
-    enum SendParamsEnum {
-        Pan(RealParameter),
-        Volume(RealParameter),
-    }
+    // #[derive(Deserialize)]
+    // enum SendParamsEnum {
+    //     Pan(RealParameter),
+    //     Volume(RealParameter),
+    // }
 
     #[derive(Deserialize)]
     #[serde(rename_all = "lowercase")]
@@ -595,17 +637,19 @@ fn parse_channel() {
         field: Vec<SendTypeEnum>,
     }
 
-    type SendParams = Vec<SendParamsEnum>;
+    // type SendParams = Vec<SendParamsEnum>;
 
     #[derive(Deserialize)]
     struct Send {
         // Extends referenceable
         #[serde(rename = "@id")]
         id: String,
-        #[serde(default)]
-        params: SendParams,
+        #[serde(rename = "Volume")]
+        volume: RealParameter,
+        #[serde(rename = "Pan")]
+        pan: Option<RealParameter>,
         #[serde(rename = "@destination")]
-        destination: String,
+        destination: Channel,
         #[serde(rename = "@type")]
         send_type: SendType,
     }
@@ -620,8 +664,9 @@ fn parse_channel() {
     #[derive(Deserialize, Debug)]
     enum ChannelElementsEnum {
         Devices(Devices),
-        Mute(BoolParameter),
         Pan(RealParameter),
+        Mute(BoolParameter),
+        Volume(RealParameter),
         Sends(Sends),
     }
 
@@ -638,47 +683,27 @@ fn parse_channel() {
     }
 
     #[derive(Deserialize, Debug)]
-    struct MixerRole {
-        #[serde(rename = "$value")]
-        field: Vec<MixerRoleEnum>,
-    }
-
-    #[derive(Deserialize, Debug)]
     struct Channel {
         // Extends lane
         #[serde(rename = "@id")]
         id: String,
         #[serde(rename = "@name")]
-        name: String, // attribute
+        name: Option<String>, // attribute
         #[serde(rename = "@color")]
-        color: String, // att
+        color: Option<String>, // att
         #[serde(rename = "@comment")]
-        comment: String, // att
+        comment: Option<String>, // att
         #[serde(default)]
         channel_elements: ChannelElements,
         #[serde(rename = "@audioChannels")]
         audio_channels: i32,
         #[serde(rename = "@destination")]
-        destination: i32,
+        destination: String,
         #[serde(rename = "@role")]
-        role: MixerRole,
+        role: Option<MixerRoleEnum>,
         #[serde(rename = "@solo")]
-        solo: bool,
+        solo: Option<bool>,
     }
-
-    let xml = r#"
-    <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id3">
-    <Devices>
-      <ClapPlugin deviceID="org.surge-synth-team.surge-xt" deviceName="Surge XT" deviceRole="instrument" loaded="true" id="id7" name="Surge XT">
-        <Parameters/>
-        <Enabled value="true" id="id8" name="On/Off"/>
-        <State path="plugins/d19b1f6e-bbb6-42fe-a6c9-54b41d97a05d.clap-preset"/>
-      </ClapPlugin>
-    </Devices>
-    <Mute value="false" id="id6" name="Mute"/>
-    <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id5" name="Pan"/>
-    <Volume max="2.000000" min="0.000000" unit="linear" value="0.659140" id="id4" name="Volume"/>
-  </Channel>"#;
 
     let mut obj: Channel = from_str(xml).unwrap();
 
