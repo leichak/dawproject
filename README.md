@@ -79,9 +79,7 @@ Feel free to contribute to adding support for more DAWs.
 - [x] Reflect all structures in files and appropriate mods.
 - [ ] Implement XML deserialization using quick_xml and serde.
 - - [x] Move to quick-xml 
-- - [ ] Employ Serde deserialization using Rust struct directly
-- - - [x] Derive Deserialize for all Project related structs
-- - - - [x] Change all rust field names to @fname
-- - - - [x] Resolve how to deserialize tags with attributes
-- - - - [x] Resolve how to deserialize lists 
-- - - [ ] Resolve how to deserialize complex types 
+- - [ ] Employ Serde deserialization using Rust types
+- - - [x] Derive Deserialize for all Project related types
+- - - - [x] Deserialize Track
+- - - - [in-progress] Deserialize Channel
