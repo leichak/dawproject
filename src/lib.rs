@@ -160,14 +160,19 @@ fn parse_track() {
 
 #[test]
 fn parse_channel() {
-    let xml = r#"
+    let xml = r##"
     <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id3">
     <Devices>
-    </Devices>
+    <ClapPlugin deviceID="org.surge-synth-team.surge-xt" deviceName="Surge XT" deviceRole="instrument" loaded="true" id="id7" name="Surge XT">
+      <Parameters/>
+      <Enabled value="true" id="id8" name="On/Off"/>
+      <State path="plugins/d19b1f6e-bbb6-42fe-a6c9-54b41d97a05d.clap-preset"/>
+    </ClapPlugin>
+  </Devices>
     <Mute value="false" id="id6" name="Mute"/>
     <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id5" name="Pan"/>
     <Volume max="2.000000" min="0.000000" unit="linear" value="0.659140" id="id4" name="Volume"/>
-  </Channel>"#;
+  </Channel>"##;
     /*
     Channel Schema
 
@@ -218,15 +223,15 @@ fn parse_channel() {
     use quick_xml::de::from_str;
     use serde::Deserialize;
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct FileReference {
         #[serde(rename = "@path")]
         path: String,
         #[serde(rename = "@external")]
-        external: bool,
+        external: Option<bool>,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     enum DeviceRole {
         instrument,
         noteFX,
@@ -234,161 +239,155 @@ fn parse_channel() {
         analyzer,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
+    enum DeviceElementsEnum {
+        Parameters,
+        Enabled(BoolParameter),
+        State(FileReference),
+    }
+
+    type DeviceElements = Vec<DeviceElementsEnum>;
+
+    #[derive(Deserialize, Debug)]
+    enum Parameters {
+        parameter,
+        RealParameter,
+        BoolParameter,
+        IntegerParameter,
+        EnumParameter,
+        TimeSignatureParameter,
+    }
+
+    #[derive(Deserialize, Debug)]
     struct Device {
         // Extends referenceable
         #[serde(rename = "@id")]
         id: String,
-        // Extension end
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct Plugin {
         // Extends device
         #[serde(rename = "@id")]
         id: String,
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
         // End of extension
         #[serde(rename = "@pluginVersion")]
-        plugin_version: String,
+        plugin_version: Option<String>,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct Vst2Plugin {
         // Extends plugin
         #[serde(rename = "@id")]
         id: String,
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
         // End of extension
         #[serde(rename = "@pluginVersion")]
-        plugin_version: String,
+        plugin_version: Option<String>,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct Vst3Plugin {
         // Extends Plugin
         #[serde(rename = "@id")]
         id: String,
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
         // End of extension
         #[serde(rename = "@pluginVersion")]
-        plugin_version: String,
+        plugin_version: Option<String>,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct ClapPlugin {
         // Extends Plugin
         #[serde(rename = "@id")]
         id: String,
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
         // End of extension
         #[serde(rename = "@pluginVersion")]
-        plugin_version: String,
+        plugin_version: Option<String>,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct BuiltinDevice {
         // Extends device
         #[serde(rename = "@id")]
         id: String,
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
     }
 
     #[derive(Deserialize, Debug)]
@@ -427,28 +426,24 @@ fn parse_channel() {
         notch,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct Equalizer {
         // Extends builtinDevice
         #[serde(rename = "@id")]
         id: String,
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
         // End of extension
         #[serde(default)]
         eq_band_params: Vec<EqParamsEnum>,
@@ -456,7 +451,7 @@ fn parse_channel() {
 
     use crate::real_parameter::RealParameter;
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     enum CompressorParamsEnum {
         Attack(RealParameter),
         AutoMakeup(BoolParameter),
@@ -469,34 +464,30 @@ fn parse_channel() {
 
     type CompressorParams = Vec<CompressorParamsEnum>;
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct Compressor {
         // Extendes builtInDevice
         #[serde(rename = "@id")]
         id: String,
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
         // Extension ends
         #[serde(default)]
         params: CompressorParams,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     enum NoiseGateParamsEnum {
         Attack(RealParameter),
         Range(RealParameter),
@@ -507,33 +498,30 @@ fn parse_channel() {
 
     type NoiseGateParams = Vec<NoiseGateParamsEnum>;
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct NoiseGate {
         // Extendes builtInDevice
         #[serde(rename = "@id")]
         id: String,
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
+        // Extension ends
         #[serde(default)]
         params: NoiseGateParams,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     enum LimiterParamsEnum {
         Attack(RealParameter),
         InputGain(RealParameter),
@@ -544,71 +532,64 @@ fn parse_channel() {
 
     type LimiterParams = Vec<LimiterParamsEnum>;
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct Limiter {
         // Extendes builtInDevice
         #[serde(rename = "@id")]
         id: String,
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
         // Extension ends
         #[serde(default)]
         params: LimiterParams,
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct AuPlugin {
         // Extends Plugin
         #[serde(rename = "@id")]
         id: String,
-        #[serde(rename = "Enabled")]
-        enabled: Option<BoolParameter>,
-        #[serde(rename = "@deviceRole")]
-        device_role: DeviceRole,
-        #[serde(rename = "@loaded")]
-        loaded: Option<bool>,
-        #[serde(rename = "@deviceName")]
-        device_name: String,
+        #[serde(rename = "$value")]
+        #[serde(default)]
+        device_elements: DeviceElements,
         #[serde(rename = "@deviceID")]
         device_id: Option<String>,
+        #[serde(rename = "@deviceName")]
+        device_name: Option<String>,
+        #[serde(rename = "@deviceRole")]
+        device_role: Option<DeviceRole>,
         #[serde(rename = "@deviceVendor")]
         device_vendor: Option<String>,
-        #[serde(rename = "State")]
-        state: Option<FileReference>,
-        #[serde(rename = "Parameters")]
-        #[serde(default)]
-        automated_parameters: Option<Vec<Parameter>>,
+        #[serde(rename = "@loaded")]
+        loaded: Option<bool>,
+        // End of extension
         #[serde(rename = "@pluginVersion")]
-        plugin_version: String,
+        plugin_version: Option<String>,
     }
 
     #[derive(Deserialize, Debug)]
     enum DeviceTypes {
-        Device,
-        Vst2Plugin,
-        Vst3Plugin,
-        ClapPlugin,
-        BuiltinDevice,
-        Equalizer,
-        Compressor,
-        NoiseGate,
-        Limiter,
-        AuPlugin,
+        Device(Device),
+        Vst2Plugin(Vst2Plugin),
+        Vst3Plugin(Vst3Plugin),
+        ClapPlugin(ClapPlugin),
+        BuiltinDevice(BuiltinDevice),
+        Equalizer(Equalizer),
+        Compressor(Compressor),
+        NoiseGate(NoiseGate),
+        Limiter(Limiter),
+        AuPlugin(AuPlugin),
     }
 
     #[derive(Deserialize, Debug)]
@@ -693,12 +674,13 @@ fn parse_channel() {
         color: Option<String>, // att
         #[serde(rename = "@comment")]
         comment: Option<String>, // att
+        #[serde(rename = "$value")]
         #[serde(default)]
         channel_elements: ChannelElements,
         #[serde(rename = "@audioChannels")]
         audio_channels: i32,
         #[serde(rename = "@destination")]
-        destination: String,
+        destination: Option<String>,
         #[serde(rename = "@role")]
         role: Option<MixerRoleEnum>,
         #[serde(rename = "@solo")]
@@ -708,4 +690,14 @@ fn parse_channel() {
     let mut obj: Channel = from_str(xml).unwrap();
 
     println!("Deserialized object {:?} ", obj);
+
+    // match &obj.channel_elements[0] {
+    //     ChannelElementsEnum::Devices(devices) => println!("Clap Plugin {:?}", devices.devices[0]),
+    //     ChannelElementsEnum::Pan(_) => todo!(),
+    //     ChannelElementsEnum::Mute(_) => todo!(),
+    //     ChannelElementsEnum::Volume(_) => todo!(),
+    //     ChannelElementsEnum::Sends(_) => todo!(),
+    // }
+
+    // println!("Clap Plugin {:?}", obj.channel_elements[0].Device);
 }

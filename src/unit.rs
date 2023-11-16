@@ -1,8 +1,8 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Debug)]
+#[serde(rename_all = "lowercase")]
 pub enum Unit {
-    #[serde(rename = "@linear")]
     Linear,
     Normalized,
     Percent,
