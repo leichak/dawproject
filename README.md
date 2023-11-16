@@ -82,4 +82,5 @@ Feel free to contribute to adding support for more DAWs.
 - - [ ] Employ Serde deserialization using Rust types
 - - - [x] Derive Deserialize for all Project related types
 - - - - [x] Deserialize Track
-- - - - [in-progress] Deserialize Channel
+- - - - [x] Deserialize Channel
+- - - - [in progress] Deserialize Structure
