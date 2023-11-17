@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-
+#[derive(Deserialize)]
 enum MixerRole {
     regular,
     master,

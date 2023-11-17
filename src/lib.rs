@@ -3,8 +3,10 @@ mod arrangement;
 mod bool_parameter;
 mod channel;
 mod content_type;
+mod device;
 mod enum_parameter;
 mod expression_type;
+mod file_reference;
 mod integer_parameter;
 mod lane;
 mod parameter;
@@ -391,13 +393,6 @@ fn parse_channel() {
     }
 
     #[derive(Deserialize, Debug)]
-    enum EqParamsEnum {
-        Band(EqBand),
-        InputGain(RealParameter),
-        OutputGain(RealParameter),
-    }
-
-    #[derive(Deserialize, Debug)]
     enum EqBandParamsEnum {
         Freq(RealParameter),
         Gain(RealParameter),
@@ -424,6 +419,13 @@ fn parse_channel() {
         lowShelf,
         bell,
         notch,
+    }
+
+    #[derive(Deserialize, Debug)]
+    enum EqParamsEnum {
+        Band(EqBand),
+        InputGain(RealParameter),
+        OutputGain(RealParameter),
     }
 
     #[derive(Deserialize, Debug)]
@@ -700,4 +702,47 @@ fn parse_channel() {
     // }
 
     // println!("Clap Plugin {:?}", obj.channel_elements[0].Device);
+}
+
+#[test]
+fn parse_structure() {
+    // XS:scheme for structure
+
+    /*
+    <xs:element name="Structure" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="Track"/>
+                  <xs:element ref="Channel"/>
+                </xs:choice>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+     */
+
+    let xml = r##"
+            <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id3">
+            <Devices>
+            <ClapPlugin deviceID="org.surge-synth-team.surge-xt" deviceName="Surge XT" deviceRole="instrument" loaded="true" id="id7" name="Surge XT">
+            <Parameters/>
+            <Enabled value="true" id="id8" name="On/Off"/>
+            <State path="plugins/d19b1f6e-bbb6-42fe-a6c9-54b41d97a05d.clap-preset"/>
+            </ClapPlugin>
+            </Devices>
+            <Mute value="false" id="id6" name="Mute"/>
+            <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id5" name="Pan"/>
+            <Volume max="2.000000" min="0.000000" unit="linear" value="0.659140" id="id4" name="Volume"/>
+            </Channel>"##;
+
+    #[derive(Deserialize)]
+    enum TrackChannelEnum {
+        Track(),
+        Channel(),
+    }
+
+    #[derive(Deserialize)]
+    struct Structure {
+        sequence: Option<Vec<TrackChannelEnum>>,
+    }
 }
