@@ -2,7 +2,7 @@ use super::device::DeviceElements;
 use super::device_role::DeviceRole;
 use serde::Deserialize;
 #[derive(Deserialize, Debug)]
-struct BuiltinDevice {
+pub struct BuiltinDevice {
     // Extends device
     #[serde(rename = "@id")]
     id: String,

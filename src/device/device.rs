@@ -5,7 +5,7 @@ use crate::bool_parameter::BoolParameter;
 use crate::file_reference::FileReference;
 
 #[derive(Deserialize, Debug)]
-enum DeviceElementsEnum {
+pub enum DeviceElementsEnum {
     Parameters,
     Enabled(BoolParameter),
     State(FileReference),
@@ -24,7 +24,7 @@ enum Parameters {
 }
 
 #[derive(Deserialize, Debug)]
-struct Device {
+pub struct Device {
     // Extends referenceable
     #[serde(rename = "@id")]
     id: String,

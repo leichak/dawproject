@@ -1,8 +1,9 @@
 use super::device::DeviceElements;
 use super::device_role::DeviceRole;
 use serde::Deserialize;
+
 #[derive(Deserialize, Debug)]
-struct ClapPlugin {
+pub struct ClapPlugin {
     // Extends Plugin
     #[serde(rename = "@id")]
     id: String,

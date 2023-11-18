@@ -15,7 +15,7 @@ enum LimiterParamsEnum {
 type LimiterParams = Vec<LimiterParamsEnum>;
 
 #[derive(Deserialize, Debug)]
-struct Limiter {
+pub struct Limiter {
     // Extendes builtInDevice
     #[serde(rename = "@id")]
     id: String,

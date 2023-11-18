@@ -9,6 +9,7 @@ mod expression_type;
 mod file_reference;
 mod integer_parameter;
 mod lane;
+mod mixer_role;
 mod parameter;
 mod project;
 mod real_parameter;

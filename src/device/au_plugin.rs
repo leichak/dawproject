@@ -3,7 +3,7 @@ use super::device_role::DeviceRole;
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
-struct AuPlugin {
+pub struct AuPlugin {
     // Extends Plugin
     #[serde(rename = "@id")]
     id: String,

@@ -1,7 +1,6 @@
 use serde::Deserialize;
 
 use super::{device::DeviceElements, device_role::DeviceRole, eq_band::EqBand};
-
 use crate::real_parameter::RealParameter;
 
 #[derive(Deserialize, Debug)]
@@ -12,7 +11,7 @@ enum EqParamsEnum {
 }
 
 #[derive(Deserialize, Debug)]
-struct Equalizer {
+pub struct Equalizer {
     // Extends builtinDevice
     #[serde(rename = "@id")]
     id: String,

@@ -16,7 +16,7 @@ enum CompressorParamsEnum {
 type CompressorParams = Vec<CompressorParamsEnum>;
 
 #[derive(Deserialize, Debug)]
-struct Compressor {
+pub struct Compressor {
     // Extendes builtInDevice
     #[serde(rename = "@id")]
     id: String,

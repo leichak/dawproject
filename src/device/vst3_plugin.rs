@@ -2,7 +2,7 @@ use super::{device::DeviceElements, device_role::DeviceRole};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
-struct Vst3Plugin {
+pub struct Vst3Plugin {
     // Extends Plugin
     #[serde(rename = "@id")]
     id: String,
