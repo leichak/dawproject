@@ -88,3 +88,4 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [x] Deserialize Transport
 - - - - [ ] Deserialize Arrangement
 - - - - [ ] Deserialize Scenes
+- - - - [ ] Deserialize Full Project
