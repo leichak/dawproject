@@ -657,16 +657,6 @@ fn parse_channel() {
     let mut obj: Channel = from_str(xml).unwrap();
 
     println!("Deserialized object {:?} ", obj);
-
-    // match &obj.channel_elements[0] {
-    //     ChannelElementsEnum::Devices(devices) => println!("Clap Plugin {:?}", devices.devices[0]),
-    //     ChannelElementsEnum::Pan(_) => todo!(),
-    //     ChannelElementsEnum::Mute(_) => todo!(),
-    //     ChannelElementsEnum::Volume(_) => todo!(),
-    //     ChannelElementsEnum::Sends(_) => todo!(),
-    // }
-
-    // println!("Clap Plugin {:?}", obj.channel_elements[0].Device);
 }
 
 #[test]
