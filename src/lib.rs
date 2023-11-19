@@ -21,6 +21,7 @@ mod transport;
 mod unit;
 mod xml_elements;
 
+use quick_xml::de::from_str;
 pub use serde::{Deserialize, Serialize};
 static mut XML_ID: u32 = 0;
 
@@ -55,23 +56,6 @@ fn parse_project() {
     println!("Deserialized object {:?} ", obj);
 }
 
-#[test]
-fn deal_with_abstract_types() {
-    use quick_xml::de::from_str;
-    use quick_xml::events::Event;
-    use quick_xml::reader::Reader;
-    use serde::{Deserialize, Serialize};
-
-    use crate::parameter::Parameter;
-
-    let xml = r#"<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <Project version = "1.0"><Application version = "2.0"></Application> </Project>"#;
-
-    let mut obj: Parameter = from_str(xml).unwrap();
-
-    println!("Deserialized object {:?} ", obj);
-}
-
 // Try to parse each complex type with appropriate xml within project
 
 #[test]
@@ -97,31 +81,11 @@ fn parse_track() {
     </xs:complexType>
      */
 
+    use crate::channel::Channel;
     use content_type::ContentType;
+    use mixer_role::MixerRoleEnum;
     use quick_xml::de::from_str;
     use serde::Deserialize;
-
-    #[derive(Deserialize)]
-    enum MixerRole {
-        regular,
-        master,
-        effecttrack,
-        submix,
-        vca,
-    }
-
-    #[derive(Deserialize, Debug)]
-    pub struct Channel {
-        // Extends lane
-        #[serde(rename = "@id")]
-        id: String,
-        #[serde(rename = "@name")]
-        name: Option<String>,
-        #[serde(rename = "@color")]
-        color: String, // att
-        #[serde(rename = "@comment")]
-        comment: Option<String>, // att
-    }
 
     #[derive(Deserialize, Debug)]
     enum TrackChannelEnum {
@@ -723,27 +687,52 @@ fn parse_structure() {
      */
 
     let xml = r##"
-            <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id3">
-            <Devices>
-            <ClapPlugin deviceID="org.surge-synth-team.surge-xt" deviceName="Surge XT" deviceRole="instrument" loaded="true" id="id7" name="Surge XT">
+    <Structure>
+    <Track contentType="notes" loaded="true" id="id2" name="Bass" color="#a2eabf">
+      <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id3">
+        <Devices>
+          <ClapPlugin deviceID="org.surge-synth-team.surge-xt" deviceName="Surge XT" deviceRole="instrument" loaded="true" id="id7" name="Surge XT">
             <Parameters/>
             <Enabled value="true" id="id8" name="On/Off"/>
             <State path="plugins/d19b1f6e-bbb6-42fe-a6c9-54b41d97a05d.clap-preset"/>
-            </ClapPlugin>
-            </Devices>
-            <Mute value="false" id="id6" name="Mute"/>
-            <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id5" name="Pan"/>
-            <Volume max="2.000000" min="0.000000" unit="linear" value="0.659140" id="id4" name="Volume"/>
-            </Channel>"##;
+          </ClapPlugin>
+        </Devices>
+        <Mute value="false" id="id6" name="Mute"/>
+        <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id5" name="Pan"/>
+        <Volume max="2.000000" min="0.000000" unit="linear" value="0.659140" id="id4" name="Volume"/>
+      </Channel>
+    </Track>
+    <Track contentType="audio" loaded="true" id="id9" name="Drumloop" color="#b53bba">
+      <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id10">
+        <Mute value="false" id="id13" name="Mute"/>
+        <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id12" name="Pan"/>
+        <Volume max="2.000000" min="0.000000" unit="linear" value="0.177125" id="id11" name="Volume"/>
+      </Channel>
+    </Track>
+    <Track contentType="audio notes" loaded="true" id="id14" name="Master">
+      <Channel audioChannels="2" role="master" solo="false" id="id15">
+        <Mute value="false" id="id18" name="Mute"/>
+        <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id17" name="Pan"/>
+        <Volume max="2.000000" min="0.000000" unit="linear" value="1.000000" id="id16" name="Volume"/>
+      </Channel>
+    </Track>
+  </Structure>"##;
+    use crate::channel::Channel;
+    use crate::track::Track;
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     enum TrackChannelEnum {
-        Track(),
-        Channel(),
+        Track(Track),
+        Channel(Channel),
     }
 
-    #[derive(Deserialize)]
+    #[derive(Deserialize, Debug)]
     struct Structure {
-        sequence: Option<Vec<TrackChannelEnum>>,
+        #[serde(rename = "$value")]
+        sequence: Vec<TrackChannelEnum>,
     }
+
+    let mut obj: Structure = from_str(xml).unwrap();
+
+    println!("Deserialized object {:#?} ", obj);
 }

@@ -48,7 +48,7 @@ enum ChannelElementsEnum {
 type ChannelElements = Vec<ChannelElementsEnum>;
 
 #[derive(Deserialize, Debug)]
-struct Channel {
+pub(crate) struct Channel {
     // Extends lane
     #[serde(rename = "@id")]
     id: String,

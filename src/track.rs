@@ -1,16 +1,36 @@
-use crate::content_type::ContentType;
+use crate::{channel::Channel, content_type::ContentType};
 use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize)]
-pub struct Track {
+#[derive(Deserialize, Debug)]
+enum TrackChannelEnum {
+    Channel(Channel),
+    Track(Track),
+}
+
+type TrackChannel = Vec<TrackChannelEnum>;
+
+type Content = Vec<ContentType>;
+
+#[derive(Deserialize, Debug)]
+enum ContentTypeAttribute {
+    Content(Content),
+}
+
+#[derive(Deserialize, Debug)]
+pub(crate) struct Track {
+    // Extends lane
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "@name")]
-    name: String, // attribute
+    name: Option<String>,
     #[serde(rename = "@color")]
-    color: String, // att
+    color: Option<String>, // att
     #[serde(rename = "@comment")]
-    comment: String, // att
+    comment: Option<String>, // att
     #[serde(rename = "$value")]
-    contentType: Vec<ContentType>,
+    track_channel: TrackChannel,
+    #[serde(rename = "@contentType")]
+    content_type: Content,
+    #[serde(rename = "@loaded")]
+    loaded: bool,
 }
