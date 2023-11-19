@@ -85,6 +85,6 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [x] Deserialize Channel
 - - - - [x] Deserialize Structure
 - - - - [ ] Deserialize Application
-- - - - [ ] Deserialize Transport
+- - - - [x] Deserialize Transport
 - - - - [ ] Deserialize Arrangement
 - - - - [ ] Deserialize Scenes
