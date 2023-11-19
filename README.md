@@ -83,8 +83,8 @@ Feel free to contribute to adding support for more DAWs.
 - - - [x] Derive Deserialize for all Project related types
 - - - - [x] Deserialize Track
 - - - - [x] Deserialize Channel
-- - - - [in progress] Deserialize Structure
-- - - - [ ] Deserialize Application
+- - - - [x] Deserialize Structure
+- - - - [in progress] Deserialize Application
 - - - - [ ] Deserialize Transport
 - - - - [ ] Deserialize Arrangement
-- - - - [ ] Deserialize Sccenes
+- - - - [ ] Deserialize Scenes
