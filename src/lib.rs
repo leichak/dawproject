@@ -741,3 +741,15 @@ fn parse_transport() {
 
     println!("Deserialized object {:#?} ", obj);
 }
+
+#[test]
+fn parse_application() {
+    let xml = r##"
+    <Application name="Bitwig Studio" version="5.0"/>
+"##;
+    use crate::application::Application;
+
+    let mut obj: Application = from_str(xml).unwrap();
+
+    println!("Deserialized object {:#?} ", obj);
+}
