@@ -726,3 +726,18 @@ fn parse_structure() {
 
     println!("Deserialized object {:#?} ", obj);
 }
+
+#[test]
+fn parse_transport() {
+    let xml = r##"
+    <Transport>
+    <Tempo max="666.000000" min="20.000000" unit="bpm" value="149.000000" id="id0" name="Tempo"/>
+    <TimeSignature denominator="4" numerator="4" id="id1"/>
+  </Transport>
+  "##;
+    use crate::transport::Transport;
+
+    let mut obj: Transport = from_str(xml).unwrap();
+
+    println!("Deserialized object {:#?} ", obj);
+}

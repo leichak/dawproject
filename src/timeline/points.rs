@@ -8,5 +8,5 @@ pub struct Points {
     #[serde(default)]
     points: Vec<Point>, //The contained points. They should all be of the same type and match the target parameter. */
     #[serde(rename = "@unit")]
-    unit: Unit,
+    unit: Unit, 
 }
