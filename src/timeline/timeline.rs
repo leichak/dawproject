@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::timeline::time_unit::TimeUnit;
 use crate::track::Track;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 pub struct TimeLine {
     // Derives after referenceable
     #[serde(rename = "@id")]

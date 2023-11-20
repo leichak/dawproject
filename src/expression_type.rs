@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize)]
-pub enum ExpressionType {
+#[derive(Deserialize, Debug)]
+enum ExpressionTypeEnum {
     gain,
     pan,
     transpose,
@@ -15,4 +15,10 @@ pub enum ExpressionType {
     polyPressure,
     pitchBend,
     programChange,
+}
+#[derive(Deserialize, Debug)]
+
+pub(crate) struct ExpressionType {
+    #[serde(rename = "$value")]
+    expression_type: Vec<ExpressionTypeEnum>,
 }

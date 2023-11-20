@@ -8,6 +8,7 @@ mod enum_parameter;
 mod expression_type;
 mod file_reference;
 mod integer_parameter;
+mod interpolation;
 mod lane;
 mod mixer_role;
 mod parameter;
@@ -752,4 +753,57 @@ fn parse_application() {
     let mut obj: Application = from_str(xml).unwrap();
 
     println!("Deserialized object {:#?} ", obj);
+}
+
+#[test]
+fn parse_arrangement() {
+    let xml = r##"
+    <Arrangement id="id19">
+    <Lanes timeUnit="beats" id="id20">
+      <Lanes track="id2" id="id21">
+        <Clips id="id22">
+          <Clip time="0.0" duration="8.0" playStart="0.0">
+            <Notes id="id23">
+              <Note time="0.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="1.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="4.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="5.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="0.500000" duration="0.250000" channel="0" key="64" vel="0.787402" rel="0.787402"/>
+              <Note time="4.500000" duration="0.250000" channel="0" key="64" vel="0.787402" rel="0.787402"/>
+              <Note time="1.500000" duration="2.500000" channel="0" key="53" vel="0.787402" rel="0.787402"/>
+              <Note time="5.500000" duration="0.250000" channel="0" key="53" vel="0.787402" rel="0.787402"/>
+              <Note time="6.000000" duration="2.000000" channel="0" key="53" vel="0.787402" rel="0.787402"/>
+            </Notes>
+          </Clip>
+        </Clips>
+      </Lanes>
+      <Lanes track="id9" id="id24">
+        <Clips id="id25">
+          <Clip time="0.0" duration="8.00003433227539" playStart="0.0" loopStart="0.0" loopEnd="8.00003433227539" fadeTimeUnit="beats" fadeInTime="0.0" fadeOutTime="0.0" name="Drumfunk3 170bpm">
+            <Clips id="id26">
+              <Clip time="0.0" duration="8.00003433227539" contentTimeUnit="beats" playStart="0.0" fadeTimeUnit="beats" fadeInTime="0.0" fadeOutTime="0.0">
+                <Warps contentTimeUnit="seconds" timeUnit="beats" id="id28">
+                  <Audio algorithm="stretch" channels="2" duration="2.823541666666667" sampleRate="48000" id="id27">
+                    <File path="audio/Drumfunk3 170bpm.wav"/>
+                  </Audio>
+                  <Warp time="0.0" contentTime="0.0"/>
+                  <Warp time="8.00003433227539" contentTime="2.823541666666667"/>
+                </Warps>
+              </Clip>
+            </Clips>
+          </Clip>
+        </Clips>
+      </Lanes>
+      <Lanes track="id14" id="id29">
+        <Clips id="id30"/>
+      </Lanes>
+    </Lanes>
+  </Arrangement>
+  "##;
+
+    use crate::arrangement::Arrangement;
+
+    let mut obj: Arrangement = from_str(xml).unwrap();
+
+    println!("Deserialized object {:#?}", obj);
 }
