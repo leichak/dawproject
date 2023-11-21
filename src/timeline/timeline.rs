@@ -5,7 +5,7 @@ use crate::track::Track;
 
 #[derive(Deserialize, Debug)]
 pub struct TimeLine {
-    // Derives after referenceable
+    // Extends referenceable
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "@name")]

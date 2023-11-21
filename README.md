@@ -89,3 +89,4 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [in_progress] Deserialize Arrangement
 - - - - [ ] Deserialize Scenes
 - - - - [ ] Deserialize Full Project
+ 

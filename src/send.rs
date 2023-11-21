@@ -1,4 +1,3 @@
-
 #[derive(Deserialize)]
 struct Send {
     // Extends referenceable

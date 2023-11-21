@@ -13,11 +13,3 @@ pub struct Lane {
     #[serde(rename = "@comment")]
     comment: String, // att
 }
-
-// impl Lane {
-//     pub fn new() -> Self {
-//         Lane {
-//             id: "random_string".to_string(),
-//         }
-//     }
-// }
