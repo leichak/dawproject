@@ -4,11 +4,11 @@ use serde::Deserialize;
 pub struct Marker {
     // Extends nameable
     #[serde(rename = "@name")]
-    name: String, // attribute
+    name: Option<String>, // attribute
     #[serde(rename = "@color")]
-    color: String, // att
+    color: Option<String>, // att
     #[serde(rename = "@comment")]
-    comment: String, // att
+    comment: Option<String>, // att
     // End of extension
     #[serde(rename = "@time")]
     time: Vec<f64>,

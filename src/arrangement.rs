@@ -26,5 +26,5 @@ pub struct Arrangement {
     #[serde(rename = "@comment")]
     comment: Option<String>, // att
     #[serde(rename = "$value")]
-    sequence: ArrangementSequence,
+    sequence: Option<ArrangementSequence>,
 }

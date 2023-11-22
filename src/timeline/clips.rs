@@ -11,16 +11,16 @@ pub struct Clips {
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "@name")]
-    name: String, // attribute
+    name: Option<String>, // attribute
     #[serde(rename = "@color")]
-    color: String, // att
+    color: Option<String>, // att
     #[serde(rename = "@comment")]
-    comment: String, // att
+    comment: Option<String>, // att
     #[serde(rename = "@track")]
-    track: Track,
+    track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    time_unit: TimeUnit,
+    time_unit: Option<TimeUnit>,
     // End of extension
-    #[serde(default)]
+    #[serde(rename = "$value")]
     clips: Vec<Clip>,
 }

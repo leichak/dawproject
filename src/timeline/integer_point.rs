@@ -6,6 +6,6 @@ pub struct IntegerPoint {
     #[serde(rename = "@time")]
     pub time: Vec<String>,
     // Extension ends
-    #[serde(rename = "@value")]
+    #[serde(rename = "$value")]
     integer_point_sequence: Vec<i32>,
 }

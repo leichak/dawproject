@@ -1,5 +1,4 @@
 use super::lanes::ArrangementTypeChoiceEnum;
-use quick_xml::se;
 use serde::Deserialize;
 
 type NoteSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
@@ -7,7 +6,7 @@ type NoteSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 #[derive(Deserialize, Debug)]
 pub(crate) struct Note {
     #[serde(rename = "$value")]
-    notes_sequence_choice: NoteSequenceChoice,
+    notes_sequence_choice: Option<NoteSequenceChoice>,
     #[serde(rename = "@time")]
     time: String,
     #[serde(rename = "@duration")]

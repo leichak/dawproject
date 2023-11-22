@@ -16,18 +16,18 @@ pub struct Warps {
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "@name")]
-    name: String, // attribute
+    name: Option<String>, // attribute
     #[serde(rename = "@color")]
-    color: String, // att
+    color: Option<String>, // att
     #[serde(rename = "@comment")]
-    comment: String, // att
+    comment: Option<String>, // att
     #[serde(rename = "@track")]
-    track: Track,
+    track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: TimeUnit,
+    timeUnit: Option<TimeUnit>,
     // Extension ends
     #[serde(rename = "$value")]
     warps_sequence: WarpsSequence,
     #[serde(rename = "@contentTimeUnit")]
-    content_time_unit: TimeUnit,
+    content_time_unit: Option<TimeUnit>,
 }

@@ -9,16 +9,16 @@ pub struct Notes {
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "@name")]
-    name: String, // attribute
+    name: Option<String>, // attribute
     #[serde(rename = "@color")]
-    color: String, // att
+    color: Option<String>, // att
     #[serde(rename = "@comment")]
-    comment: String, // att
+    comment: Option<String>, // att
     #[serde(rename = "@track")]
-    track: Track,
+    track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: TimeUnit,
+    timeUnit: Option<TimeUnit>,
     // Extension finishes
-    #[serde(default)]
+    #[serde(rename = "$value")]
     notes_sequence: Vec<Note>,
 }

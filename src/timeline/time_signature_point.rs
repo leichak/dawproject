@@ -18,6 +18,6 @@ pub struct TimeSignaturePoint {
     #[serde(rename = "@time")]
     pub time: Vec<String>,
     // Extension ends
-    #[serde(rename = "@value")]
+    #[serde(rename = "$value")]
     real_point_sequence: TimeSignaturePointSequence,
 }

@@ -6,6 +6,6 @@ pub struct EnumPoint {
     #[serde(rename = "@time")]
     pub time: Vec<String>,
     // Extension ends
-    #[serde(rename = "@value")]
+    #[serde(rename = "$value")]
     enum_point_sequence: Vec<i32>,
 }
