@@ -20,7 +20,6 @@ mod timeline;
 mod track;
 mod transport;
 mod unit;
-mod xml_elements;
 
 use quick_xml::de::from_str;
 pub use serde::{Deserialize, Serialize};

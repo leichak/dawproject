@@ -3,9 +3,10 @@ use crate::track::Track;
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
-enum WarpsSequenceEnum {
-    ArrangementTypeChoiceEnum(ArrangementTypeChoiceEnum),
-    Warp(Warp),
+struct WarpsSequenceEnum {
+    #[serde(rename = "$value")]
+    holder: ArrangementTypeChoiceEnum,
+    //Warp(Warp),
 }
 
 type WarpsSequence = Vec<WarpsSequenceEnum>;
@@ -28,6 +29,8 @@ pub struct Warps {
     // Extension ends
     #[serde(rename = "$value")]
     warps_sequence: WarpsSequence,
+    #[serde(rename = "warp")]
+    warp: Warp,
     #[serde(rename = "@contentTimeUnit")]
     content_time_unit: Option<TimeUnit>,
 }

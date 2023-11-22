@@ -14,8 +14,7 @@ pub enum ArrangementTypeChoiceEnum {
     Notes(Notes),
     Clips(Clips),
     ClipSlot(ClipSlot),
-    #[serde(rename = "lowercase")]
-    Markers(Markers),
+    markers(Markers),
     Warps(Warps),
     Audio(Audio),
     Video(Video),

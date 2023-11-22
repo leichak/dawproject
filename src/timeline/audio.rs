@@ -20,7 +20,7 @@ pub struct Audio {
     track: Option<String>,
     #[serde(rename = "@timeUnit")]
     timeUnit: Option<TimeUnit>,
-    #[serde(rename = "$value")]
+    #[serde(rename = "File")]
     files_sequence: Vec<FileReference>,
     #[serde(rename = "@duration")]
     duration: f64,
