@@ -1,17 +1,34 @@
 use serde::{Deserialize, Serialize};
 
-use crate::timeline::timeline::TimeLine;
+use crate::timeline::{
+    audio::Audio, clip_slot::ClipSlot, clips::Clips, lanes::Lanes, markers::Markers, notes::Notes,
+    points::Points, timeline::TimeLine, video::Video, warps::Warps,
+};
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
+enum SceneSequenceEnum {
+    Timeline(TimeLine),
+    Lanes(Lanes),
+    Notes(Notes),
+    Clips(Clips),
+    ClipSlot(ClipSlot),
+    markers(Markers),
+    Warps(Warps),
+    Audio(Audio),
+    Video(Video),
+    Points(Points),
+}
+
+#[derive(Deserialize, Debug)]
 pub struct Scene {
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "@name")]
-    name: String, // attribute
+    name: Option<String>,
     #[serde(rename = "@color")]
-    color: String, // att
+    color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: String, // att
-    #[serde(rename = "TimeLine")]
-    pub content: TimeLine,
+    comment: Option<String>,
+    #[serde(rename = "$value")]
+    warps_sequence: Option<SceneSequenceEnum>,
 }
