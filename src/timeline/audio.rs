@@ -7,7 +7,6 @@ use super::time_unit::TimeUnit;
 #[derive(Deserialize, Debug)]
 pub struct Audio {
     // Extends media file
-    // Extends timeline
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "@name")]
@@ -21,14 +20,14 @@ pub struct Audio {
     #[serde(rename = "@timeUnit")]
     timeUnit: Option<TimeUnit>,
     #[serde(rename = "File")]
-    files_sequence: Vec<FileReference>,
+    files_sequence: Option<Vec<FileReference>>,
     #[serde(rename = "@duration")]
-    duration: f64,
+    duration: Option<f64>,
     // End of extension
     #[serde(rename = "@algorithm")]
     algorithm: Option<String>,
     #[serde(rename = "@channels")]
-    channels: i32,
+    channels: Option<i32>,
     #[serde(rename = "@sampleRate")]
-    sample_rate: i32,
+    sample_rate: Option<i32>,
 }

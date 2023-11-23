@@ -11,5 +11,5 @@ pub struct Marker {
     comment: Option<String>, // att
     // End of extension
     #[serde(rename = "@time")]
-    time: Vec<f64>,
+    time: Option<Vec<f64>>,
 }

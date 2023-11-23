@@ -16,8 +16,8 @@ type RealPointSequence = Vec<RealPointEnum>;
 pub struct RealPoint {
     // Extends Point
     #[serde(rename = "@time")]
-    pub time: Vec<String>,
+    pub time: Option<Vec<String>>,
     // Extension ends
     #[serde(rename = "$value")]
-    real_point_sequence: RealPointSequence,
+    real_point_sequence: Option<RealPointSequence>,
 }

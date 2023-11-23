@@ -11,6 +11,10 @@ type WarpSequence = Vec<WarpSequenceEnum>;
 
 #[derive(Deserialize, Debug)]
 pub struct Warp {
-    #[serde(rename = "$value")]
-    sequence: WarpSequence,
+    // #[serde(rename = "$value")]
+    // sequence: Option<WarpSequence>,
+    #[serde(rename = "@time")]
+    time: f64,
+    #[serde(rename = "@contentTime")]
+    content_time: f64,
 }

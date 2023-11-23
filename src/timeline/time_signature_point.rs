@@ -16,8 +16,8 @@ type TimeSignaturePointSequence = Vec<TimeSignaturePointEnum>;
 pub struct TimeSignaturePoint {
     // Extends Point
     #[serde(rename = "@time")]
-    pub time: Vec<String>,
+    pub time: Option<Vec<String>>,
     // Extension ends
     #[serde(rename = "$value")]
-    real_point_sequence: TimeSignaturePointSequence,
+    real_point_sequence: Option<TimeSignaturePointSequence>,
 }

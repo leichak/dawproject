@@ -20,5 +20,5 @@ pub struct Notes {
     timeUnit: Option<TimeUnit>,
     // Extension finishes
     #[serde(rename = "$value")]
-    notes_sequence: Vec<Note>,
+    notes_sequence: Option<Vec<Note>>,
 }

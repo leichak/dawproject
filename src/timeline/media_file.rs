@@ -19,7 +19,7 @@ struct MediaFile {
     timeUnit: Option<TimeUnit>,
     // End of extension
     #[serde(rename = "File")]
-    files_sequence: Vec<FileReference>,
+    files_sequence: Option<Vec<FileReference>>,
     #[serde(rename = "@duration")]
-    duration: f64,
+    duration: Option<f64>,
 }

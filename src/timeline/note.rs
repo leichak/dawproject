@@ -8,13 +8,13 @@ pub(crate) struct Note {
     #[serde(rename = "$value")]
     notes_sequence_choice: Option<NoteSequenceChoice>,
     #[serde(rename = "@time")]
-    time: String,
+    time: Option<String>,
     #[serde(rename = "@duration")]
-    duration: String,
+    duration: Option<String>,
     #[serde(rename = "@channel")]
-    channel: i32,
+    channel: Option<i32>,
     #[serde(rename = "@key")]
-    key: i32,
+    key: Option<i32>,
     #[serde(rename = "@vel")]
     vel: Option<String>,
     #[serde(rename = "@rel")]

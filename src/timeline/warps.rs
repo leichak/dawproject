@@ -1,12 +1,24 @@
-use super::{lanes::ArrangementTypeChoiceEnum, time_unit::TimeUnit, warp::Warp};
+use super::{
+    audio::Audio, clip_slot::ClipSlot, clips::Clips, lanes::Lanes, markers::Markers, notes::Notes,
+    points::Points, time_unit::TimeUnit, timeline::TimeLine, video::Video, warp::Warp,
+};
+
 use crate::track::Track;
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
-struct WarpsSequenceEnum {
-    #[serde(rename = "$value")]
-    holder: ArrangementTypeChoiceEnum,
-    //Warp(Warp),
+enum WarpsSequenceEnum {
+    Timeline(TimeLine),
+    Lanes(Lanes),
+    Notes(Notes),
+    Clips(Clips),
+    ClipSlot(ClipSlot),
+    markers(Markers),
+    Warps(Warps),
+    Audio(Audio),
+    Video(Video),
+    Points(Points),
+    Warp(Warp),
 }
 
 type WarpsSequence = Vec<WarpsSequenceEnum>;
@@ -28,9 +40,7 @@ pub struct Warps {
     timeUnit: Option<TimeUnit>,
     // Extension ends
     #[serde(rename = "$value")]
-    warps_sequence: WarpsSequence,
-    #[serde(rename = "warp")]
-    warp: Warp,
+    warps_sequence: Option<WarpsSequence>,
     #[serde(rename = "@contentTimeUnit")]
     content_time_unit: Option<TimeUnit>,
 }

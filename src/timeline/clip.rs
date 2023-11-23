@@ -14,7 +14,7 @@ pub(crate) struct Clip {
     comment: Option<String>,
     // End of extension
     #[serde(rename = "$value")]
-    notes_sequence_choice: ClipSequenceChoice,
+    notes_sequence_choice: Option<ClipSequenceChoice>,
     #[serde(rename = "@time")]
     time: f64,
     #[serde(rename = "@duration")]

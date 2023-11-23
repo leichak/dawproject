@@ -12,13 +12,13 @@ use serde::{Deserialize, Serialize};
 #[derive(Deserialize, Debug)]
 pub struct AutomationTarget {
     #[serde(rename = "@parameter")]
-    parameter: String,
+    parameter: Option<String>,
     #[serde(rename = "@expression")]
-    expression: ExpressionType,
+    expression: Option<ExpressionType>,
     #[serde(rename = "@channel")]
-    channel: i32,
+    channel: Option<i32>,
     #[serde(rename = "@key")]
-    key: i32,
+    key: Option<i32>,
     #[serde(rename = "@controller")]
-    controller: i32,
+    controller: Option<i32>,
 }

@@ -22,5 +22,5 @@ pub struct Clips {
     time_unit: Option<TimeUnit>,
     // End of extension
     #[serde(rename = "$value")]
-    clips: Vec<Clip>,
+    clips: Option<Vec<Clip>>,
 }

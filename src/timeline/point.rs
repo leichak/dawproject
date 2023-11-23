@@ -5,5 +5,5 @@ use serde::{Deserialize, Serialize};
 #[derive(Deserialize, Debug)]
 pub struct Point {
     #[serde(rename = "@time")]
-    pub time: Vec<String>,
+    pub time: Option<Vec<String>>,
 }

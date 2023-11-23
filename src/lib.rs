@@ -798,7 +798,7 @@ fn parse_arrangement() {
       </Lanes>
     </Lanes>
   </Arrangement>
-  "##;
+    "##;
 
     use crate::arrangement::Arrangement;
 

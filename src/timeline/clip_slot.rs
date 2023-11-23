@@ -22,7 +22,7 @@ pub struct ClipSlot {
     time_unit: Option<TimeUnit>,
     // End of extension
     #[serde(default)]
-    clips: Vec<Clip>,
+    clips: Option<Vec<Clip>>,
     #[serde(rename = "@hasStop")]
     has_stop: bool,
 }

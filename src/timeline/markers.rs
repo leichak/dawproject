@@ -19,7 +19,6 @@ pub struct Markers {
     #[serde(rename = "@timeUnit")]
     timeUnit: Option<TimeUnit>,
     // Extension ends
-    #[serde(default)]
     #[serde(rename = "Marker")]
-    markers: Vec<Marker>,
+    markers: Option<Vec<Marker>>,
 }

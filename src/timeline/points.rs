@@ -41,7 +41,7 @@ pub struct Points {
     timeUnit: Option<TimeUnit>,
     // Extension finish
     #[serde(rename = "$value")]
-    points: Vec<PointsSequenceEnum>, //The contained points. They should all be of the same type and match the target parameter. */
+    points: Option<Vec<PointsSequenceEnum>>, //The contained points. They should all be of the same type and match the target parameter. */
     #[serde(rename = "@unit")]
-    unit: Unit,
+    unit: Option<Unit>,
 }
