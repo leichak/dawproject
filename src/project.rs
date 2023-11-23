@@ -19,8 +19,23 @@ use serde::*;
 
 // Here name of field corresponds to xml
 
-#[derive(serde::Deserialize)]
-struct Project {
+use crate::channel::Channel;
+use crate::track::Track;
+
+#[derive(Deserialize, Debug)]
+enum TrackChannelEnum {
+    Track(Track),
+    Channel(Channel),
+}
+
+#[derive(Deserialize, Debug)]
+struct Structure {
+    #[serde(rename = "$value")]
+    sequence: Vec<TrackChannelEnum>,
+}
+
+#[derive(serde::Deserialize, Debug)]
+pub(crate) struct Project {
     #[serde(rename = "@version")]
     pub version: String,
     #[serde(rename = "Application")]
@@ -28,10 +43,9 @@ struct Project {
     #[serde(rename = "Transport")]
     transport: Transport,
     #[serde(rename = "Structure")]
-    structure: Vec<Lane>,
+    structure: Option<Structure>,
     #[serde(rename = "Arrangement")]
     arrangement: Arrangement,
     #[serde(rename = "Scenes")]
-    #[serde(default)]
-    scenes: Vec<Scene>,
+    scenes: Option<Vec<Scene>>,
 }
