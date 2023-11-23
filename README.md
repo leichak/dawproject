@@ -87,6 +87,6 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [x] Deserialize Application
 - - - - [x] Deserialize Transport
 - - - - [x] Deserialize Arrangement
-- - - - [in_progress] Deserialize Scenes
-- - - - [ ] Deserialize Full Project
+- - - - [x] Deserialize Scenes
+- - - - [in_progress] Deserialize Full Project
  
