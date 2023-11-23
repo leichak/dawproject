@@ -3,22 +3,22 @@ use crate::timeline::time_unit::TimeUnit;
 use crate::track::Track;
 use serde::Deserialize;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 pub struct Markers {
-    // Derives after Timeline
+    // Extends Timeline
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "@name")]
-    name: String, // attribute
+    name: Option<String>, // attribute
     #[serde(rename = "@color")]
-    color: String, // att
+    color: Option<String>, // att
     #[serde(rename = "@comment")]
-    comment: String, // att
+    comment: Option<String>, // att
     #[serde(rename = "@track")]
-    track: Track,
+    track: Option<Track>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: TimeUnit,
-    #[serde(default)]
+    timeUnit: Option<TimeUnit>,
+    // Extension ends
     #[serde(rename = "Marker")]
-    markers: Vec<Marker>,
+    markers: Option<Vec<Marker>>,
 }

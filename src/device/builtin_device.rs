@@ -1,18 +1,9 @@
+use super::device::DeviceElements;
+use super::device_role::DeviceRole;
 use serde::Deserialize;
-
-use super::{device::DeviceElements, device_role::DeviceRole, eq_band::EqBand};
-use crate::real_parameter::RealParameter;
-
 #[derive(Deserialize, Debug)]
-enum EqParamsEnum {
-    Band(EqBand),
-    InputGain(RealParameter),
-    OutputGain(RealParameter),
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Equalizer {
-    // Extends builtinDevice
+pub struct BuiltinDevice {
+    // Extends device
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "$value")]
@@ -28,7 +19,4 @@ pub struct Equalizer {
     device_vendor: Option<String>,
     #[serde(rename = "@loaded")]
     loaded: Option<bool>,
-    // End of extension
-    #[serde(default)]
-    eq_band_params: Vec<EqParamsEnum>,
 }

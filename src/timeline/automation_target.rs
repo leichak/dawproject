@@ -9,5 +9,16 @@ use serde::{Deserialize, Serialize};
  * it can either be monophonic (such as MIDI CCs) or per-note/polyphonic (such as poly pressure)</p>
  */
 
-#[derive(Deserialize)]
-pub struct AutomationTarget {}
+#[derive(Deserialize, Debug)]
+pub struct AutomationTarget {
+    #[serde(rename = "@parameter")]
+    parameter: Option<String>,
+    #[serde(rename = "@expression")]
+    expression: Option<ExpressionType>,
+    #[serde(rename = "@channel")]
+    channel: Option<i32>,
+    #[serde(rename = "@key")]
+    key: Option<i32>,
+    #[serde(rename = "@controller")]
+    controller: Option<i32>,
+}

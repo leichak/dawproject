@@ -3,10 +3,14 @@ mod arrangement;
 mod bool_parameter;
 mod channel;
 mod content_type;
+mod device;
 mod enum_parameter;
 mod expression_type;
+mod file_reference;
 mod integer_parameter;
+mod interpolation;
 mod lane;
+mod mixer_role;
 mod parameter;
 mod project;
 mod real_parameter;
@@ -16,8 +20,8 @@ mod timeline;
 mod track;
 mod transport;
 mod unit;
-mod xml_elements;
 
+use quick_xml::de::from_str;
 pub use serde::{Deserialize, Serialize};
 static mut XML_ID: u32 = 0;
 
@@ -52,23 +56,6 @@ fn parse_project() {
     println!("Deserialized object {:?} ", obj);
 }
 
-#[test]
-fn deal_with_abstract_types() {
-    use quick_xml::de::from_str;
-    use quick_xml::events::Event;
-    use quick_xml::reader::Reader;
-    use serde::{Deserialize, Serialize};
-
-    use crate::parameter::Parameter;
-
-    let xml = r#"<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-    <Project version = "1.0"><Application version = "2.0"></Application> </Project>"#;
-
-    let mut obj: Parameter = from_str(xml).unwrap();
-
-    println!("Deserialized object {:?} ", obj);
-}
-
 // Try to parse each complex type with appropriate xml within project
 
 #[test]
@@ -94,31 +81,11 @@ fn parse_track() {
     </xs:complexType>
      */
 
+    use crate::channel::Channel;
     use content_type::ContentType;
+    use mixer_role::MixerRoleEnum;
     use quick_xml::de::from_str;
     use serde::Deserialize;
-
-    #[derive(Deserialize)]
-    enum MixerRole {
-        regular,
-        master,
-        effecttrack,
-        submix,
-        vca,
-    }
-
-    #[derive(Deserialize, Debug)]
-    pub struct Channel {
-        // Extends lane
-        #[serde(rename = "@id")]
-        id: String,
-        #[serde(rename = "@name")]
-        name: Option<String>,
-        #[serde(rename = "@color")]
-        color: String, // att
-        #[serde(rename = "@comment")]
-        comment: Option<String>, // att
-    }
 
     #[derive(Deserialize, Debug)]
     enum TrackChannelEnum {
@@ -391,13 +358,6 @@ fn parse_channel() {
     }
 
     #[derive(Deserialize, Debug)]
-    enum EqParamsEnum {
-        Band(EqBand),
-        InputGain(RealParameter),
-        OutputGain(RealParameter),
-    }
-
-    #[derive(Deserialize, Debug)]
     enum EqBandParamsEnum {
         Freq(RealParameter),
         Gain(RealParameter),
@@ -424,6 +384,13 @@ fn parse_channel() {
         lowShelf,
         bell,
         notch,
+    }
+
+    #[derive(Deserialize, Debug)]
+    enum EqParamsEnum {
+        Band(EqBand),
+        InputGain(RealParameter),
+        OutputGain(RealParameter),
     }
 
     #[derive(Deserialize, Debug)]
@@ -690,14 +657,152 @@ fn parse_channel() {
     let mut obj: Channel = from_str(xml).unwrap();
 
     println!("Deserialized object {:?} ", obj);
+}
 
-    // match &obj.channel_elements[0] {
-    //     ChannelElementsEnum::Devices(devices) => println!("Clap Plugin {:?}", devices.devices[0]),
-    //     ChannelElementsEnum::Pan(_) => todo!(),
-    //     ChannelElementsEnum::Mute(_) => todo!(),
-    //     ChannelElementsEnum::Volume(_) => todo!(),
-    //     ChannelElementsEnum::Sends(_) => todo!(),
-    // }
+#[test]
+fn parse_structure() {
+    // XS:scheme for structure
 
-    // println!("Clap Plugin {:?}", obj.channel_elements[0].Device);
+    /*
+    <xs:element name="Structure" minOccurs="0">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="Track"/>
+                  <xs:element ref="Channel"/>
+                </xs:choice>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+     */
+
+    let xml = r##"
+    <Structure>
+    <Track contentType="notes" loaded="true" id="id2" name="Bass" color="#a2eabf">
+      <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id3">
+        <Devices>
+          <ClapPlugin deviceID="org.surge-synth-team.surge-xt" deviceName="Surge XT" deviceRole="instrument" loaded="true" id="id7" name="Surge XT">
+            <Parameters/>
+            <Enabled value="true" id="id8" name="On/Off"/>
+            <State path="plugins/d19b1f6e-bbb6-42fe-a6c9-54b41d97a05d.clap-preset"/>
+          </ClapPlugin>
+        </Devices>
+        <Mute value="false" id="id6" name="Mute"/>
+        <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id5" name="Pan"/>
+        <Volume max="2.000000" min="0.000000" unit="linear" value="0.659140" id="id4" name="Volume"/>
+      </Channel>
+    </Track>
+    <Track contentType="audio" loaded="true" id="id9" name="Drumloop" color="#b53bba">
+      <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id10">
+        <Mute value="false" id="id13" name="Mute"/>
+        <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id12" name="Pan"/>
+        <Volume max="2.000000" min="0.000000" unit="linear" value="0.177125" id="id11" name="Volume"/>
+      </Channel>
+    </Track>
+    <Track contentType="audio notes" loaded="true" id="id14" name="Master">
+      <Channel audioChannels="2" role="master" solo="false" id="id15">
+        <Mute value="false" id="id18" name="Mute"/>
+        <Pan max="1.000000" min="0.000000" unit="normalized" value="0.500000" id="id17" name="Pan"/>
+        <Volume max="2.000000" min="0.000000" unit="linear" value="1.000000" id="id16" name="Volume"/>
+      </Channel>
+    </Track>
+  </Structure>"##;
+    use crate::channel::Channel;
+    use crate::track::Track;
+
+    #[derive(Deserialize, Debug)]
+    enum TrackChannelEnum {
+        Track(Track),
+        Channel(Channel),
+    }
+
+    #[derive(Deserialize, Debug)]
+    struct Structure {
+        #[serde(rename = "$value")]
+        sequence: Vec<TrackChannelEnum>,
+    }
+
+    let mut obj: Structure = from_str(xml).unwrap();
+
+    println!("Deserialized object {:#?} ", obj);
+}
+
+#[test]
+fn parse_transport() {
+    let xml = r##"
+    <Transport>
+    <Tempo max="666.000000" min="20.000000" unit="bpm" value="149.000000" id="id0" name="Tempo"/>
+    <TimeSignature denominator="4" numerator="4" id="id1"/>
+  </Transport>
+  "##;
+    use crate::transport::Transport;
+
+    let mut obj: Transport = from_str(xml).unwrap();
+
+    println!("Deserialized object {:#?} ", obj);
+}
+
+#[test]
+fn parse_application() {
+    let xml = r##"
+    <Application name="Bitwig Studio" version="5.0"/>
+"##;
+    use crate::application::Application;
+
+    let mut obj: Application = from_str(xml).unwrap();
+
+    println!("Deserialized object {:#?} ", obj);
+}
+
+#[test]
+fn parse_arrangement() {
+    let xml = r##"
+    <Arrangement id="id19">
+    <Lanes timeUnit="beats" id="id20">
+      <Lanes track="id2" id="id21">
+        <Clips id="id22">
+          <Clip time="0.0" duration="8.0" playStart="0.0">
+            <Notes id="id23">
+              <Note time="0.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="1.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="4.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="5.000000" duration="0.250000" channel="0" key="65" vel="0.787402" rel="0.787402"/>
+              <Note time="0.500000" duration="0.250000" channel="0" key="64" vel="0.787402" rel="0.787402"/>
+              <Note time="4.500000" duration="0.250000" channel="0" key="64" vel="0.787402" rel="0.787402"/>
+              <Note time="1.500000" duration="2.500000" channel="0" key="53" vel="0.787402" rel="0.787402"/>
+              <Note time="5.500000" duration="0.250000" channel="0" key="53" vel="0.787402" rel="0.787402"/>
+              <Note time="6.000000" duration="2.000000" channel="0" key="53" vel="0.787402" rel="0.787402"/>
+            </Notes>
+          </Clip>
+        </Clips>
+      </Lanes>
+      <Lanes track="id9" id="id24">
+        <Clips id="id25">
+          <Clip time="0.0" duration="8.00003433227539" playStart="0.0" loopStart="0.0" loopEnd="8.00003433227539" fadeTimeUnit="beats" fadeInTime="0.0" fadeOutTime="0.0" name="Drumfunk3 170bpm">
+            <Clips id="id26">
+              <Clip time="0.0" duration="8.00003433227539" contentTimeUnit="beats" playStart="0.0" fadeTimeUnit="beats" fadeInTime="0.0" fadeOutTime="0.0">
+                <Warps contentTimeUnit="seconds" timeUnit="beats" id="id28">
+                  <Audio algorithm="stretch" channels="2" duration="2.823541666666667" sampleRate="48000" id="id27">
+                    <File path="audio/Drumfunk3 170bpm.wav"/>
+                  </Audio>
+                  <Warp time="0.0" contentTime="0.0"/>
+                  <Warp time="8.00003433227539" contentTime="2.823541666666667"/>
+                </Warps>
+              </Clip>
+            </Clips>
+          </Clip>
+        </Clips>
+      </Lanes>
+      <Lanes track="id14" id="id29">
+        <Clips id="id30"/>
+      </Lanes>
+    </Lanes>
+  </Arrangement>
+    "##;
+
+    use crate::arrangement::Arrangement;
+
+    let mut obj: Arrangement = from_str(xml).unwrap();
+
+    println!("Deserialized object {:#?}", obj);
 }

@@ -7,17 +7,9 @@ pub struct Lane {
     #[serde(rename = "@id")]
     id: String,
     #[serde(rename = "@name")]
-    name: String, // attribute
+    name: Option<String>,
     #[serde(rename = "@color")]
-    color: String, // att
+    color: Option<String>, //
     #[serde(rename = "@comment")]
-    comment: String, // att
+    comment: Option<String>,
 }
-
-// impl Lane {
-//     pub fn new() -> Self {
-//         Lane {
-//             id: "random_string".to_string(),
-//         }
-//     }
-// }

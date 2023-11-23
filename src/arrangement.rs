@@ -5,22 +5,26 @@ use crate::timeline::timeline;
 
 use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
+enum ArrangementSequenceEnum {
+    Points(Points),
+    Lanes(Lanes),
+    Markers(Markers),
+    TempoAutomation(Points),
+}
+
+type ArrangementSequence = Vec<ArrangementSequenceEnum>;
+
+#[derive(Deserialize, Debug)]
 pub struct Arrangement {
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
-    name: String, // attribute
+    name: Option<String>, // attribute
     #[serde(rename = "@color")]
-    color: String, // att
+    color: Option<String>, // att
     #[serde(rename = "@comment")]
-    comment: String, // att
-    #[serde(rename = "TimeSignatureAutomation")]
-    time_signature_automation: Points,
-    #[serde(rename = "TempoAutomation")]
-    tempo_automation: Points,
-    #[serde(rename = "Markers")]
-    markers: Markers,
-    #[serde(rename = "Lanes")]
-    lanes: Lanes,
+    comment: Option<String>, // att
+    #[serde(rename = "$value")]
+    sequence: Option<ArrangementSequence>,
 }
