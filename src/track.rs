@@ -20,7 +20,7 @@ enum ContentTypeAttribute {
 pub(crate) struct Track {
     // Extends lane
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>,
     #[serde(rename = "@color")]

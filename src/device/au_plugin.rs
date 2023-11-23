@@ -6,7 +6,7 @@ use serde::Deserialize;
 pub struct AuPlugin {
     // Extends Plugin
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "$value")]
     #[serde(default)]
     device_elements: DeviceElements,

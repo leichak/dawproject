@@ -22,7 +22,7 @@ enum SceneSequenceEnum {
 #[derive(Deserialize, Debug)]
 pub struct Scene {
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>,
     #[serde(rename = "@color")]

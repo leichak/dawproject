@@ -7,7 +7,7 @@ use crate::track::Track;
 pub struct TimeLine {
     // Extends referenceable
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>, // attribute
     #[serde(rename = "@color")]

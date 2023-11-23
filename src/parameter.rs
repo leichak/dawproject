@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Deserialize, Debug)]
 pub struct Parameter {
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>, // attribute
     #[serde(rename = "@color")]

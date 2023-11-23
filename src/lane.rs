@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Deserialize)]
 pub struct Lane {
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>,
     #[serde(rename = "@color")]

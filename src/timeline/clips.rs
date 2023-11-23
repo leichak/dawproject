@@ -9,7 +9,7 @@ use super::time_unit::TimeUnit;
 pub struct Clips {
     // Extends timeline
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>, // attribute
     #[serde(rename = "@color")]

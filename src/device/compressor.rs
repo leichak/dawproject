@@ -19,7 +19,7 @@ type CompressorParams = Vec<CompressorParamsEnum>;
 pub struct Compressor {
     // Extendes builtInDevice
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "$value")]
     #[serde(default)]
     device_elements: DeviceElements,

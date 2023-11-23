@@ -3,7 +3,7 @@ use crate::unit::Unit;
 #[derive(serde::Deserialize, Debug)]
 pub struct RealParameter {
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>, // attribute
     #[serde(rename = "@color")]

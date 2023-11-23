@@ -28,7 +28,7 @@ type LanesSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 pub struct Lanes {
     // Extends timeline
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>, // attribute
     #[serde(rename = "@color")]

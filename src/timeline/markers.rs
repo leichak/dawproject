@@ -7,7 +7,7 @@ use serde::Deserialize;
 pub struct Markers {
     // Extends Timeline
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>, // attribute
     #[serde(rename = "@color")]

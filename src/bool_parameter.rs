@@ -3,7 +3,7 @@ use serde::Deserialize;
 #[derive(Deserialize, Debug)]
 pub struct BoolParameter {
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>,
     #[serde(rename = "@color")]

@@ -5,7 +5,7 @@ use serde::Deserialize;
 pub struct BuiltinDevice {
     // Extends device
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "$value")]
     #[serde(default)]
     device_elements: DeviceElements,

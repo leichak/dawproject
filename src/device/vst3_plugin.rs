@@ -5,7 +5,7 @@ use serde::Deserialize;
 pub struct Vst3Plugin {
     // Extends Plugin
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "$value")]
     #[serde(default)]
     device_elements: DeviceElements,

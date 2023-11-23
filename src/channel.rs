@@ -51,7 +51,7 @@ type ChannelElements = Vec<ChannelElementsEnum>;
 pub(crate) struct Channel {
     // Extends lane
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>, // attribute
     #[serde(rename = "@color")]

@@ -2,7 +2,7 @@
 struct Send {
     // Extends referenceable
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "Volume")]
     volume: RealParameter,
     #[serde(rename = "Pan")]

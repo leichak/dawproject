@@ -27,7 +27,7 @@ type WarpsSequence = Vec<WarpsSequenceEnum>;
 pub struct Warps {
     // Extends Timeline
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>, // attribute
     #[serde(rename = "@color")]

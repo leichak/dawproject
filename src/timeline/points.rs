@@ -28,7 +28,7 @@ enum PointsSequenceEnum {
 pub struct Points {
     // Extends timeline
     #[serde(rename = "@id")]
-    id: String,
+    id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>, // attribute
     #[serde(rename = "@color")]
