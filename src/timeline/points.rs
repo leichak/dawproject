@@ -3,9 +3,9 @@ use super::{
     enum_point::EnumPoint, integer_point::IntegerPoint, point::Point, real_point::RealPoint,
     time_signature_point::TimeSignaturePoint, time_unit::TimeUnit,
 };
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 enum PointsTypeEnum {
     Point(Point),
     RealPoint(RealPoint),
@@ -15,13 +15,13 @@ enum PointsTypeEnum {
     TimeSignaturePoint(TimeSignaturePoint),
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 enum PointsSequenceEnum {
     Target(AutomationTarget),
     PointType(PointsTypeEnum),
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Points {
     // Extends timeline
     #[serde(rename = "@id")]

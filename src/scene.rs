@@ -1,11 +1,11 @@
-use serde::{Deserialize};
+use serde::{Deserialize, Serialize};
 
 use crate::timeline::{
     audio::Audio, clip_slot::ClipSlot, clips::Clips, lanes::Lanes, markers::Markers, notes::Notes,
     points::Points, timeline::TimeLine, video::Video, warps::Warps,
 };
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 enum SceneSequenceEnum {
     Timeline(TimeLine),
     Lanes(Lanes),
@@ -19,7 +19,7 @@ enum SceneSequenceEnum {
     Points(Points),
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Scene {
     #[serde(rename = "@id")]
     id: Option<String>,

@@ -1,5 +1,6 @@
 use serde::Deserialize;
-#[derive(Deserialize, Debug)]
+
+#[derive(Debug, Deserialize, Serialize)]
 pub(crate) enum EqBandTypeEnum {
     highPass,
     lowPass,

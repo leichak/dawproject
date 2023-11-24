@@ -3,7 +3,7 @@ use serde::Deserialize;
 use super::{device::DeviceElements, device_role::DeviceRole};
 use crate::real_parameter::RealParameter;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 enum LimiterParamsEnum {
     Attack(RealParameter),
     InputGain(RealParameter),
@@ -14,7 +14,7 @@ enum LimiterParamsEnum {
 
 type LimiterParams = Vec<LimiterParamsEnum>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Limiter {
     // Extendes builtInDevice
     #[serde(rename = "@id")]

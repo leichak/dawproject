@@ -1,8 +1,7 @@
 use crate::interpolation::Interpolation;
-use serde::{Deserialize};
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Debug)]
-
+#[derive(Debug, Deserialize, Serialize)]
 enum RealPointEnum {
     #[serde(rename = "@value")]
     Value(String),
@@ -12,7 +11,7 @@ enum RealPointEnum {
 
 type RealPointSequence = Vec<RealPointEnum>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct RealPoint {
     // Extends Point
     #[serde(rename = "@time")]

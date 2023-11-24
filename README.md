@@ -77,7 +77,7 @@ Feel free to contribute to adding support for more DAWs.
 
 ## To-Do List
 - [x] Reflect all structures in files and appropriate mods.
-- [ ] Implement XML deserialization using quick_xml and serde.
+- [ ] Implement XML Serialization using quick_xml and serde.
 - - [x] Move to quick-xml 
 - - [x] Employ Serde deserialization using Rust types
 - - - [x] Derive Deserialize for all Project related types
@@ -89,6 +89,18 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [x] Deserialize Arrangement
 - - - - [x] Deserialize Scenes
 - - - - [x] Deserialize Full Project
-- - - - [in_progress] Test code
-- - - - [in_progress] Review code
- 
+- - - - [x] Test Deserializing code
+- - - - [x] Review and clean-up
+- - [ ] Derive Serialize for all Project related types
+- - - - [ ] Serialize Track
+- - - - [ ] Serialize Channel
+- - - - [ ] Serialize Structure
+- - - - [ ] Serialize Application
+- - - - [ ] Serialize Transport
+- - - - [ ] Serialize Arrangement
+- - - - [ ] Serialize Scenes
+- - - - [ ] Serialize Full Project
+- - - - [ ] Test Deserializing code
+- - - - [ ] Review and clean-up
+- [ ] Create main file loading mod 
+= [ ] Write tests 

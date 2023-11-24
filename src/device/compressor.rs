@@ -1,8 +1,9 @@
 use super::device::DeviceElements;
 use super::device_role::DeviceRole;
 use crate::{bool_parameter::BoolParameter, real_parameter::RealParameter};
-use serde::Deserialize;
-#[derive(Deserialize, Debug)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Deserialize, Serialize)]
 enum CompressorParamsEnum {
     Attack(RealParameter),
     AutoMakeup(BoolParameter),
@@ -15,7 +16,7 @@ enum CompressorParamsEnum {
 
 type CompressorParams = Vec<CompressorParamsEnum>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Compressor {
     // Extendes builtInDevice
     #[serde(rename = "@id")]

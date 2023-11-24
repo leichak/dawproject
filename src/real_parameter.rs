@@ -1,6 +1,8 @@
+use serde::{Deserialize, Serialize};
+
 use crate::unit::Unit;
 
-#[derive(serde::Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct RealParameter {
     #[serde(rename = "@id")]
     id: Option<String>,

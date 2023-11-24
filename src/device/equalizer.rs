@@ -3,14 +3,14 @@ use serde::Deserialize;
 use super::{device::DeviceElements, device_role::DeviceRole, eq_band::EqBand};
 use crate::real_parameter::RealParameter;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 enum EqParamsEnum {
     Band(EqBand),
     InputGain(RealParameter),
     OutputGain(RealParameter),
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Equalizer {
     // Extends builtinDevice
     #[serde(rename = "@id")]

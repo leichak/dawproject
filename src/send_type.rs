@@ -1,4 +1,4 @@
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "lowercase")]
 enum SendTypeEnum {
     Pre,

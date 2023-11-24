@@ -1,10 +1,10 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use super::device_role::DeviceRole;
 use crate::bool_parameter::BoolParameter;
 use crate::file_reference::FileReference;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub enum DeviceElementsEnum {
     Parameters,
     Enabled(BoolParameter),
@@ -13,7 +13,7 @@ pub enum DeviceElementsEnum {
 
 pub type DeviceElements = Vec<DeviceElementsEnum>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 enum Parameters {
     parameter,
     RealParameter,
@@ -23,7 +23,7 @@ enum Parameters {
     TimeSignatureParameter,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Device {
     // Extends referenceable
     #[serde(rename = "@id")]

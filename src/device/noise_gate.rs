@@ -3,7 +3,7 @@ use serde::Deserialize;
 use super::{device::DeviceElements, device_role::DeviceRole};
 use crate::real_parameter::RealParameter;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 enum NoiseGateParamsEnum {
     Attack(RealParameter),
     Range(RealParameter),
@@ -14,8 +14,7 @@ enum NoiseGateParamsEnum {
 
 type NoiseGateParams = Vec<NoiseGateParamsEnum>;
 
-#[derive(Deserialize, Debug)]
-
+#[derive(Debug, Deserialize, Serialize)]
 pub struct NoiseGate {
     // Extendes builtInDevice
     #[serde(rename = "@id")]

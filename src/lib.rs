@@ -10,6 +10,7 @@ mod file_reference;
 mod integer_parameter;
 mod interpolation;
 mod lane;
+mod meta_data;
 mod mixer_role;
 mod parameter;
 mod project;

@@ -2,9 +2,9 @@ use crate::timeline::lanes::Lanes;
 use crate::timeline::markers::Markers;
 use crate::timeline::points::Points;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 enum ArrangementSequenceEnum {
     Points(Points),
     Lanes(Lanes),
@@ -14,7 +14,7 @@ enum ArrangementSequenceEnum {
 
 type ArrangementSequence = Vec<ArrangementSequenceEnum>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Arrangement {
     #[serde(rename = "@id")]
     id: Option<String>,

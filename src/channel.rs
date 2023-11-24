@@ -1,4 +1,4 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::{
     bool_parameter::BoolParameter, device::au_plugin::AuPlugin,
@@ -8,7 +8,7 @@ use crate::{
     device::vst3_plugin::Vst3Plugin, mixer_role::MixerRoleEnum, real_parameter::RealParameter,
 };
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 enum DeviceTypes {
     Device(Device),
     Vst2Plugin(Vst2Plugin),
@@ -22,21 +22,21 @@ enum DeviceTypes {
     AuPlugin(AuPlugin),
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 struct Devices {
     #[serde(default)]
     #[serde(rename = "$value")]
     devices: Vec<DeviceTypes>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 struct Sends {
     #[serde(default)]
     #[serde(rename = "$value")]
     devices: Vec<DeviceTypes>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 enum ChannelElementsEnum {
     Devices(Devices),
     Pan(RealParameter),
@@ -47,7 +47,7 @@ enum ChannelElementsEnum {
 
 type ChannelElements = Vec<ChannelElementsEnum>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub(crate) struct Channel {
     // Extends lane
     #[serde(rename = "@id")]

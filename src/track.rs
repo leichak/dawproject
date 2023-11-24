@@ -1,7 +1,7 @@
 use crate::{channel::Channel, content_type::ContentType};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 enum TrackChannelEnum {
     Channel(Channel),
     Track(Track),
@@ -11,12 +11,12 @@ type TrackChannel = Vec<TrackChannelEnum>;
 
 type Content = Vec<ContentType>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 enum ContentTypeAttribute {
     Content(Content),
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub(crate) struct Track {
     // Extends lane
     #[serde(rename = "@id")]

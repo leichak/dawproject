@@ -1,4 +1,4 @@
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize, Debug)]
 struct Send {
     // Extends referenceable
     #[serde(rename = "@id")]
