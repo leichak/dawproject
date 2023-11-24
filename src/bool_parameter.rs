@@ -12,7 +12,6 @@ pub struct BoolParameter {
     comment: Option<String>,
     #[serde(rename = "@parameterID")]
     parameter_id: Option<i32>,
-    #[serde(default)]
     #[serde(rename = "@value")]
-    value: Vec<bool>,
+    value: Option<bool>,
 }

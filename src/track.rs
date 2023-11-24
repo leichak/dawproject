@@ -1,5 +1,5 @@
 use crate::{channel::Channel, content_type::ContentType};
-use serde::{Deserialize};
+use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 enum TrackChannelEnum {
@@ -24,9 +24,9 @@ pub(crate) struct Track {
     #[serde(rename = "@name")]
     name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>, // att
+    color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>, // att
+    comment: Option<String>,
     #[serde(rename = "$value")]
     track_channel: TrackChannel,
     #[serde(rename = "@contentType")]

@@ -9,11 +9,11 @@ pub struct Markers {
     #[serde(rename = "@id")]
     id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>, // attribute
+    name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>, // att
+    color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>, // att
+    comment: Option<String>,
     #[serde(rename = "@track")]
     track: Option<Track>,
     #[serde(rename = "@timeUnit")]

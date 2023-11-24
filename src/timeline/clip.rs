@@ -7,9 +7,9 @@ type ClipSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 pub(crate) struct Clip {
     // #Extends nameable
     #[serde(rename = "@name")]
-    name: Option<String>, // attribute
+    name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>, // att
+    color: Option<String>,
     #[serde(rename = "@comment")]
     comment: Option<String>,
     // End of extension

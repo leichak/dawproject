@@ -1,6 +1,4 @@
-use serde::{Deserialize};
-
-/* This is struct that needs to provide unique id, in original code it derives from referencable */
+use serde::Deserialize;
 
 #[derive(Deserialize)]
 pub struct Lane {
