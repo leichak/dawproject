@@ -10,11 +10,11 @@ This struct represents project, it conists following data:
 
 use crate::application::Application;
 use crate::arrangement::Arrangement;
-use crate::lane::Lane;
+
 use crate::scene::Scene;
 
 use crate::transport::Transport;
-use serde;
+
 use serde::*;
 
 // Here name of field corresponds to xml

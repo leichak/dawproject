@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use super::{device::DeviceElements, device_role::DeviceRole, eq_band::EqBand};
+use super::{device::DeviceElements, device_role::DeviceRole};
 use crate::real_parameter::RealParameter;
 
 #[derive(Deserialize, Debug)]

@@ -1,5 +1,5 @@
 use crate::{channel::Channel, content_type::ContentType};
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
 #[derive(Deserialize, Debug)]
 enum TrackChannelEnum {

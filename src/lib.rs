@@ -21,13 +21,13 @@ mod track;
 mod transport;
 mod unit;
 
-use quick_xml::de::from_str;
 pub use serde::{Deserialize, Serialize};
 static mut XML_ID: u32 = 0;
 
 #[cfg(test)]
 #[test]
 fn parse_track() {
+    use quick_xml::de::from_str;
     /*
     Track schema
 
@@ -52,7 +52,7 @@ fn parse_track() {
     use crate::channel::Channel;
     use content_type::ContentType;
     use mixer_role::MixerRoleEnum;
-    use quick_xml::de::from_str;
+
     use serde::Deserialize;
 
     #[derive(Deserialize, Debug)]
@@ -95,6 +95,7 @@ fn parse_track() {
 
 #[test]
 fn parse_channel() {
+    use quick_xml::de::from_str;
     let xml = r##"
     <Channel audioChannels="2" destination="id15" role="regular" solo="false" id="id3">
     <Devices>
@@ -155,7 +156,7 @@ fn parse_channel() {
 
     use crate::bool_parameter::BoolParameter;
     use crate::parameter::Parameter;
-    use quick_xml::de::from_str;
+
     use serde::Deserialize;
 
     #[derive(Deserialize, Debug)]
@@ -629,6 +630,7 @@ fn parse_channel() {
 
 #[test]
 fn parse_structure() {
+    use quick_xml::de::from_str;
     // XS:scheme for structure
 
     /*
@@ -697,6 +699,7 @@ fn parse_structure() {
 
 #[test]
 fn parse_transport() {
+    use quick_xml::de::from_str;
     let xml = r##"
     <Transport>
     <Tempo max="666.000000" min="20.000000" unit="bpm" value="149.000000" id="id0" name="Tempo"/>
@@ -712,6 +715,7 @@ fn parse_transport() {
 
 #[test]
 fn parse_application() {
+    use quick_xml::de::from_str;
     let xml = r##"
     <Application name="Bitwig Studio" version="5.0"/>
 "##;
@@ -724,6 +728,7 @@ fn parse_application() {
 
 #[test]
 fn parse_arrangement() {
+    use quick_xml::de::from_str;
     let xml = r##"
     <Arrangement id="id19">
     <Lanes timeUnit="beats" id="id20">
@@ -777,6 +782,7 @@ fn parse_arrangement() {
 
 #[test]
 fn parse_project() {
+    use quick_xml::de::from_str;
     let xml = r##"
     <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Project version="1.0">

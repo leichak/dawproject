@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
 /* This is struct that needs to provide unique id, in original code it derives from referencable */
 

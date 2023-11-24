@@ -1,5 +1,5 @@
 use crate::{real_parameter::RealParameter, time_signature_parameter::TimeSignatureParameter};
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
 #[derive(Deserialize, Debug)]
 enum TransportSequence {

@@ -1,6 +1,6 @@
 use crate::expression_type::ExpressionType;
-use crate::parameter::Parameter;
-use serde::{Deserialize, Serialize};
+
+use serde::{Deserialize};
 
 /*
  * <p>Defines the target of automation or expression, usually used within a Points element.</p>

@@ -1,9 +1,9 @@
 use crate::timeline::lanes::Lanes;
 use crate::timeline::markers::Markers;
 use crate::timeline::points::Points;
-use crate::timeline::timeline;
 
-use serde::{Deserialize, Serialize};
+
+use serde::{Deserialize};
 
 #[derive(Deserialize, Debug)]
 enum ArrangementSequenceEnum {

@@ -1,5 +1,5 @@
 use super::time_unit::TimeUnit;
-use crate::{file_reference::FileReference, track::Track};
+use crate::{file_reference::FileReference};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
