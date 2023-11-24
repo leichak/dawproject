@@ -1,12 +1,9 @@
-use crate::time_signature_parameter::TimeSignatureParameter;
-use crate::track::Track;
-
 use super::{
     super::unit::Unit, automation_target::AutomationTarget, bool_point::BoolPoint,
     enum_point::EnumPoint, integer_point::IntegerPoint, point::Point, real_point::RealPoint,
     time_signature_point::TimeSignaturePoint, time_unit::TimeUnit,
 };
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 enum PointsTypeEnum {
@@ -30,18 +27,18 @@ pub struct Points {
     #[serde(rename = "@id")]
     id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>, // attribute
+    name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>, // att
+    color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>, // att
+    comment: Option<String>,
     #[serde(rename = "@track")]
     track: Option<String>,
     #[serde(rename = "@timeUnit")]
     timeUnit: Option<TimeUnit>,
     // Extension finish
     #[serde(rename = "$value")]
-    points: Option<Vec<PointsSequenceEnum>>, //The contained points. They should all be of the same type and match the target parameter. */
+    points: Option<Vec<PointsSequenceEnum>>,
     #[serde(rename = "@unit")]
     unit: Option<Unit>,
 }

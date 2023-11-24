@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use crate::{file_reference::FileReference, track::Track};
+use crate::{file_reference::FileReference};
 
 use super::time_unit::TimeUnit;
 

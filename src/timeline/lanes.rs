@@ -1,6 +1,4 @@
-use crate::track::Track;
-
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
 use super::{
     audio::Audio, clip_slot::ClipSlot, clips::Clips, markers::Markers, notes::Notes,
@@ -23,18 +21,17 @@ pub enum ArrangementTypeChoiceEnum {
 
 type LanesSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 
-/* Lanes representing nested content. */
 #[derive(Deserialize, Debug)]
 pub struct Lanes {
     // Extends timeline
     #[serde(rename = "@id")]
     id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>, // attribute
+    name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>, // att
+    color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>, // att
+    comment: Option<String>,
     #[serde(rename = "@track")]
     track: Option<String>,
     #[serde(rename = "@timeUnit")]

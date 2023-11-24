@@ -1,7 +1,6 @@
 use serde::Deserialize;
 
 use super::clip::Clip;
-use crate::track::Track;
 
 use super::time_unit::TimeUnit;
 
@@ -11,11 +10,11 @@ pub struct Clips {
     #[serde(rename = "@id")]
     id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>, // attribute
+    name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>, // att
+    color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>, // att
+    comment: Option<String>,
     #[serde(rename = "@track")]
     track: Option<String>,
     #[serde(rename = "@timeUnit")]

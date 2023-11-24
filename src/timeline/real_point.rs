@@ -1,5 +1,5 @@
 use crate::interpolation::Interpolation;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
 #[derive(Deserialize, Debug)]
 

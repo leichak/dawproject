@@ -1,9 +1,8 @@
 use crate::timeline::lanes::Lanes;
 use crate::timeline::markers::Markers;
 use crate::timeline::points::Points;
-use crate::timeline::timeline;
 
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 enum ArrangementSequenceEnum {
@@ -20,11 +19,11 @@ pub struct Arrangement {
     #[serde(rename = "@id")]
     id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>, // attribute
+    name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>, // att
+    color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>, // att
+    comment: Option<String>,
     #[serde(rename = "$value")]
     sequence: Option<ArrangementSequence>,
 }

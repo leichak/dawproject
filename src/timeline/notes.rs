@@ -1,7 +1,7 @@
 use serde::Deserialize;
 
 use super::{note::Note, time_unit::TimeUnit};
-use crate::track::Track;
+
 
 #[derive(Deserialize, Debug)]
 pub struct Notes {
