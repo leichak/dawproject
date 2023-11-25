@@ -8,7 +8,6 @@ enum WarpSequenceEnum {
     ContentTime(f64),
 }
 
-
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Warp {
     #[serde(rename = "@time")]

@@ -1,6 +1,7 @@
 use super::time_unit::TimeUnit;
-use crate::{file_reference::FileReference};
+use crate::file_reference::FileReference;
 use serde::Deserialize;
+use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct MediaFile {

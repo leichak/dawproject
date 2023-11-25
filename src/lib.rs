@@ -119,9 +119,36 @@ fn load_daw_project_test() {
 
 mod daw_project_test {
 
-    fn create_empty_project() {}
+    use crate::project::{self, Project};
+    use crate::track::Track;
 
-    fn create_dummy_project() {}
+    enum Features {
+        CUE_MARKERS,
+        CLIPS,
+        AUDIO,
+        NOTES,
+        AUTOMATION,
+        ALIAS_CLIPS,
+        PLUGINS,
+    }
+    fn create_empty_project() {
+        let mut project = Project {
+            version: todo!(),
+            application: todo!(),
+            transport: todo!(),
+            structure: todo!(),
+            arrangement: todo!(),
+            scenes: todo!(),
+        };
+
+        project.application.name = "Test".to_string();
+        project.application.version = "1.0".to_string();
+        project
+    }
+
+    fn create_dummy_project() {
+        let mut project = create_empty_project();
+    }
 
     fn create_point() {}
 

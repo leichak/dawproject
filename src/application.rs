@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Application {
     #[serde(rename = "@name")]
-    name: String,
+    pub name: String,
     #[serde(rename = "@version")]
-    version: String,
+    pub version: String,
 }

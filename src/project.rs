@@ -30,7 +30,7 @@ pub(crate) struct Project {
     #[serde(rename = "@version")]
     pub version: String,
     #[serde(rename = "Application")]
-    application: Application,
+    pub application: Application,
     #[serde(rename = "Transport")]
     transport: Transport,
     #[serde(rename = "Structure")]
