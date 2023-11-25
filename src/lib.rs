@@ -118,7 +118,7 @@ fn load_daw_project_test() {
 }
 
 mod daw_project_test {
-    #[test]
+
     fn create_empty_project() {}
 
     fn create_dummy_project() {}
@@ -144,4 +144,28 @@ mod daw_project_test {
     fn write_project_schema() {}
 
     fn load_embedded_file() {}
+
+    enum AudioScenario {
+        Warped,
+        RawBeats,
+        RawSeconds,
+        FileWithAbsolutePath,
+        FileWithRelativePath,
+    }
+
+    fn should_test_offset_and_fades() -> bool {
+        false
+    }
+
+    fn create_audio_example_test() {}
+
+    fn create_audio_example() {}
+
+    fn create_midi_automation_in_clips_example_test() {}
+
+    fn create_midi_automation_examples() {}
+
+    fn double_adapter_test() {}
+
+    fn save_test_project() {}
 }
