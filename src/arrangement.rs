@@ -28,3 +28,15 @@ pub struct Arrangement {
     #[serde(rename = "$value")]
     sequence: Option<ArrangementSequence>,
 }
+
+impl Arrangement {
+    pub fn new_empty() -> Self {
+        Arrangement {
+            id: None,
+            name: None,
+            color: None,
+            comment: None,
+            sequence: None,
+        }
+    }
+}

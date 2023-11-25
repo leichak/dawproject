@@ -15,3 +15,11 @@ pub struct Transport {
     #[serde(rename = "$value")]
     sequence: TransportSequenceVec,
 }
+
+impl Transport {
+    pub fn new_empty() -> Self {
+        Transport {
+            sequence: Vec::new(),
+        }
+    }
+}

@@ -131,15 +131,8 @@ mod daw_project_test {
         ALIAS_CLIPS,
         PLUGINS,
     }
-    fn create_empty_project() {
-        let mut project = Project {
-            version: todo!(),
-            application: todo!(),
-            transport: todo!(),
-            structure: todo!(),
-            arrangement: todo!(),
-            scenes: todo!(),
-        };
+    fn create_empty_project() -> Project {
+        let mut project = Project::new();
 
         project.application.name = "Test".to_string();
         project.application.version = "1.0".to_string();

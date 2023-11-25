@@ -40,3 +40,24 @@ pub(crate) struct Project {
     #[serde(rename = "Scenes")]
     scenes: Option<Vec<Scene>>,
 }
+
+impl Structure {
+    pub fn new_empty() -> Self {
+        Structure {
+            sequence: Vec::new(),
+        }
+    }
+}
+
+impl Project {
+    pub fn new() -> Self {
+        Project {
+            version: "1.0".to_string(),
+            application: Application::new_empty(),
+            transport: Transport::new_empty(),
+            structure: None,
+            arrangement: Arrangement::new_empty(),
+            scenes: None,
+        }
+    }
+}
