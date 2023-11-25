@@ -92,15 +92,15 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [x] Test Deserializing code
 - - - - [x] Review and clean-up
 - - [ ] Derive Serialize for all Project related types
-- - - - [ ] Serialize Track
-- - - - [ ] Serialize Channel
-- - - - [ ] Serialize Structure
-- - - - [ ] Serialize Application
-- - - - [ ] Serialize Transport
-- - - - [ ] Serialize Arrangement
-- - - - [ ] Serialize Scenes
-- - - - [ ] Serialize Full Project
-- - - - [ ] Test Deserializing code
+- - - - [x] Serialize Track
+- - - - [x] Serialize Channel
+- - - - [x] Serialize Structure
+- - - - [x] Serialize Application
+- - - - [x] Serialize Transport
+- - - - [x] Serialize Arrangement
+- - - - [x] Serialize Scenes
+- - - - [x] Serialize Full Project
+- - - - [in_progress] Test Serializing code
 - - - - [ ] Review and clean-up
 - [ ] Create main file loading mod 
 = [ ] Write tests 
