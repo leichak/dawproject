@@ -1,8 +1,9 @@
 use super::device::DeviceElements;
 use super::device_role::DeviceRole;
 use serde::Deserialize;
+use serde::Serialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct AuPlugin {
     // Extends Plugin
     #[serde(rename = "@id")]

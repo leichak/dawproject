@@ -1,10 +1,11 @@
 use serde::Deserialize;
+use serde::Serialize;
 
-use crate::{file_reference::FileReference};
+use crate::file_reference::FileReference;
 
 use super::time_unit::TimeUnit;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Video {
     // Extends media file
     #[serde(rename = "@id")]

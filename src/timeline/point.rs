@@ -1,4 +1,5 @@
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
+use serde::Serialize;
 
 // Case when we have 1 type sequence - Then we have just Vec<Type> because point is one type
 

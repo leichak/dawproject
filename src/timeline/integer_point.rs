@@ -1,6 +1,7 @@
 use serde::Deserialize;
+use serde::Serialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct IntegerPoint {
     // Extends Point
     #[serde(rename = "@time")]

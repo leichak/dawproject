@@ -3,10 +3,10 @@ use super::{
     points::Points, time_unit::TimeUnit, timeline::TimeLine, video::Video, warp::Warp,
 };
 
-
 use serde::Deserialize;
+use serde::Serialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Serialize)]
 enum WarpsSequenceEnum {
     Timeline(TimeLine),
     Lanes(Lanes),
@@ -23,7 +23,7 @@ enum WarpsSequenceEnum {
 
 type WarpsSequence = Vec<WarpsSequenceEnum>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Warps {
     // Extends Timeline
     #[serde(rename = "@id")]

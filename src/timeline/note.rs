@@ -1,9 +1,9 @@
 use super::lanes::ArrangementTypeChoiceEnum;
 use serde::Deserialize;
+use serde::Serialize;
 
 type NoteSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
-
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub(crate) struct Note {
     #[serde(rename = "$value")]
     notes_sequence_choice: Option<NoteSequenceChoice>,

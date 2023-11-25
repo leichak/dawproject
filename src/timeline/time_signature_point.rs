@@ -1,8 +1,7 @@
+use serde::Deserialize;
+use serde::Serialize;
 
-use serde::{Deserialize};
-
-#[derive(Deserialize, Debug)]
-
+#[derive(Debug, Deserialize, Serialize)]
 enum TimeSignaturePointEnum {
     #[serde(rename = "@numerator")]
     Numerator(i32),
@@ -12,7 +11,7 @@ enum TimeSignaturePointEnum {
 
 type TimeSignaturePointSequence = Vec<TimeSignaturePointEnum>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct TimeSignaturePoint {
     // Extends Point
     #[serde(rename = "@time")]

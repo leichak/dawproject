@@ -1,6 +1,7 @@
-use serde::{Deserialize};
+use serde::Deserialize;
+use serde::Serialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "lowercase")]
 pub enum Unit {
     Linear,

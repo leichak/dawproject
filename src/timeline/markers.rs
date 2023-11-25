@@ -2,8 +2,9 @@ use crate::timeline::marker::Marker;
 use crate::timeline::time_unit::TimeUnit;
 use crate::track::Track;
 use serde::Deserialize;
+use serde::Serialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Markers {
     // Extends Timeline
     #[serde(rename = "@id")]

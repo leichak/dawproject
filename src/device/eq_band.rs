@@ -1,6 +1,7 @@
 use super::eq_band_type::EqBandTypeEnum;
 use crate::{bool_parameter::BoolParameter, real_parameter::RealParameter};
 use serde::Deserialize;
+use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
 enum EqBandParamsEnum {

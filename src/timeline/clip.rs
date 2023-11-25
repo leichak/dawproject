@@ -1,9 +1,10 @@
 use super::{lanes::ArrangementTypeChoiceEnum, time_unit::TimeUnit};
 use serde::Deserialize;
+use serde::Serialize;
 
 type ClipSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub(crate) struct Clip {
     // #Extends nameable
     #[serde(rename = "@name")]

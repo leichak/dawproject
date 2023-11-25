@@ -1,11 +1,12 @@
 use serde::Deserialize;
+use serde::Serialize;
 
 use super::{
     audio::Audio, clip_slot::ClipSlot, clips::Clips, markers::Markers, notes::Notes,
     points::Points, time_unit::TimeUnit, timeline::TimeLine, video::Video, warps::Warps,
 };
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub enum ArrangementTypeChoiceEnum {
     Timeline(TimeLine),
     Lanes(Lanes),
@@ -21,7 +22,7 @@ pub enum ArrangementTypeChoiceEnum {
 
 type LanesSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Lanes {
     // Extends timeline
     #[serde(rename = "@id")]

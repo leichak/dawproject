@@ -1,4 +1,5 @@
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
+use serde::Serialize;
 
 use crate::{
     bool_parameter::BoolParameter, device::au_plugin::AuPlugin,

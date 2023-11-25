@@ -1,6 +1,7 @@
 use serde::Deserialize;
+use serde::Serialize;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 enum WarpSequenceEnum {
     Time(f64),
@@ -9,7 +10,7 @@ enum WarpSequenceEnum {
 
 type WarpSequence = Vec<WarpSequenceEnum>;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Warp {
     // #[serde(rename = "$value")]
     // sequence: Option<WarpSequence>,

@@ -1,10 +1,11 @@
 use serde::Deserialize;
+use serde::Serialize;
 
 use super::clip::Clip;
 
 use super::time_unit::TimeUnit;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct ClipSlot {
     // Extends timeline
     #[serde(rename = "@id")]

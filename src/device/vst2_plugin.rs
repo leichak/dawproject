@@ -1,5 +1,6 @@
 use super::{device::DeviceElements, device_role::DeviceRole};
 use serde::Deserialize;
+use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Vst2Plugin {

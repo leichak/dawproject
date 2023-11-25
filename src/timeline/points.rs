@@ -3,7 +3,8 @@ use super::{
     enum_point::EnumPoint, integer_point::IntegerPoint, point::Point, real_point::RealPoint,
     time_signature_point::TimeSignaturePoint, time_unit::TimeUnit,
 };
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
+use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
 enum PointsTypeEnum {

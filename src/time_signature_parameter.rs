@@ -1,4 +1,7 @@
-#[derive(serde::Deserialize, Debug)]
+use serde::Deserialize;
+use serde::Serialize;
+
+#[derive(Deserialize, Serialize, Debug)]
 pub struct TimeSignatureParameter {
     #[serde(rename = "@name")]
     name: Option<String>,

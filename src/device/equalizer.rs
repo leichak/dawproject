@@ -1,4 +1,5 @@
 use serde::Deserialize;
+use serde::Serialize;
 
 use super::{device::DeviceElements, device_role::DeviceRole, eq_band::EqBand};
 use crate::real_parameter::RealParameter;

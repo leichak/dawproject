@@ -1,5 +1,6 @@
 use crate::interpolation::Interpolation;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
+use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
 enum RealPointEnum {
