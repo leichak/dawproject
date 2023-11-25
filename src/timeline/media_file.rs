@@ -2,7 +2,7 @@ use super::time_unit::TimeUnit;
 use crate::{file_reference::FileReference};
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 struct MediaFile {
     // Extends timeline
     #[serde(rename = "@id")]

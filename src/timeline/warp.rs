@@ -8,12 +8,9 @@ enum WarpSequenceEnum {
     ContentTime(f64),
 }
 
-type WarpSequence = Vec<WarpSequenceEnum>;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Warp {
-    // #[serde(rename = "$value")]
-    // sequence: Option<WarpSequence>,
     #[serde(rename = "@time")]
     time: f64,
     #[serde(rename = "@contentTime")]

@@ -25,7 +25,7 @@ mod unit;
 pub use serde::{Deserialize, Serialize};
 #[cfg(test)]
 #[test]
-fn parse_project() {
+fn load_daw_project_test() {
     use crate::project::Project;
     use quick_xml::de::from_str;
 
@@ -115,4 +115,33 @@ fn parse_project() {
     let mut obj: Project = from_str(xml).unwrap();
 
     println!("Deserialized object {:#?}", obj);
+}
+
+mod daw_project_test {
+    #[test]
+    fn create_empty_project() {}
+
+    fn create_dummy_project() {}
+
+    fn create_point() {}
+
+    fn create_marker() {}
+
+    fn save_daw_project() {}
+
+    fn validate_daw_project() {}
+
+    fn validate_complex_daw_project() {}
+
+    fn save_and_load_daw_project() {}
+
+    fn save_complex_daw_project() {}
+
+    fn save_and_load_complex_daw_project() {}
+
+    fn write_meta_data_schema() {}
+
+    fn write_project_schema() {}
+
+    fn load_embedded_file() {}
 }
