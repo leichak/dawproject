@@ -1,5 +1,6 @@
 use crate::mixer_role::MixerRoleEnum;
 use crate::real_parameter::RealParameter;
+use crate::unit::Unit;
 use crate::{channel::Channel, content_type::ContentType};
 use serde::Deserialize;
 use serde::Serialize;
@@ -39,26 +40,18 @@ pub(crate) struct Track {
 }
 
 impl Track {
-    pub fn create_track(
+    pub fn new_dummy(
         name: String,
         content_type: Vec<ContentType>,
         mixer_role: MixerRoleEnum,
         volume: f64,
         pan: f64,
     ) -> Track {
-        let channel: TrackChannel = vec![TrackChannelEnum::Channel(Channel::new_empty())];
-        let volume_parameter = RealParameter{
-            id: todo!(),
-            name: todo!(),
-            color: todo!(),
-            comment: todo!(),
-            parameter_id: todo!(),
-            value: todo!(),
-            unit: todo!(),
-            min: todo!(),
-            max: todo!(),
-        }
+        let channel = Channel::new_dummy();
 
+        let volume_parameter = RealParameter::create_dummy(volume, Unit::Linear);
+        let volume_parameter = RealParameter::create_dummy(pan, Unit::Normalized);
+        let channel: TrackChannel = vec![TrackChannelEnum::Channel(Channel::new_dummy())];
         Track {
             id: None,
             name: Some(name),

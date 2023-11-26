@@ -61,7 +61,7 @@ pub(crate) struct Channel {
     comment: Option<String>,
     #[serde(rename = "$value")]
     #[serde(default)]
-    channel_elements: ChannelElements,
+    pub channel_elements: ChannelElements,
     #[serde(rename = "@audioChannels")]
     audio_channels: Option<i32>,
     #[serde(rename = "@destination")]
@@ -73,7 +73,7 @@ pub(crate) struct Channel {
 }
 
 impl Channel {
-    pub fn new_empty() -> Self {
+    pub fn new_dummy() -> Self {
         Channel {
             id: None,
             name: None,

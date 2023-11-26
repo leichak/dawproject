@@ -20,7 +20,23 @@ pub struct RealParameter {
     #[serde(rename = "@unit")]
     unit: Unit,
     #[serde(rename = "@min")]
-    min: f64,
+    min: Option<f64>,
     #[serde(rename = "@max")]
-    max: f64,
+    max: Option<f64>,
+}
+
+impl RealParameter {
+    pub fn create_dummy(value: f64, unit: Unit) -> RealParameter {
+        RealParameter {
+            id: None,
+            name: None,
+            color: None,
+            comment: None,
+            parameter_id: None,
+            value: value,
+            unit: unit,
+            min: None,
+            max: None,
+        }
+    }
 }
