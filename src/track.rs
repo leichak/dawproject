@@ -1,3 +1,4 @@
+use crate::channel::ChannelElementsEnum;
 use crate::mixer_role::MixerRoleEnum;
 use crate::real_parameter::RealParameter;
 use crate::unit::Unit;
@@ -43,22 +44,33 @@ impl Track {
     pub fn new_dummy(
         name: String,
         content_type: Vec<ContentType>,
-        mixer_role: MixerRoleEnum,
+        mixer_role: Option<MixerRoleEnum>,
         volume: f64,
         pan: f64,
     ) -> Track {
-        let channel = Channel::new_dummy();
-
         let volume_parameter = RealParameter::create_dummy(volume, Unit::Linear);
-        let volume_parameter = RealParameter::create_dummy(pan, Unit::Normalized);
+        let pan_parameter = RealParameter::create_dummy(pan, Unit::Normalized);
+
+        let mut channel = Channel::new_dummy();
+        channel.channel_elements = Vec::new();
+        channel
+            .channel_elements
+            .push(ChannelElementsEnum::Pan(pan_parameter));
+        channel
+            .channel_elements
+            .push(ChannelElementsEnum::Volume(volume_parameter));
+        if Some(r) = mix
+        channel.role = Some(mixer_role);
+
         let channel: TrackChannel = vec![TrackChannelEnum::Channel(Channel::new_dummy())];
+
         Track {
             id: None,
             name: Some(name),
             color: None,
             comment: None,
             track_channel: channel,
-            content_type: Vec::new(),
+            content_type: content_type,
             loaded: false,
         }
     }

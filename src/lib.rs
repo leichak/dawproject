@@ -143,9 +143,7 @@ mod daw_project_test {
     fn create_dummy_project() {
         let mut project = create_empty_project();
 
-        let mut master_track = Track.create(track)
-
-        
+        let mut master_track = Track::new_dummy("Master", None, mixer_role, volume, pan);
     }
 
     fn create_point() {}

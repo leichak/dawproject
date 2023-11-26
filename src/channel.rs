@@ -38,7 +38,7 @@ struct Sends {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-enum ChannelElementsEnum {
+pub enum ChannelElementsEnum {
     Devices(Devices),
     Pan(RealParameter),
     Mute(BoolParameter),
@@ -67,7 +67,7 @@ pub(crate) struct Channel {
     #[serde(rename = "@destination")]
     destination: Option<String>,
     #[serde(rename = "@role")]
-    role: Option<MixerRoleEnum>,
+    pub role: Option<MixerRoleEnum>,
     #[serde(rename = "@solo")]
     solo: Option<bool>,
 }
