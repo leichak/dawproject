@@ -21,6 +21,7 @@ mod timeline;
 mod track;
 mod transport;
 mod unit;
+mod utility;
 
 pub use serde::{Deserialize, Serialize};
 #[cfg(test)]
@@ -141,6 +142,10 @@ mod daw_project_test {
 
     fn create_dummy_project() {
         let mut project = create_empty_project();
+
+        let mut master_track = Track.create(track)
+
+        
     }
 
     fn create_point() {}

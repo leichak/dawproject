@@ -63,11 +63,27 @@ pub(crate) struct Channel {
     #[serde(default)]
     channel_elements: ChannelElements,
     #[serde(rename = "@audioChannels")]
-    audio_channels: i32,
+    audio_channels: Option<i32>,
     #[serde(rename = "@destination")]
     destination: Option<String>,
     #[serde(rename = "@role")]
     role: Option<MixerRoleEnum>,
     #[serde(rename = "@solo")]
     solo: Option<bool>,
+}
+
+impl Channel {
+    pub fn new_empty() -> Self {
+        Channel {
+            id: None,
+            name: None,
+            color: None,
+            comment: None,
+            channel_elements: Vec::new(),
+            audio_channels: None,
+            destination: None,
+            role: None,
+            solo: None,
+        }
+    }
 }

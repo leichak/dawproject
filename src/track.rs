@@ -1,14 +1,16 @@
+use crate::mixer_role::MixerRoleEnum;
+use crate::real_parameter::RealParameter;
 use crate::{channel::Channel, content_type::ContentType};
 use serde::Deserialize;
 use serde::Serialize;
 
 #[derive(Deserialize, Serialize, Debug)]
-enum TrackChannelEnum {
+pub enum TrackChannelEnum {
     Channel(Channel),
     Track(Track),
 }
 
-type TrackChannel = Vec<TrackChannelEnum>;
+pub type TrackChannel = Vec<TrackChannelEnum>;
 
 type Content = Vec<ContentType>;
 
@@ -34,4 +36,37 @@ pub(crate) struct Track {
     content_type: Content,
     #[serde(rename = "@loaded")]
     loaded: bool,
+}
+
+impl Track {
+    pub fn create_track(
+        name: String,
+        content_type: Vec<ContentType>,
+        mixer_role: MixerRoleEnum,
+        volume: f64,
+        pan: f64,
+    ) -> Track {
+        let channel: TrackChannel = vec![TrackChannelEnum::Channel(Channel::new_empty())];
+        let volume_parameter = RealParameter{
+            id: todo!(),
+            name: todo!(),
+            color: todo!(),
+            comment: todo!(),
+            parameter_id: todo!(),
+            value: todo!(),
+            unit: todo!(),
+            min: todo!(),
+            max: todo!(),
+        }
+
+        Track {
+            id: None,
+            name: Some(name),
+            color: None,
+            comment: None,
+            track_channel: channel,
+            content_type: Vec::new(),
+            loaded: false,
+        }
+    }
 }
