@@ -10,7 +10,7 @@ use crate::{
 };
 
 #[derive(Debug, Deserialize, Serialize)]
-enum DeviceTypes {
+pub enum DeviceTypes {
     Device(Device),
     Vst2Plugin(Vst2Plugin),
     Vst3Plugin(Vst3Plugin),
@@ -27,7 +27,7 @@ enum DeviceTypes {
 struct Devices {
     #[serde(default)]
     #[serde(rename = "$value")]
-    devices: Vec<DeviceTypes>,
+    pub devices: Vec<DeviceTypes>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]

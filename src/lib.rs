@@ -120,9 +120,27 @@ fn load_daw_project_test() {
 
 mod daw_project_test {
 
-    use crate::project::{self, Project};
-    use crate::track::Track;
+    use core::num;
 
+    use crate::arrangement::Arrangement;
+    use crate::channel::{Channel, DeviceTypes};
+    use crate::content_type::ContentType;
+    use crate::device::device_role::DeviceRole;
+    use crate::device::vst3_plugin::Vst3Plugin;
+    use crate::file_reference::FileReference;
+    use crate::mixer_role::MixerRoleEnum;
+    use crate::project::Project;
+    use crate::timeline::clip::Clip;
+    use crate::timeline::clips::Clips;
+    use crate::timeline::note::Note;
+    use crate::timeline::notes::Notes;
+    use crate::timeline::{lanes::Lanes, markers::Markers};
+    use crate::track::{Track, TrackChannelEnum};
+    use uuid::Uuid;
+
+    fn random_uuid() -> String {}
+
+    #[derive(PartialEq)]
     enum Features {
         CUE_MARKERS,
         CLIPS,
@@ -140,10 +158,176 @@ mod daw_project_test {
         project
     }
 
-    fn create_dummy_project() {
+    fn create_dummy_project(num_tracks: i32, features: Vec<Features>) {
         let mut project = create_empty_project();
+        let volume = 1.0;
+        let pan = 0.5;
+        let mixer_role = Some(MixerRoleEnum::Master);
 
-        let mut master_track = Track::new_dummy("Master", None, mixer_role, volume, pan);
+        let mut master_track =
+            Track::new_dummy("Master".to_string(), Vec::new(), mixer_role, volume, pan);
+
+        if features
+            .iter()
+            .find(|x| (**x) == Features::PLUGINS)
+            .is_some()
+        {
+            let file_ref = FileReference {
+                path: "plugin-states/12323545.vstpreset".to_string(),
+                external: None,
+            };
+            // If plugins finds add some
+            let device = Vst3Plugin {
+                id: Some(Uuid::new_v4().to_string()),
+                device_elements: todo!(),
+                device_id: None,
+                device_name: Some("Limiter".to_string()),
+                device_role: Some(DeviceRole::audioFX),
+                device_vendor: todo!(),
+                loaded: todo!(),
+                plugin_version: todo!(),
+            };
+
+            for tr_ch in &mut master_track.track_channel {
+                match tr_ch {
+                    TrackChannelEnum::Channel(channel) => {
+                        for el in &mut channel.channel_elements {
+                            match el {
+                                crate::channel::ChannelElementsEnum::Devices(devices) => {
+                                    devices.devices.push(DeviceTypes::Vst3Plugin(device));
+                                    break;
+                                }
+                                crate::channel::ChannelElementsEnum::Pan(_) => (),
+                                crate::channel::ChannelElementsEnum::Mute(_) => (),
+                                crate::channel::ChannelElementsEnum::Volume(_) => (),
+                                crate::channel::ChannelElementsEnum::Sends(_) => (),
+                            }
+                            break;
+                        }
+                    }
+                    TrackChannelEnum::Track(_) => {}
+                }
+            }
+        }
+
+        let mut arragnement = Arrangement {
+            id: todo!(),
+            name: todo!(),
+            color: todo!(),
+            comment: todo!(),
+            sequence: todo!(),
+        };
+
+        let mut arrangement_lanes = Lanes {
+            id: todo!(),
+            name: todo!(),
+            color: todo!(),
+            comment: todo!(),
+            track: todo!(),
+            timeUnit: todo!(),
+            lanes_sequence: todo!(),
+        };
+
+        if features
+            .iter()
+            .find(|x| (**x) == Features::CUE_MARKERS)
+            .is_some()
+        {
+            let mut markers = Markers {
+                id: todo!(),
+                name: todo!(),
+                color: todo!(),
+                comment: todo!(),
+                track: todo!(),
+                timeUnit: todo!(),
+                markers: todo!(),
+            };
+        }
+
+        for i in 0..num_tracks {
+            let mut track = Track::new_dummy(
+                format!("Track {}", i),
+                vec![ContentType::notes],
+                Some(MixerRoleEnum::Regular),
+                1.0,
+                0.5,
+            );
+
+            let mut track_lanes = Lanes {
+                id: todo!(),
+                name: todo!(),
+                color: todo!(),
+                comment: todo!(),
+                track: todo!(),
+                timeUnit: todo!(),
+                lanes_sequence: todo!(),
+            };
+
+            if features.iter().find(|x| (**x) == Features::CLIPS).is_some() {
+                let mut clips = Clips {
+                    id: todo!(),
+                    name: todo!(),
+                    color: todo!(),
+                    comment: todo!(),
+                    track: todo!(),
+                    time_unit: todo!(),
+                    clips: todo!(),
+                };
+
+                let mut clip = Clip {
+                    name: todo!(),
+                    color: todo!(),
+                    comment: todo!(),
+                    notes_sequence_choice: todo!(),
+                    time: todo!(),
+                    duration: todo!(),
+                    content_time_unit: todo!(),
+                    play_start: todo!(),
+                    play_stop: todo!(),
+                    loop_start: todo!(),
+                    loop_end: todo!(),
+                    fade_time_unit: todo!(),
+                    fade_in_time: todo!(),
+                    fade_out_time: todo!(),
+                    reference: todo!(),
+                };
+
+                let mut notes = Notes {
+                    id: todo!(),
+                    name: todo!(),
+                    color: todo!(),
+                    comment: todo!(),
+                    track: todo!(),
+                    timeUnit: todo!(),
+                    notes_sequence: todo!(),
+                };
+
+                for j in 0..8 {
+                    let mut note = Note {
+                        notes_sequence_choice: todo!(),
+                        time: todo!(),
+                        duration: todo!(),
+                        channel: todo!(),
+                        key: todo!(),
+                        vel: todo!(),
+                        rel: todo!(),
+                    };
+                }
+
+                if features
+                    .iter()
+                    .find(|x| (**x) == Features::ALIAS_CLIPS)
+                    .is_some()
+                {}
+
+                if i == 0
+                    && features
+                        .iter()
+                        .find(|x| (**x) == Features::AUTOMATION)
+                        .is_some()
+                {}
+            }
+        }
     }
 
     fn create_point() {}

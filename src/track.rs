@@ -33,7 +33,7 @@ pub(crate) struct Track {
     #[serde(rename = "@comment")]
     comment: Option<String>,
     #[serde(rename = "$value")]
-    track_channel: TrackChannel,
+    pub track_channel: TrackChannel,
     #[serde(rename = "@contentType")]
     content_type: Content,
     #[serde(rename = "@loaded")]
@@ -59,8 +59,8 @@ impl Track {
         channel
             .channel_elements
             .push(ChannelElementsEnum::Volume(volume_parameter));
-        if Some(r) = mix
-        channel.role = Some(mixer_role);
+
+        channel.role = mixer_role;
 
         let channel: TrackChannel = vec![TrackChannelEnum::Channel(Channel::new_dummy())];
 
