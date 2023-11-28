@@ -129,6 +129,7 @@ mod daw_project_test {
     use crate::device::device_role::DeviceRole;
     use crate::device::vst3_plugin::Vst3Plugin;
     use crate::file_reference::FileReference;
+    use crate::interpolation::Interpolation;
     use crate::meta_data::MetaData;
     use crate::mixer_role::MixerRoleEnum;
     use crate::project::Project;
@@ -332,9 +333,20 @@ mod daw_project_test {
         }
     }
 
-    fn create_point() {}
+    fn create_point(time: f64, value: f64, interpolation: Interpolation) -> Point {
+      let mut point = RealPoint::new();
+      point.time = time;
+      point.value = value;
+      point.interpolation = interpolation;
+      point
+    }
 
-    fn create_marker() {}
+    fn create_marker(time: f64, name: String) {
+      let mut marker = Marker::new();
+      marker.time = time;
+      marker.name = name;
+      marker
+    }
 
     fn save_daw_project() {}
 
@@ -362,17 +374,27 @@ mod daw_project_test {
         FileWithRelativePath,
     }
 
-    fn should_test_offset_and_fades() -> bool {
-        false
+    fn should_test_offset_and_fades(scenario: AudioScenario) -> bool {
+        match scenario {
+            AudioScenario::Warped => true,
+            AudioScenario::RawBeats => true,
+            AudioScenario::RawSeconds => true,
+            _ => false,
+        }
     }
 
     fn create_audio_example_test() {}
 
     fn create_audio_example() {}
 
-    fn create_midi_automation_in_clips_example_test() {}
+    fn create_midi_automation_in_clips_example() {
+      create_midi_automation_example("MIDI-CC1-AutomationOnTrack", false, false);
+      create_midi_automation_example("MIDI-CC1-AutomationInClips", true, false);
+      create_midi_automation_example("MIDI-PitchBend-AutomationOnTrack", false, true);
+      create_midi_automation_example("MIDI-PitchBend-AutomationInClips", true, true);
+    }
 
-    fn create_midi_automation_examples(name: String, in_clips: bool, is_pitch_bend: bool) {
+    fn create_midi_automation_example(name: String, in_clips: bool, is_pitch_bend: bool) {
       let mut project = Project::new_empty();
       let mut master_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
       let mut instrument_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
@@ -382,8 +404,48 @@ mod daw_project_test {
       // add instrument track
 
       project.arrangement = new Arrangement{};
-      project.transport = new Transport{}
-        }
+      project.transport = new Transport{};
+      project.transport.tempo =  RealParameter::new();
+      project.transport.tempo.unit = Unit.bpm;
+      project.transport.tempo.value = 123.0;
+      let mut arrangement_lanes =  Lanes::new();
+      project.arrangement.lanes = arrangement_lanes;
+      project.arrangement.lanes.time_unit = TimeUnit::beats;
+
+      let mut automation = Points();
+      automation.unit = Unit::normalized;
+
+      if (is_pitch_bend) {
+        automation.target.expression = ExpressionType::PitchBend
+        automation.target.channel = 0;
+      } else {
+        automation.target.expression = ExpressionType::channelController;
+        automation.target.channel = 0;
+        automation.target.controller = 1;
+      }
+
+      automation.points.push(createPoint(0, 0.0, Interpolation.linear));
+      automation.points.push(createPoint(1, 0.0, Interpolation.linear));
+      automation.points.push(createPoint(2, 0.5, Interpolation.linear));
+      automation.points.push(createPoint(3, 0.5, Interpolation.linear));
+      automation.points.push(createPoint(4, 1.0, Interpolation.linear));
+      automation.points.push(createPoint(5, 1.0, Interpolation.linear));
+      automation.points.push(createPoint(6, 0.5, Interpolation.linear));
+      automation.points.push(createPoint(7, 1, Interpolation.hold));
+      automation.points.push(createPoint(8, 0.5, Interpolation.hold));
+
+      if in_clips {
+        let mut note_clip = Utility::createClip(automation, 0, 8);
+        let mut clips = Utility::createClips(noteClip);
+        clips.track = instrumentTrack;
+        arrangementLanes.lanes.add(clips);
+      } else {
+        automation.track = instrumentTrack;
+        arrangementLanes.lanes.add(automation);
+      }
+
+      save_project_test(project, name, null);
+      }
 
     fn double_adapter_test() {
       let double_adapter = DoubleAdapter {};
