@@ -121,6 +121,7 @@ fn load_daw_project_test() {
 mod daw_project_test {
 
     use core::num;
+    use std::collections::HashMap;
 
     use crate::arrangement::Arrangement;
     use crate::channel::{Channel, DeviceTypes};
@@ -128,6 +129,7 @@ mod daw_project_test {
     use crate::device::device_role::DeviceRole;
     use crate::device::vst3_plugin::Vst3Plugin;
     use crate::file_reference::FileReference;
+    use crate::meta_data::MetaData;
     use crate::mixer_role::MixerRoleEnum;
     use crate::project::Project;
     use crate::timeline::clip::Clip;
@@ -370,9 +372,32 @@ mod daw_project_test {
 
     fn create_midi_automation_in_clips_example_test() {}
 
-    fn create_midi_automation_examples() {}
+    fn create_midi_automation_examples(name: String, in_clips: bool, is_pitch_bend: bool) {
+      let mut project = Project::new_empty();
+      let mut master_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
+      let mut instrument_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
+      instrument_track.track_channel.destination = master_track.channel;
 
-    fn double_adapter_test() {}
+      // add master track
+      // add instrument track
 
-    fn save_test_project() {}
+      project.arrangement = new Arrangement{};
+      project.transport = new Transport{}
+        }
+
+    fn double_adapter_test() {
+      let double_adapter = DoubleAdapter {};
+
+      // test conversions to inf inf to values
+      assert!(double_adapter..)
+    }
+
+    fn save_test_project(project: Project, name: String, configurer: HashMap<File, String>) {
+        let mut meta_data = MetaData { meta_data: todo!() };
+        let mut embedded_files: HashMap<File, String> = HashMap::new();
+
+        DawProject.save(project...)
+        DawProject.save_xml(project...)
+        DawProject.validate(project...)
+    }
 }

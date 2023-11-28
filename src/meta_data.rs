@@ -20,6 +20,6 @@ enum MetaDataEnum {
 type MetaDataVec = Vec<MetaDataEnum>;
 
 #[derive(Debug, Deserialize, Serialize)]
-struct MetaData {
+pub struct MetaData {
     meta_data: MetaDataVec,
 }
