@@ -3,6 +3,7 @@ mod arrangement;
 mod bool_parameter;
 mod channel;
 mod content_type;
+mod daw_project;
 mod device;
 mod enum_parameter;
 mod expression_type;
@@ -137,6 +138,7 @@ mod daw_project_test {
     use crate::timeline::clips::Clips;
     use crate::timeline::note::Note;
     use crate::timeline::notes::Notes;
+    use crate::timeline::real_point::RealPoint;
     use crate::timeline::{lanes::Lanes, markers::Markers};
     use crate::track::{Track, TrackChannelEnum};
     use uuid::Uuid;
@@ -348,7 +350,22 @@ mod daw_project_test {
       marker
     }
 
-    fn save_daw_project() {}
+    fn save_daw_project() {
+      /*  
+      final Project project = createDummyProject(3, simpleFeatures);
+      final MetaData metadata = new MetaData();
+
+      final Map<File, String> embeddedFiles = new HashMap<>();
+      DawProject.save(project, metadata, embeddedFiles, new File("target/test.dawproject"));
+      DawProject.saveXML(project, new File("target/test.dawproject.xml"));*/
+
+      let mut project = create_dummy_project(3, simple_features);
+      let mut meta_data = MetaData {};
+
+      let mut HashMap<File,String> = HashMap::new();
+      
+   }
+    }
 
     fn validate_daw_project() {}
 
