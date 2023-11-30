@@ -14,3 +14,4 @@ uuid = { version = "1.6.1", features = [
     "fast-rng",          # Use a faster (but still sufficiently random) RNG
     "macro-diagnostics", # Enable better diagnostics for compile-time UUIDs
 ]}
+zip = "0.6.6"

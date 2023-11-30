@@ -1,4 +1,4 @@
-use std::{error::Error, path::Path};
+use std::{error::Error, io::Read, path::Path};
 
 use crate::meta_data::MetaData;
 
@@ -174,16 +174,36 @@ impl DawProject {
            */
     }
 
-    pub fn load_project(file: File) -> Result<Ok(Project), Error(())> {
-        // Sequential call of above functions
+    pub fn load_project(fname: &Path) -> Result<Ok(Project), Error(())> {
+        let zip_file = std::fs::File::open(fname).unwrap();
+        let mut archive = zip::ZipArchive::new(zip_file).unwrap();
 
-        Ok(())
+        let mut file = match archive.by_name("fname/{}".format(PROJECT_FILE)) {
+            Ok(file) => file,
+            Err(_) => todo!(),
+        };
+
+        let mut contents = String::new();
+        file.read_to_string(&mut contents).unwrap();
+        println!("{contents}");
+
+        Ok(contents)
     }
 
-    pub fn load_metadata(file: File) -> Result<Ok(MetaData), Error(())> {
-        // Sequential call of above functions
+    pub fn load_metadata(fname: &Path) -> Result<Ok(String), Error(())> {
+        let zip_file = std::fs::File::open(fname).unwrap();
+        let mut archive = zip::ZipArchive::new(zip_file).unwrap();
 
-        Ok(())
+        let mut file = match archive.by_name("fname/{}".format(METADATA_FILE)) {
+            Ok(file) => file,
+            Err(_) => todo!(),
+        };
+
+        let mut contents = String::new();
+        file.read_to_string(&mut contents).unwrap();
+        println!("{contents}");
+
+        Ok(contents)
     }
 
     pub fn stream_embedded(file: File, embedded_path: String) -> Result<Ok(()), Error(())> {
