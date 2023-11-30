@@ -1,4 +1,4 @@
-use std::error::Error;
+use std::{error::Error, path::Path};
 
 use crate::meta_data::MetaData;
 
@@ -66,7 +66,8 @@ impl DawProject {
         };
     }
 
-    pub fn save_xml() -> Result<Ok(()), Error(())> {
+    pub fn save_xml(project: Project, path: &Path) -> Result<Ok(()), Error(())> {
+        use std::fs;
         /*
           This is purely for file save handling
 
@@ -75,6 +76,17 @@ impl DawProject {
         fileOutputStream.write(projectXML.getBytes(StandardCharsets.UTF_8));
         fileOutputStream.close();
            */
+
+        let project_xml: String;
+
+        match DawProject::to_xml(project) {
+            Ok(x) => {
+                project_xml = x;
+            }
+            Err(_) => return Err(()),
+        };
+
+        fs::write(path, project_xml);
 
         Ok(())
     }
@@ -99,7 +111,7 @@ impl DawProject {
         let meta_data_xml;
         let project_xml;
 
-        match to_string(project) {
+        match to_string(&project) {
             Ok(s) => {
                 project_xml = s;
             }
@@ -162,13 +174,13 @@ impl DawProject {
            */
     }
 
-    pub fn load_project(file: File) -> Result<Ok(()), Error(())> {
+    pub fn load_project(file: File) -> Result<Ok(Project), Error(())> {
         // Sequential call of above functions
 
         Ok(())
     }
 
-    pub fn load_metadata(file: File) -> Result<Ok(()), Error(())> {
+    pub fn load_metadata(file: File) -> Result<Ok(MetaData), Error(())> {
         // Sequential call of above functions
 
         Ok(())
