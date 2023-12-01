@@ -140,7 +140,11 @@ impl DawProject {
            */
     }
 
-    fn add_to_zip_file(zos: ZipOutputStream, path: String, file: File) {
+    fn add_to_zip_file(zip_path: &Path, file_path: &Path) -> Result<Ok(()), Err(())> {
+        let path = std::path::Path::new(filename);
+        let file = std::fs::File::create(path).unwrap();
+
+        let mut zip = zip::ZipWriter::new(file);
         /*
               final ZipEntry entry = new ZipEntry(path);
         zos.putNextEntry(entry);
@@ -157,6 +161,7 @@ impl DawProject {
 
         zos.closeEntry();
              */
+        Ok(())
     }
 
     pub fn strip_bom() {
@@ -229,6 +234,8 @@ impl DawProject {
                 zipFile.close ();
             }
         };
+
           */
+        Ok(())
     }
 }
