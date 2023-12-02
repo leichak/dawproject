@@ -1,17 +1,28 @@
-use std::{error::Error, io::Read, path::Path};
+use std::{
+    collections::HashMap,
+    error::Error,
+    io::{Read, Write},
+    path::Path,
+    str::FromStr,
+};
 
-use crate::meta_data::MetaData;
+use zip::ZipWriter;
 
-const FORMAT_NAME: &str = "DAWProject exchange format";
-const FILE_EXTENSION: &str = "dawproject";
-const PROJECT_FILE: &str = "project.xml";
-const METADATA_FILE: &str = "metadata.xml";
+use crate::{
+    meta_data::{self, MetaData},
+    project::Project,
+};
+
+const FORMAT_NAME: &'static str = "DAWProject exchange format";
+const FILE_EXTENSION: &'static str = "dawproject";
+const PROJECT_FILE: &'static str = "project.xml";
+const METADATA_FILE: &'static str = "metadata.xml";
 
 struct DawProject {
-    format_name: &str,
-    file_extension: &str,
-    project_file: &str,
-    metadata_file: &str,
+    format_name: &'static str,
+    file_extension: &'static str,
+    project_file: &'static str,
+    metadata_file: &'static str,
 }
 
 impl DawProject {
@@ -24,7 +35,7 @@ impl DawProject {
         }
     }
 
-    pub fn export_schema() -> Result<Ok, Error()> {
+    pub fn export_schema() -> Result<(), ()> {
         /*
         This probably be able to export xml schema.xsd, but it is unnecessary since we will always derive it
         from its parent project in Java.
@@ -32,7 +43,7 @@ impl DawProject {
         Ok(())
     }
 
-    pub fn to_xml(project: Project) -> Result<ok, Error()> {
+    pub fn to_xml(project: Project) -> Result<String, ()> {
         /*
         I think it just takes project and saves it as xml file
         So we can pass for example cloned object, generate String from it
@@ -41,32 +52,29 @@ impl DawProject {
 
         use quick_xml::se::to_string;
 
-        let mut xml_string: String;
-        match to_string(Project) {
-            Ok(object) => xml_string = object,
-            Err(_) => return Error(()),
+        match to_string(&project) {
+            Ok(object) => return Ok(object),
+            Err(_) => return Err(()),
         };
-
-        Ok(())
     }
 
-    pub fn create_context() -> Result<Ok(), Error(())> {
+    pub fn create_context() -> Result<(), ()> {
         /*
         This functions is creating some JABCONTEXT, whatever it is, unnecessary I think
          */
         Ok(())
     }
 
-    pub fn from_xml(xml_string: String) -> Result<Ok(Project), Error(())> {
+    pub fn from_xml(xml_string: String) -> Result<Project, ()> {
         use quick_xml::de::from_str;
 
         match from_str(&xml_string) {
             Ok(project) => return Ok(project),
-            Err(_) => return Error(()),
+            Err(_) => return Err(()),
         };
     }
 
-    pub fn save_xml(project: Project, path: &Path) -> Result<Ok(()), Error(())> {
+    pub fn save_xml(project: Project, path: &Path) -> Result<(), ()> {
         use std::fs;
         /*
           This is purely for file save handling
@@ -77,6 +85,7 @@ impl DawProject {
         fileOutputStream.close();
            */
 
+        // For now our solution will replace old file
         let project_xml: String;
 
         match DawProject::to_xml(project) {
@@ -86,16 +95,18 @@ impl DawProject {
             Err(_) => return Err(()),
         };
 
-        fs::write(path, project_xml);
-
-        Ok(())
+        match fs::write(path, project_xml) {
+            Ok(_) => return Ok(()),
+            Err(_) => return Err(()),
+        }
     }
 
-    pub fn validate(project: Project) -> Result<Ok(()), Error(())> {
+    pub fn validate(project: Project) -> Result<(), ()> {
         /*
         Should be some sort of validation mechanism which checks whether
         xml-ed project struct work accordingly to schema
          */
+        // Irrelevant so fa until I will be able to export schema
 
         Ok(())
     }
@@ -103,49 +114,72 @@ impl DawProject {
     pub fn save(
         project: Project,
         meta_data: MetaData,
-        embedded_files: HashMap<File, String>,
-        file: File,
-    ) -> Result<Ok(), Error> {
+        embedded_files: HashMap<&Path, String>,
+        zip_file_path: &Path,
+    ) -> Result<(), ()> {
         use quick_xml::se::to_string;
 
-        let meta_data_xml;
-        let project_xml;
-
-        match to_string(&project) {
-            Ok(s) => {
-                project_xml = s;
-            }
+        let file = match std::fs::File::create(zip_file_path) {
+            Ok(f) => f,
             Err(_) => return Err(()),
         };
 
-        match to_string(&meta_data) {
-            Ok(s) => {
-                meta_data_xml = s;
-            }
+        let mut zip_writer = zip::ZipWriter::new(file);
+
+        let project_xml = match to_string(&project) {
+            Ok(s) => s,
             Err(_) => return Err(()),
         };
+
+        let meta_data_xml = match to_string(&meta_data) {
+            Ok(s) => s,
+            Err(_) => return Err(()),
+        };
+
+        match Self::add_file_to_zip(&zip_writer, &project_xml, PROJECT_FILE) {
+            Ok(()) => (),
+            Err(_) => return Err(()),
+        }
+
+        match Self::add_file_to_zip(&zip_writer, &meta_data_xml, METADATA_FILE) {
+            Ok(()) => (),
+            Err(_) => return Err(()),
+        }
+
         Ok(())
-
-        /*
-        Here zipping both files and embedded files continues so they are ziipped into one file.
-         */
     }
 
-    fn add_to_zip_bytes(zos: ZipOutputStream, path: String, data: [u8]) {
+    fn add_file_to_zip<W: std::io::Write + std::io::Seek>(
+        zip_writer: &ZipWriter<W>,
+        content: &str,
+        file_name: &str,
+    ) -> Result<(), ()> {
         /*
-           final ZipEntry entry = new ZipEntry(path);
+           final ZipEntry entry = new        ZipEntry(path);
         zos.putNextEntry(entry);
         zos.write(data);
         zos.closeEntry();
            */
+        let name = format!("./{}", file_name);
+
+        match zip_writer.start_file(name, Default::default()) {
+            Ok(_) => (),
+            Err(_) => return Err(()),
+        }
+
+        match zip_writer.write_all(text_content.as_bytes()) {
+            Ok(_) => (),
+            Err(_) => return Err(()),
+        }
+
+        Ok(())
     }
 
-    fn add_to_zip_file(zip_path: &Path, file_path: &Path) -> Result<Ok(()), Err(())> {
-        let path = std::path::Path::new(filename);
-        let file = std::fs::File::create(path).unwrap();
+    fn add_to_zip_file(zip_path: &Path, file_path: &Path) -> Result<(), ()> {
+        let file = std::fs::File::create(zip_path).unwrap();
 
         let mut zip = zip::ZipWriter::new(file);
-        /*
+        /*xw
               final ZipEntry entry = new ZipEntry(path);
         zos.putNextEntry(entry);
 
@@ -179,7 +213,7 @@ impl DawProject {
            */
     }
 
-    pub fn load_project(fname: &Path) -> Result<Ok(Project), Error(())> {
+    pub fn load_project(fname: &Path) -> Result<(), ()> {
         let zip_file = std::fs::File::open(fname).unwrap();
         let mut archive = zip::ZipArchive::new(zip_file).unwrap();
 
@@ -195,7 +229,7 @@ impl DawProject {
         Ok(contents)
     }
 
-    pub fn load_metadata(fname: &Path) -> Result<Ok(String), Error(())> {
+    pub fn load_metadata(fname: &Path) -> Result<String, ()> {
         let zip_file = std::fs::File::open(fname).unwrap();
         let mut archive = zip::ZipArchive::new(zip_file).unwrap();
 
@@ -211,7 +245,7 @@ impl DawProject {
         Ok(contents)
     }
 
-    pub fn stream_embedded(file: File, embedded_path: String) -> Result<Ok(()), Error(())> {
+    pub fn stream_embedded(file: &Path, embedded_path: String) -> Result<(), ()> {
         /*
              final ZipFile zipFile = new ZipFile (file);
         final ZipEntry entry = zipFile.getEntry (embeddedPath);
@@ -239,3 +273,7 @@ impl DawProject {
         Ok(())
     }
 }
+
+#[cfg(test)]
+#[test]
+fn test() {}

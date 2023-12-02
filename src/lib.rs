@@ -119,364 +119,363 @@ fn load_daw_project_test() {
     println!("Deserialized object {:#?}", obj);
 }
 
-mod daw_project_test {
+// mod daw_project_test {
 
-    use core::num;
-    use std::collections::HashMap;
+//     use core::num;
+//     use std::collections::HashMap;
 
-    use crate::arrangement::Arrangement;
-    use crate::channel::{Channel, DeviceTypes};
-    use crate::content_type::ContentType;
-    use crate::device::device_role::DeviceRole;
-    use crate::device::vst3_plugin::Vst3Plugin;
-    use crate::file_reference::FileReference;
-    use crate::interpolation::Interpolation;
-    use crate::meta_data::MetaData;
-    use crate::mixer_role::MixerRoleEnum;
-    use crate::project::Project;
-    use crate::timeline::clip::Clip;
-    use crate::timeline::clips::Clips;
-    use crate::timeline::note::Note;
-    use crate::timeline::notes::Notes;
-    use crate::timeline::real_point::RealPoint;
-    use crate::timeline::{lanes::Lanes, markers::Markers};
-    use crate::track::{Track, TrackChannelEnum};
-    use uuid::Uuid;
+//     use crate::arrangement::Arrangement;
+//     use crate::channel::{Channel, DeviceTypes};
+//     use crate::content_type::ContentType;
+//     use crate::device::device_role::DeviceRole;
+//     use crate::device::vst3_plugin::Vst3Plugin;
+//     use crate::file_reference::FileReference;
+//     use crate::interpolation::Interpolation;
+//     use crate::meta_data::MetaData;
+//     use crate::mixer_role::MixerRoleEnum;
+//     use crate::project::Project;
+//     use crate::timeline::clip::Clip;
+//     use crate::timeline::clips::Clips;
+//     use crate::timeline::note::Note;
+//     use crate::timeline::notes::Notes;
+//     use crate::timeline::real_point::RealPoint;
+//     use crate::timeline::{lanes::Lanes, markers::Markers};
+//     use crate::track::{Track, TrackChannelEnum};
+//     use uuid::Uuid;
 
-    fn random_uuid() -> String {}
+//     fn random_uuid() -> String {}
 
-    #[derive(PartialEq)]
-    enum Features {
-        CUE_MARKERS,
-        CLIPS,
-        AUDIO,
-        NOTES,
-        AUTOMATION,
-        ALIAS_CLIPS,
-        PLUGINS,
-    }
-    fn create_empty_project() -> Project {
-        let mut project = Project::new();
+//     #[derive(PartialEq)]
+//     enum Features {
+//         CUE_MARKERS,
+//         CLIPS,
+//         AUDIO,
+//         NOTES,
+//         AUTOMATION,
+//         ALIAS_CLIPS,
+//         PLUGINS,
+//     }
+//     fn create_empty_project() -> Project {
+//         let mut project = Project::new();
 
-        project.application.name = "Test".to_string();
-        project.application.version = "1.0".to_string();
-        project
-    }
+//         project.application.name = "Test".to_string();
+//         project.application.version = "1.0".to_string();
+//         project
+//     }
 
-    fn create_dummy_project(num_tracks: i32, features: Vec<Features>) {
-        let mut project = create_empty_project();
-        let volume = 1.0;
-        let pan = 0.5;
-        let mixer_role = Some(MixerRoleEnum::Master);
+//     fn create_dummy_project(num_tracks: i32, features: Vec<Features>) {
+//         let mut project = create_empty_project();
+//         let volume = 1.0;
+//         let pan = 0.5;
+//         let mixer_role = Some(MixerRoleEnum::Master);
 
-        let mut master_track =
-            Track::new_dummy("Master".to_string(), Vec::new(), mixer_role, volume, pan);
+//         let mut master_track =
+//             Track::new_dummy("Master".to_string(), Vec::new(), mixer_role, volume, pan);
 
-        if features
-            .iter()
-            .find(|x| (**x) == Features::PLUGINS)
-            .is_some()
-        {
-            let file_ref = FileReference {
-                path: "plugin-states/12323545.vstpreset".to_string(),
-                external: None,
-            };
-            // If plugins finds add some
-            let device = Vst3Plugin {
-                id: Some(Uuid::new_v4().to_string()),
-                device_elements: todo!(),
-                device_id: None,
-                device_name: Some("Limiter".to_string()),
-                device_role: Some(DeviceRole::audioFX),
-                device_vendor: todo!(),
-                loaded: todo!(),
-                plugin_version: todo!(),
-            };
+//         if features
+//             .iter()
+//             .find(|x| (**x) == Features::PLUGINS)
+//             .is_some()
+//         {
+//             let file_ref = FileReference {
+//                 path: "plugin-states/12323545.vstpreset".to_string(),
+//                 external: None,
+//             };
+//             // If plugins finds add some
+//             let device = Vst3Plugin {
+//                 id: Some(Uuid::new_v4().to_string()),
+//                 device_elements: todo!(),
+//                 device_id: None,
+//                 device_name: Some("Limiter".to_string()),
+//                 device_role: Some(DeviceRole::audioFX),
+//                 device_vendor: todo!(),
+//                 loaded: todo!(),
+//                 plugin_version: todo!(),
+//             };
 
-            for tr_ch in &mut master_track.track_channel {
-                match tr_ch {
-                    TrackChannelEnum::Channel(channel) => {
-                        for el in &mut channel.channel_elements {
-                            match el {
-                                crate::channel::ChannelElementsEnum::Devices(devices) => {
-                                    devices.devices.push(DeviceTypes::Vst3Plugin(device));
-                                    break;
-                                }
-                                crate::channel::ChannelElementsEnum::Pan(_) => (),
-                                crate::channel::ChannelElementsEnum::Mute(_) => (),
-                                crate::channel::ChannelElementsEnum::Volume(_) => (),
-                                crate::channel::ChannelElementsEnum::Sends(_) => (),
-                            }
-                            break;
-                        }
-                    }
-                    TrackChannelEnum::Track(_) => {}
-                }
-            }
-        }
+//             for tr_ch in &mut master_track.track_channel {
+//                 match tr_ch {
+//                     TrackChannelEnum::Channel(channel) => {
+//                         for el in &mut channel.channel_elements {
+//                             match el {
+//                                 crate::channel::ChannelElementsEnum::Devices(devices) => {
+//                                     devices.devices.push(DeviceTypes::Vst3Plugin(device));
+//                                     break;
+//                                 }
+//                                 crate::channel::ChannelElementsEnum::Pan(_) => (),
+//                                 crate::channel::ChannelElementsEnum::Mute(_) => (),
+//                                 crate::channel::ChannelElementsEnum::Volume(_) => (),
+//                                 crate::channel::ChannelElementsEnum::Sends(_) => (),
+//                             }
+//                             break;
+//                         }
+//                     }
+//                     TrackChannelEnum::Track(_) => {}
+//                 }
+//             }
+//         }
 
-        let mut arragnement = Arrangement {
-            id: todo!(),
-            name: todo!(),
-            color: todo!(),
-            comment: todo!(),
-            sequence: todo!(),
-        };
+//         let mut arragnement = Arrangement {
+//             id: todo!(),
+//             name: todo!(),
+//             color: todo!(),
+//             comment: todo!(),
+//             sequence: todo!(),
+//         };
 
-        let mut arrangement_lanes = Lanes {
-            id: todo!(),
-            name: todo!(),
-            color: todo!(),
-            comment: todo!(),
-            track: todo!(),
-            timeUnit: todo!(),
-            lanes_sequence: todo!(),
-        };
+//         let mut arrangement_lanes = Lanes {
+//             id: todo!(),
+//             name: todo!(),
+//             color: todo!(),
+//             comment: todo!(),
+//             track: todo!(),
+//             timeUnit: todo!(),
+//             lanes_sequence: todo!(),
+//         };
 
-        if features
-            .iter()
-            .find(|x| (**x) == Features::CUE_MARKERS)
-            .is_some()
-        {
-            let mut markers = Markers {
-                id: todo!(),
-                name: todo!(),
-                color: todo!(),
-                comment: todo!(),
-                track: todo!(),
-                timeUnit: todo!(),
-                markers: todo!(),
-            };
-        }
+//         if features
+//             .iter()
+//             .find(|x| (**x) == Features::CUE_MARKERS)
+//             .is_some()
+//         {
+//             let mut markers = Markers {
+//                 id: todo!(),
+//                 name: todo!(),
+//                 color: todo!(),
+//                 comment: todo!(),
+//                 track: todo!(),
+//                 timeUnit: todo!(),
+//                 markers: todo!(),
+//             };
+//         }
 
-        for i in 0..num_tracks {
-            let mut track = Track::new_dummy(
-                format!("Track {}", i),
-                vec![ContentType::notes],
-                Some(MixerRoleEnum::Regular),
-                1.0,
-                0.5,
-            );
+//         for i in 0..num_tracks {
+//             let mut track = Track::new_dummy(
+//                 format!("Track {}", i),
+//                 vec![ContentType::notes],
+//                 Some(MixerRoleEnum::Regular),
+//                 1.0,
+//                 0.5,
+//             );
 
-            let mut track_lanes = Lanes {
-                id: todo!(),
-                name: todo!(),
-                color: todo!(),
-                comment: todo!(),
-                track: todo!(),
-                timeUnit: todo!(),
-                lanes_sequence: todo!(),
-            };
+//             let mut track_lanes = Lanes {
+//                 id: todo!(),
+//                 name: todo!(),
+//                 color: todo!(),
+//                 comment: todo!(),
+//                 track: todo!(),
+//                 timeUnit: todo!(),
+//                 lanes_sequence: todo!(),
+//             };
 
-            if features.iter().find(|x| (**x) == Features::CLIPS).is_some() {
-                let mut clips = Clips {
-                    id: todo!(),
-                    name: todo!(),
-                    color: todo!(),
-                    comment: todo!(),
-                    track: todo!(),
-                    time_unit: todo!(),
-                    clips: todo!(),
-                };
+//             if features.iter().find(|x| (**x) == Features::CLIPS).is_some() {
+//                 let mut clips = Clips {
+//                     id: todo!(),
+//                     name: todo!(),
+//                     color: todo!(),
+//                     comment: todo!(),
+//                     track: todo!(),
+//                     time_unit: todo!(),
+//                     clips: todo!(),
+//                 };
 
-                let mut clip = Clip {
-                    name: todo!(),
-                    color: todo!(),
-                    comment: todo!(),
-                    notes_sequence_choice: todo!(),
-                    time: todo!(),
-                    duration: todo!(),
-                    content_time_unit: todo!(),
-                    play_start: todo!(),
-                    play_stop: todo!(),
-                    loop_start: todo!(),
-                    loop_end: todo!(),
-                    fade_time_unit: todo!(),
-                    fade_in_time: todo!(),
-                    fade_out_time: todo!(),
-                    reference: todo!(),
-                };
+//                 let mut clip = Clip {
+//                     name: todo!(),
+//                     color: todo!(),
+//                     comment: todo!(),
+//                     notes_sequence_choice: todo!(),
+//                     time: todo!(),
+//                     duration: todo!(),
+//                     content_time_unit: todo!(),
+//                     play_start: todo!(),
+//                     play_stop: todo!(),
+//                     loop_start: todo!(),
+//                     loop_end: todo!(),
+//                     fade_time_unit: todo!(),
+//                     fade_in_time: todo!(),
+//                     fade_out_time: todo!(),
+//                     reference: todo!(),
+//                 };
 
-                let mut notes = Notes {
-                    id: todo!(),
-                    name: todo!(),
-                    color: todo!(),
-                    comment: todo!(),
-                    track: todo!(),
-                    timeUnit: todo!(),
-                    notes_sequence: todo!(),
-                };
+//                 let mut notes = Notes {
+//                     id: todo!(),
+//                     name: todo!(),
+//                     color: todo!(),
+//                     comment: todo!(),
+//                     track: todo!(),
+//                     timeUnit: todo!(),
+//                     notes_sequence: todo!(),
+//                 };
 
-                for j in 0..8 {
-                    let mut note = Note {
-                        notes_sequence_choice: todo!(),
-                        time: todo!(),
-                        duration: todo!(),
-                        channel: todo!(),
-                        key: todo!(),
-                        vel: todo!(),
-                        rel: todo!(),
-                    };
-                }
+//                 for j in 0..8 {
+//                     let mut note = Note {
+//                         notes_sequence_choice: todo!(),
+//                         time: todo!(),
+//                         duration: todo!(),
+//                         channel: todo!(),
+//                         key: todo!(),
+//                         vel: todo!(),
+//                         rel: todo!(),
+//                     };
+//                 }
 
-                if features
-                    .iter()
-                    .find(|x| (**x) == Features::ALIAS_CLIPS)
-                    .is_some()
-                {}
+//                 if features
+//                     .iter()
+//                     .find(|x| (**x) == Features::ALIAS_CLIPS)
+//                     .is_some()
+//                 {}
 
-                if i == 0
-                    && features
-                        .iter()
-                        .find(|x| (**x) == Features::AUTOMATION)
-                        .is_some()
-                {}
-            }
-        }
-    }
+//                 if i == 0
+//                     && features
+//                         .iter()
+//                         .find(|x| (**x) == Features::AUTOMATION)
+//                         .is_some()
+//                 {}
+//             }
+//         }
+//     }
 
-    fn create_point(time: f64, value: f64, interpolation: Interpolation) -> Point {
-      let mut point = RealPoint::new();
-      point.time = time;
-      point.value = value;
-      point.interpolation = interpolation;
-      point
-    }
+//     fn create_point(time: f64, value: f64, interpolation: Interpolation) -> Point {
+//       let mut point = RealPoint::new();
+//       point.time = time;
+//       point.value = value;
+//       point.interpolation = interpolation;
+//       point
+//     }
 
-    fn create_marker(time: f64, name: String) {
-      let mut marker = Marker::new();
-      marker.time = time;
-      marker.name = name;
-      marker
-    }
+//     fn create_marker(time: f64, name: String) {
+//       let mut marker = Marker::new();
+//       marker.time = time;
+//       marker.name = name;
+//       marker
+//     }
 
-    fn save_daw_project() {
-      /*  
-      final Project project = createDummyProject(3, simpleFeatures);
-      final MetaData metadata = new MetaData();
+//     fn save_daw_project() {
+//       /*
+//       final Project project = createDummyProject(3, simpleFeatures);
+//       final MetaData metadata = new MetaData();
 
-      final Map<File, String> embeddedFiles = new HashMap<>();
-      DawProject.save(project, metadata, embeddedFiles, new File("target/test.dawproject"));
-      DawProject.saveXML(project, new File("target/test.dawproject.xml"));*/
+//       final Map<File, String> embeddedFiles = new HashMap<>();
+//       DawProject.save(project, metadata, embeddedFiles, new File("target/test.dawproject"));
+//       DawProject.saveXML(project, new File("target/test.dawproject.xml"));*/
+//       let mut project = create_dummy_project(3, simple_features);
+//       let mut meta_data = MetaData {};
 
-      let mut project = create_dummy_project(3, simple_features);
-      let mut meta_data = MetaData {};
+//       let mut HashMap<File,String> = HashMap::new();
 
-      let mut HashMap<File,String> = HashMap::new();
-      
-   }
-    }
+//    }
+//     }
 
-    fn validate_daw_project() {}
+//     fn validate_daw_project() {}
 
-    fn validate_complex_daw_project() {}
+//     fn validate_complex_daw_project() {}
 
-    fn save_and_load_daw_project() {}
+//     fn save_and_load_daw_project() {}
 
-    fn save_complex_daw_project() {}
+//     fn save_complex_daw_project() {}
 
-    fn save_and_load_complex_daw_project() {}
+//     fn save_and_load_complex_daw_project() {}
 
-    fn write_meta_data_schema() {}
+//     fn write_meta_data_schema() {}
 
-    fn write_project_schema() {}
+//     fn write_project_schema() {}
 
-    fn load_embedded_file() {}
+//     fn load_embedded_file() {}
 
-    enum AudioScenario {
-        Warped,
-        RawBeats,
-        RawSeconds,
-        FileWithAbsolutePath,
-        FileWithRelativePath,
-    }
+//     enum AudioScenario {
+//         Warped,
+//         RawBeats,
+//         RawSeconds,
+//         FileWithAbsolutePath,
+//         FileWithRelativePath,
+//     }
 
-    fn should_test_offset_and_fades(scenario: AudioScenario) -> bool {
-        match scenario {
-            AudioScenario::Warped => true,
-            AudioScenario::RawBeats => true,
-            AudioScenario::RawSeconds => true,
-            _ => false,
-        }
-    }
+//     fn should_test_offset_and_fades(scenario: AudioScenario) -> bool {
+//         match scenario {
+//             AudioScenario::Warped => true,
+//             AudioScenario::RawBeats => true,
+//             AudioScenario::RawSeconds => true,
+//             _ => false,
+//         }
+//     }
 
-    fn create_audio_example_test() {}
+//     fn create_audio_example_test() {}
 
-    fn create_audio_example() {}
+//     fn create_audio_example() {}
 
-    fn create_midi_automation_in_clips_example() {
-      create_midi_automation_example("MIDI-CC1-AutomationOnTrack", false, false);
-      create_midi_automation_example("MIDI-CC1-AutomationInClips", true, false);
-      create_midi_automation_example("MIDI-PitchBend-AutomationOnTrack", false, true);
-      create_midi_automation_example("MIDI-PitchBend-AutomationInClips", true, true);
-    }
+//     fn create_midi_automation_in_clips_example() {
+//       create_midi_automation_example("MIDI-CC1-AutomationOnTrack", false, false);
+//       create_midi_automation_example("MIDI-CC1-AutomationInClips", true, false);
+//       create_midi_automation_example("MIDI-PitchBend-AutomationOnTrack", false, true);
+//       create_midi_automation_example("MIDI-PitchBend-AutomationInClips", true, true);
+//     }
 
-    fn create_midi_automation_example(name: String, in_clips: bool, is_pitch_bend: bool) {
-      let mut project = Project::new_empty();
-      let mut master_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
-      let mut instrument_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
-      instrument_track.track_channel.destination = master_track.channel;
+//     fn create_midi_automation_example(name: String, in_clips: bool, is_pitch_bend: bool) {
+//       let mut project = Project::new_empty();
+//       let mut master_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
+//       let mut instrument_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
+//       instrument_track.track_channel.destination = master_track.channel;
 
-      // add master track
-      // add instrument track
+//       // add master track
+//       // add instrument track
 
-      project.arrangement = new Arrangement{};
-      project.transport = new Transport{};
-      project.transport.tempo =  RealParameter::new();
-      project.transport.tempo.unit = Unit.bpm;
-      project.transport.tempo.value = 123.0;
-      let mut arrangement_lanes =  Lanes::new();
-      project.arrangement.lanes = arrangement_lanes;
-      project.arrangement.lanes.time_unit = TimeUnit::beats;
+//       project.arrangement = new Arrangement{};
+//       project.transport = new Transport{};
+//       project.transport.tempo =  RealParameter::new();
+//       project.transport.tempo.unit = Unit.bpm;
+//       project.transport.tempo.value = 123.0;
+//       let mut arrangement_lanes =  Lanes::new();
+//       project.arrangement.lanes = arrangement_lanes;
+//       project.arrangement.lanes.time_unit = TimeUnit::beats;
 
-      let mut automation = Points();
-      automation.unit = Unit::normalized;
+//       let mut automation = Points();
+//       automation.unit = Unit::normalized;
 
-      if (is_pitch_bend) {
-        automation.target.expression = ExpressionType::PitchBend
-        automation.target.channel = 0;
-      } else {
-        automation.target.expression = ExpressionType::channelController;
-        automation.target.channel = 0;
-        automation.target.controller = 1;
-      }
+//       if (is_pitch_bend) {
+//         automation.target.expression = ExpressionType::PitchBend
+//         automation.target.channel = 0;
+//       } else {
+//         automation.target.expression = ExpressionType::channelController;
+//         automation.target.channel = 0;
+//         automation.target.controller = 1;
+//       }
 
-      automation.points.push(createPoint(0, 0.0, Interpolation.linear));
-      automation.points.push(createPoint(1, 0.0, Interpolation.linear));
-      automation.points.push(createPoint(2, 0.5, Interpolation.linear));
-      automation.points.push(createPoint(3, 0.5, Interpolation.linear));
-      automation.points.push(createPoint(4, 1.0, Interpolation.linear));
-      automation.points.push(createPoint(5, 1.0, Interpolation.linear));
-      automation.points.push(createPoint(6, 0.5, Interpolation.linear));
-      automation.points.push(createPoint(7, 1, Interpolation.hold));
-      automation.points.push(createPoint(8, 0.5, Interpolation.hold));
+//       automation.points.push(createPoint(0, 0.0, Interpolation.linear));
+//       automation.points.push(createPoint(1, 0.0, Interpolation.linear));
+//       automation.points.push(createPoint(2, 0.5, Interpolation.linear));
+//       automation.points.push(createPoint(3, 0.5, Interpolation.linear));
+//       automation.points.push(createPoint(4, 1.0, Interpolation.linear));
+//       automation.points.push(createPoint(5, 1.0, Interpolation.linear));
+//       automation.points.push(createPoint(6, 0.5, Interpolation.linear));
+//       automation.points.push(createPoint(7, 1, Interpolation.hold));
+//       automation.points.push(createPoint(8, 0.5, Interpolation.hold));
 
-      if in_clips {
-        let mut note_clip = Utility::createClip(automation, 0, 8);
-        let mut clips = Utility::createClips(noteClip);
-        clips.track = instrumentTrack;
-        arrangementLanes.lanes.add(clips);
-      } else {
-        automation.track = instrumentTrack;
-        arrangementLanes.lanes.add(automation);
-      }
+//       if in_clips {
+//         let mut note_clip = Utility::createClip(automation, 0, 8);
+//         let mut clips = Utility::createClips(noteClip);
+//         clips.track = instrumentTrack;
+//         arrangementLanes.lanes.add(clips);
+//       } else {
+//         automation.track = instrumentTrack;
+//         arrangementLanes.lanes.add(automation);
+//       }
 
-      save_project_test(project, name, null);
-      }
+//       save_project_test(project, name, null);
+//       }
 
-    fn double_adapter_test() {
-      let double_adapter = DoubleAdapter {};
+//     fn double_adapter_test() {
+//       let double_adapter = DoubleAdapter {};
 
-      // test conversions to inf inf to values
-      assert!(double_adapter..)
-    }
+//       // test conversions to inf inf to values
+//       assert!(double_adapter..)
+//     }
 
-    fn save_test_project(project: Project, name: String, configurer: HashMap<File, String>) {
-        let mut meta_data = MetaData { meta_data: todo!() };
-        let mut embedded_files: HashMap<File, String> = HashMap::new();
+//     fn save_test_project(project: Project, name: String, configurer: HashMap<File, String>) {
+//         let mut meta_data = MetaData { meta_data: todo!() };
+//         let mut embedded_files: HashMap<File, String> = HashMap::new();
 
-        DawProject.save(project...)
-        DawProject.save_xml(project...)
-        DawProject.validate(project...)
-    }
-}
+//         DawProject.save(project...)
+//         DawProject.save_xml(project...)
+//         DawProject.validate(project...)
+//     }
+// }
