@@ -3,9 +3,10 @@ use std::{
     error::Error,
     io::{Read, Write},
     path::Path,
-    str::FromStr,
+    str::{from_utf8, FromStr},
 };
 
+use quick_xml::de::from_str;
 use zip::ZipWriter;
 
 use crate::{
@@ -167,7 +168,7 @@ impl DawProject {
             Err(_) => return Err(()),
         }
 
-        match zip_writer.write_all(text_content.as_bytes()) {
+        match zip_writer.write_all(content.as_bytes()) {
             Ok(_) => (),
             Err(_) => return Err(()),
         }
@@ -213,20 +214,50 @@ impl DawProject {
            */
     }
 
-    pub fn load_project(fname: &Path) -> Result<(), ()> {
+    pub fn load_project(fname: &Path) -> Result<Project, ()> {
         let zip_file = std::fs::File::open(fname).unwrap();
         let mut archive = zip::ZipArchive::new(zip_file).unwrap();
 
-        let mut file = match archive.by_name("fname/{}".format(PROJECT_FILE)) {
-            Ok(file) => file,
-            Err(_) => todo!(),
+        // let mut project_file_name = PROJECT_FILE.clone();
+        // let mut project_file_name = format!("fname/{project_file_name}");
+        // let mut file = match archive.by_name(&project_file_name) {
+        //     Ok(file) => file,
+        //     Err(_) => todo!(),
+        // };
+
+        // let mut contents = String::new();
+        // file.read_to_string(&mut contents).unwrap();
+        let mut contents = String::new();
+
+        for i in 0..archive.len() {
+            let mut file = archive.by_index(i).unwrap();
+            let out_path = match file.enclosed_name() {
+                Some(path) => path.to_owned(),
+                None => continue,
+            };
+
+            {
+                let comment = file.comment();
+                if !comment.is_empty() {
+                    println!("File {i} comment: {comment}");
+                }
+            }
+
+            if file.name() == PROJECT_FILE {
+                match file.read_to_string(&mut contents) {
+                    Ok(v) => (),
+                    Err(_) => return Err(()),
+                };
+            }
+        }
+        // println!("{contents}");
+        // Ok(contents)
+        let mut project: Project = match from_str(&contents) {
+            Ok(p) => p,
+            Err(_) => return Err(()),
         };
 
-        let mut contents = String::new();
-        file.read_to_string(&mut contents).unwrap();
-        println!("{contents}");
-
-        Ok(contents)
+        Ok(project)
     }
 
     pub fn load_metadata(fname: &Path) -> Result<String, ()> {
