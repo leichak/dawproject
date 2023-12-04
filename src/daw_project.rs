@@ -1,18 +1,14 @@
 use std::{
     collections::HashMap,
-    error::Error,
     io::{Read, Write},
     path::Path,
-    str::{from_utf8, FromStr},
+    str,
 };
 
 use quick_xml::de::from_str;
 use zip::ZipWriter;
 
-use crate::{
-    meta_data::{self, MetaData},
-    project::Project,
-};
+use crate::{meta_data::MetaData, project::Project};
 
 const FORMAT_NAME: &'static str = "DAWProject exchange format";
 const FILE_EXTENSION: &'static str = "dawproject";
@@ -67,8 +63,6 @@ impl DawProject {
     }
 
     pub fn from_xml(xml_string: String) -> Result<Project, ()> {
-        use quick_xml::de::from_str;
-
         match from_str(&xml_string) {
             Ok(project) => return Ok(project),
             Err(_) => return Err(()),
@@ -185,7 +179,7 @@ impl DawProject {
         zos.putNextEntry(entry);
 
         try (FileInputStream fileInputStream = new FileInputStream(file))
-        {
+        {1
             byte[] data = new byte[65536];
             int size = 0;
             while((size = fileInputStream.read(data)) != -1)
@@ -201,8 +195,8 @@ impl DawProject {
 
     pub fn strip_bom() {
         /* I do not know that that is
-             BOMInputStream bomInputStream = new BOMInputStream(inputStream ,
-           ByteOrderMark.UTF_8, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_32LE, ByteOrderMark.UTF_32BE);
+        BOMInputStream bomInputStream = new BOMInputStream(inputStream ,
+        ByteOrderMark.UTF_8, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_32LE, ByteOrderMark.UTF_32BE);
         Charset charset;
         if(!bomInputStream.hasBOM()) charset = StandardCharsets.UTF_8;
         else if(bomInputStream.hasBOM(ByteOrderMark.UTF_8)) charset = StandardCharsets.UTF_8;
@@ -218,15 +212,6 @@ impl DawProject {
         let zip_file = std::fs::File::open(fname).unwrap();
         let mut archive = zip::ZipArchive::new(zip_file).unwrap();
 
-        // let mut project_file_name = PROJECT_FILE.clone();
-        // let mut project_file_name = format!("fname/{project_file_name}");
-        // let mut file = match archive.by_name(&project_file_name) {
-        //     Ok(file) => file,
-        //     Err(_) => todo!(),
-        // };
-
-        // let mut contents = String::new();
-        // file.read_to_string(&mut contents).unwrap();
         let mut contents = String::new();
 
         for i in 0..archive.len() {
@@ -260,20 +245,33 @@ impl DawProject {
         Ok(project)
     }
 
-    pub fn load_metadata(fname: &Path) -> Result<String, ()> {
+    pub fn load_metadata(fname: &Path) -> Result<MetaData, ()> {
         let zip_file = std::fs::File::open(fname).unwrap();
         let mut archive = zip::ZipArchive::new(zip_file).unwrap();
 
-        let mut file = match archive.by_name("fname/{}".format(METADATA_FILE)) {
-            Ok(file) => file,
-            Err(_) => todo!(),
+        let mut contents = String::new();
+
+        for i in 0..archive.len() {
+            let mut file = archive.by_index(i).unwrap();
+            let out_path = match file.enclosed_name() {
+                Some(path) => path.to_owned(),
+                None => continue,
+            };
+
+            if file.name() == PROJECT_FILE {
+                match file.read_to_string(&mut contents) {
+                    Ok(v) => (),
+                    Err(_) => return Err(()),
+                };
+            }
+        }
+
+        let mut metadata: MetaData = match from_str(&contents) {
+            Ok(p) => p,
+            Err(_) => return Err(()),
         };
 
-        let mut contents = String::new();
-        file.read_to_string(&mut contents).unwrap();
-        println!("{contents}");
-
-        Ok(contents)
+        Ok(metadata)
     }
 
     pub fn stream_embedded(file: &Path, embedded_path: String) -> Result<(), ()> {
