@@ -5,7 +5,7 @@ use std::{
     str,
 };
 
-use quick_xml::de::from_str;
+use quick_xml::{de::from_str, se::to_string};
 use zip::ZipWriter;
 
 use crate::{meta_data::MetaData, project::Project};
@@ -20,6 +20,11 @@ struct DawProject {
     file_extension: &'static str,
     project_file: &'static str,
     metadata_file: &'static str,
+}
+
+pub enum ObjectType {
+    P(Project),
+    M(MetaData),
 }
 
 impl DawProject {
@@ -40,17 +45,32 @@ impl DawProject {
         Ok(())
     }
 
-    pub fn to_xml(project: Project) -> Result<String, ()> {
+    pub fn to_xml(object: ObjectType) -> Result<String, ()> {
         /*
         I think it just takes project and saves it as xml file
         So we can pass for example cloned object, generate String from it
         and save it as xml file.
          */
 
-        use quick_xml::se::to_string;
+        match object {
+            ObjectType::P(o) => {
+                match to_string(&o) {
+                    Ok(object) => return Ok(object),
+                    Err(_) => return Err(()),
+                };
+            }
+            ObjectType::M(o) => {
+                match to_string(&o) {
+                    Ok(object) => return Ok(object),
+                    Err(_) => return Err(()),
+                };
+            }
+        };
+    }
 
-        match to_string(&project) {
-            Ok(object) => return Ok(object),
+    pub fn from_xml(xml_string: String) -> Result<Project, ()> {
+        match from_str(&xml_string) {
+            Ok(project) => return Ok(project),
             Err(_) => return Err(()),
         };
     }
@@ -60,13 +80,6 @@ impl DawProject {
         This functions is creating some JABCONTEXT, whatever it is, unnecessary I think
          */
         Ok(())
-    }
-
-    pub fn from_xml(xml_string: String) -> Result<Project, ()> {
-        match from_str(&xml_string) {
-            Ok(project) => return Ok(project),
-            Err(_) => return Err(()),
-        };
     }
 
     pub fn save_xml(project: Project, path: &Path) -> Result<(), ()> {
@@ -83,7 +96,7 @@ impl DawProject {
         // For now our solution will replace old file
         let project_xml: String;
 
-        match DawProject::to_xml(project) {
+        match DawProject::to_xml(ObjectType::P(project)) {
             Ok(x) => {
                 project_xml = x;
             }
@@ -112,8 +125,6 @@ impl DawProject {
         embedded_files: HashMap<&Path, String>,
         zip_file_path: &Path,
     ) -> Result<(), ()> {
-        use quick_xml::se::to_string;
-
         let file = match std::fs::File::create(zip_file_path) {
             Ok(f) => f,
             Err(_) => return Err(()),
@@ -121,22 +132,22 @@ impl DawProject {
 
         let mut zip_writer = zip::ZipWriter::new(file);
 
-        let project_xml = match to_string(&project) {
+        let project_xml = match Self::to_xml(ObjectType::P(project)) {
             Ok(s) => s,
             Err(_) => return Err(()),
         };
 
-        let meta_data_xml = match to_string(&meta_data) {
+        let meta_data_xml = match Self::to_xml(ObjectType::M(meta_data)) {
             Ok(s) => s,
             Err(_) => return Err(()),
         };
 
-        match Self::add_file_to_zip(&zip_writer, &project_xml, PROJECT_FILE) {
+        match Self::add_file_to_zip(&mut zip_writer, &project_xml, PROJECT_FILE) {
             Ok(()) => (),
             Err(_) => return Err(()),
         }
 
-        match Self::add_file_to_zip(&zip_writer, &meta_data_xml, METADATA_FILE) {
+        match Self::add_file_to_zip(&mut zip_writer, &meta_data_xml, METADATA_FILE) {
             Ok(()) => (),
             Err(_) => return Err(()),
         }
@@ -145,7 +156,7 @@ impl DawProject {
     }
 
     fn add_file_to_zip<W: std::io::Write + std::io::Seek>(
-        zip_writer: &ZipWriter<W>,
+        zip_writer: &mut ZipWriter<W>,
         content: &str,
         file_name: &str,
     ) -> Result<(), ()> {
