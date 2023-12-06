@@ -122,7 +122,7 @@ impl DawProject {
     pub fn save(
         project: Project,
         meta_data: MetaData,
-        embedded_files: HashMap<&Path, String>,
+        embedded_files: HashMap<&[u8], String>,
         zip_file_path: &Path,
     ) -> Result<(), ()> {
         let file = match std::fs::File::create(zip_file_path) {
@@ -142,20 +142,53 @@ impl DawProject {
             Err(_) => return Err(()),
         };
 
-        match Self::add_file_to_zip(&mut zip_writer, &project_xml, PROJECT_FILE) {
+        match Self::add_str_to_zip(&mut zip_writer, &project_xml, PROJECT_FILE) {
             Ok(()) => (),
             Err(_) => return Err(()),
         }
 
-        match Self::add_file_to_zip(&mut zip_writer, &meta_data_xml, METADATA_FILE) {
+        match Self::add_str_to_zip(&mut zip_writer, &meta_data_xml, METADATA_FILE) {
             Ok(()) => (),
+            Err(_) => return Err(()),
+        }
+
+        for (p, s) in &embedded_files {
+            match Self::add_bytes_to_zip(&mut zip_writer, *p, &s) {
+                Ok(_) => (),
+                Err(_) => return Err(()),
+            }
+        }
+
+        Ok(())
+    }
+
+    fn add_bytes_to_zip<W: std::io::Write + std::io::Seek>(
+        zip_writer: &mut ZipWriter<W>,
+        content: &[u8],
+        file_name: &str,
+    ) -> Result<(), ()> {
+        /*
+           final ZipEntry entry = new        ZipEntry(path);
+        zos.putNextEntry(entry);
+        zos.write(data);
+        zos.closeEntry();
+           */
+        let name = format!("./{}", file_name);
+
+        match zip_writer.start_file(name, Default::default()) {
+            Ok(_) => (),
+            Err(_) => return Err(()),
+        }
+
+        match zip_writer.write_all(content) {
+            Ok(_) => (),
             Err(_) => return Err(()),
         }
 
         Ok(())
     }
 
-    fn add_file_to_zip<W: std::io::Write + std::io::Seek>(
+    fn add_str_to_zip<W: std::io::Write + std::io::Seek>(
         zip_writer: &mut ZipWriter<W>,
         content: &str,
         file_name: &str,

@@ -5,8 +5,6 @@ use crate::scene::Scene;
 
 use crate::transport::Transport;
 
-use serde::*;
-
 use crate::channel::Channel;
 use crate::track::Track;
 
