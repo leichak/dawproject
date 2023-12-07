@@ -24,3 +24,17 @@ pub struct Clips {
     #[serde(rename = "$value")]
     clips: Option<Vec<Clip>>,
 }
+
+impl Clips {
+    pub fn new() -> Self {
+        Self {
+            id: "id" + id_xml.to_string(),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            time_unit: None,
+            clips: None,
+        }
+    }
+}

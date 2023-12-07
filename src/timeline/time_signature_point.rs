@@ -20,3 +20,12 @@ pub struct TimeSignaturePoint {
     #[serde(rename = "$value")]
     real_point_sequence: Option<TimeSignaturePointSequence>,
 }
+
+impl TimeSignaturePoint {
+    pub fn new() -> Self {
+        Self {
+            time: None,
+            real_point_sequence: None,
+        }
+    }
+}

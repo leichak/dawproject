@@ -21,3 +21,12 @@ pub struct RealPoint {
     #[serde(rename = "$value")]
     real_point_sequence: Option<RealPointSequence>,
 }
+
+impl RealPoint {
+    pub fn new() -> Self {
+        Self {
+            time: None,
+            real_point_sequence: None,
+        }
+    }
+}

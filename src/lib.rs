@@ -24,6 +24,8 @@ mod transport;
 mod unit;
 mod utility;
 
+static id_xml: usize = 0;
+
 pub use serde::{Deserialize, Serialize};
 #[cfg(test)]
 #[test]

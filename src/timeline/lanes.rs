@@ -41,3 +41,17 @@ pub struct Lanes {
     #[serde(rename = "$value")]
     lanes_sequence: Option<LanesSequenceChoice>,
 }
+
+impl Lanes {
+    pub fn new() -> Self {
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            timeUnit: None,
+            lanes_sequence: None,
+        }
+    }
+}

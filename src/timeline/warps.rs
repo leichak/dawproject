@@ -44,3 +44,18 @@ pub struct Warps {
     #[serde(rename = "@contentTimeUnit")]
     content_time_unit: Option<TimeUnit>,
 }
+
+impl Warps {
+    pub fn new() -> Self {
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            timeUnit: None,
+            warps_sequence: None,
+            content_time_unit: None,
+        }
+    }
+}

@@ -23,3 +23,17 @@ pub struct Markers {
     #[serde(rename = "Marker")]
     markers: Option<Vec<Marker>>,
 }
+
+impl Markers {
+    pub fn new() -> Self {
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            timeUnit: None,
+            markers: None,
+        }
+    }
+}

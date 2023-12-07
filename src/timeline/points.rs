@@ -43,3 +43,18 @@ pub struct Points {
     #[serde(rename = "@unit")]
     unit: Option<Unit>,
 }
+
+impl Points {
+    pub fn new() -> Self {
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            timeUnit: None,
+            points: None,
+            unit: None,
+        }
+    }
+}

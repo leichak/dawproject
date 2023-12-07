@@ -26,3 +26,18 @@ pub struct ClipSlot {
     #[serde(rename = "@hasStop")]
     has_stop: bool,
 }
+
+impl ClipSlot {
+    pub fn new() -> Self {
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            time_unit: None,
+            clips: None,
+            has_stop: None,
+        }
+    }
+}

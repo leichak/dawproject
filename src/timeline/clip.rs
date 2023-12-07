@@ -39,3 +39,25 @@ pub(crate) struct Clip {
     #[serde(rename = "@reference")]
     reference: Option<String>,
 }
+
+impl Clip {
+    pub fn new() -> Self {
+        Self {
+            name: None,
+            color: None,
+            comment: None,
+            notes_sequence_choice: None,
+            time: 0,
+            duration: None,
+            content_time_unit: None,
+            play_start: None,
+            play_stop: None,
+            loop_start: None,
+            loop_end: None,
+            fade_time_unit: None,
+            fade_in_time: None,
+            fade_out_time: None,
+            reference: None,
+        }
+    }
+}

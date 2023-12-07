@@ -15,3 +15,12 @@ pub struct Warp {
     #[serde(rename = "@contentTime")]
     content_time: f64,
 }
+
+impl Warp {
+    pub fn new() -> Self {
+        Self {
+            time: 0.0,
+            content_time: 0.0,
+        }
+    }
+}

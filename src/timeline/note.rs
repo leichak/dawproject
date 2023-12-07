@@ -20,3 +20,17 @@ pub(crate) struct Note {
     #[serde(rename = "@rel")]
     rel: Option<String>,
 }
+
+impl Note {
+    pub fn new() -> Self {
+        Self {
+            notes_sequence_choice: None,
+            time: None,
+            duration: None,
+            channel: None,
+            key: None,
+            vel: None,
+            rel: None,
+        }
+    }
+}

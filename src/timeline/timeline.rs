@@ -19,3 +19,16 @@ pub struct TimeLine {
     #[serde(rename = "@timeUnit")]
     timeUnit: Option<TimeUnit>,
 }
+
+impl TimeLine {
+    pub fn new() -> Self {
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            timeUnit: None,
+        }
+    }
+}

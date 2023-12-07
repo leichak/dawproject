@@ -8,3 +8,9 @@ pub struct Point {
     #[serde(rename = "@time")]
     pub time: Option<Vec<String>>,
 }
+
+impl Point {
+    pub fn new() -> Self {
+        Self { time: None }
+    }
+}

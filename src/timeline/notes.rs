@@ -22,3 +22,17 @@ pub struct Notes {
     #[serde(rename = "$value")]
     notes_sequence: Option<Vec<Note>>,
 }
+
+impl Notes {
+    pub fn new() -> Self {
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            timeUnit: None,
+            notes_sequence: None,
+        }
+    }
+}
