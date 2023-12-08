@@ -31,8 +31,9 @@ pub struct Arrangement {
 
 impl Arrangement {
     pub fn new_empty() -> Self {
+        id_xml += 1;
         Arrangement {
-            id: None,
+            id: Some("id" + id_xml.to_string()),
             name: None,
             color: None,
             comment: None,

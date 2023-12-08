@@ -1,6 +1,7 @@
 use serde::Deserialize;
 use serde::Serialize;
 
+use crate::id_xml;
 use crate::timeline::{
     audio::Audio, clip_slot::ClipSlot, clips::Clips, lanes::Lanes, markers::Markers, notes::Notes,
     points::Points, timeline::TimeLine, video::Video, warps::Warps,
@@ -32,4 +33,17 @@ pub struct Scene {
     comment: Option<String>,
     #[serde(rename = "$value")]
     warps_sequence: Option<SceneSequenceEnum>,
+}
+
+impl Scene {
+    pub fn new() -> Self {
+        id_xml = id_xml + 1;
+        Self {
+            id: Some("id" + (id_xml).to_string()),
+            name: todo!(),
+            color: todo!(),
+            comment: todo!(),
+            warps_sequence: todo!(),
+        }
+    }
 }

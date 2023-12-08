@@ -19,3 +19,19 @@ pub struct BoolParameter {
     #[serde(rename = "@value")]
     value: Option<i32>,
 }
+
+impl BoolParameter {
+    pub fn new() -> Self {
+        id_xml += 1;
+        Self {
+            id: Some("id" + id_xml.to_string),
+            name: None,
+            color: None,
+            comment: None,
+            parameter_id: None,
+            max: None,
+            min: None,
+            value: None,
+        }
+    }
+}

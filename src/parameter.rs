@@ -13,3 +13,16 @@ pub struct Parameter {
     #[serde(rename = "@parameterID")]
     parameter_id: Option<i32>,
 }
+
+impl Parameter {
+    pub fn new() -> Self {
+        id_xml = id_xml + 1;
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            name: None,
+            color: None,
+            comment: None,
+            parameter_id: None,
+        }
+    }
+}

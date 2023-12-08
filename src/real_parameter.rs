@@ -27,8 +27,9 @@ pub struct RealParameter {
 
 impl RealParameter {
     pub fn create_dummy(value: f64, unit: Unit) -> RealParameter {
+        id_xml = id_xml + 1;
         RealParameter {
-            id: None,
+            id: Some("id" + id_xml.to_string()),
             name: None,
             color: None,
             comment: None,
