@@ -1,6 +1,6 @@
 use super::device::DeviceElements;
 use super::device_role::DeviceRole;
-use crate::{bool_parameter::BoolParameter, real_parameter::RealParameter};
+use crate::{bool_parameter::BoolParameter, id_xml, real_parameter::RealParameter};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -37,4 +37,20 @@ pub struct Compressor {
     // Extension ends
     #[serde(default)]
     params: CompressorParams,
+}
+
+impl Compressor {
+    pub fn new() -> Self {
+        id_xml += 1;
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            device_elements: None,
+            device_id: None,
+            device_name: None,
+            device_role: None,
+            device_vendor: None,
+            loaded: None,
+            params: None,
+        }
+    }
 }

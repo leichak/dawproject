@@ -2,6 +2,7 @@ use serde::Deserialize;
 use serde::Serialize;
 
 use super::{device::DeviceElements, device_role::DeviceRole, eq_band::EqBand};
+use crate::id_xml;
 use crate::real_parameter::RealParameter;
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -32,4 +33,20 @@ pub struct Equalizer {
     // End of extension
     #[serde(default)]
     eq_band_params: Vec<EqParamsEnum>,
+}
+
+impl Equalizer {
+    pub fn new() -> Self {
+        id_xml += 1;
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            device_elements: None,
+            device_id: None,
+            device_name: None,
+            device_role: None,
+            device_vendor: None,
+            loaded: None,
+            eq_band_params: None,
+        }
+    }
 }

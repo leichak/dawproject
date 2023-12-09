@@ -21,3 +21,18 @@ pub struct BuiltinDevice {
     #[serde(rename = "@loaded")]
     loaded: Option<bool>,
 }
+
+impl BuiltinDevice {
+    pub fn new() -> Self {
+        id_xml += 1;
+        Self {
+            id: Some("id" + id_xml),
+            device_elements: None,
+            device_id: None,
+            device_name: None,
+            device_role: None,
+            device_vendor: None,
+            loaded: None,
+        }
+    }
+}

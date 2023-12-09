@@ -24,3 +24,19 @@ pub struct Plugin {
     #[serde(rename = "@pluginVersion")]
     plugin_version: Option<String>,
 }
+
+impl Plugin {
+    pub fn new() -> Self {
+        id_xml += 1;
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            device_elements: None,
+            device_id: None,
+            device_name: None,
+            device_role: None,
+            device_vendor: None,
+            loaded: None,
+            plugin_version: None,
+        }
+    }
+}

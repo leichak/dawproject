@@ -37,3 +37,19 @@ pub struct NoiseGate {
     #[serde(default)]
     params: NoiseGateParams,
 }
+
+impl NoiseGate {
+    pub fn new() -> Self {
+        id_xml += 1;
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            device_elements: todo!(),
+            device_id: todo!(),
+            device_name: todo!(),
+            device_role: todo!(),
+            device_vendor: todo!(),
+            loaded: todo!(),
+            params: todo!(),
+        }
+    }
+}

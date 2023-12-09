@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use super::device_role::DeviceRole;
 use crate::bool_parameter::BoolParameter;
 use crate::file_reference::FileReference;
+use crate::id_xml;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub enum DeviceElementsEnum {
@@ -41,4 +42,19 @@ pub struct Device {
     device_vendor: Option<String>,
     #[serde(rename = "@loaded")]
     loaded: Option<bool>,
+}
+
+impl Device {
+    pub fn new() -> Self {
+        id_xml += 1;
+        Self {
+            id: Some("id" + id_xml.to_string()),
+            device_elements: None,
+            device_id: None,
+            device_name: None,
+            device_role: None,
+            device_vendor: None,
+            loaded: None,
+        }
+    }
 }
