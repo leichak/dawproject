@@ -23,8 +23,13 @@ mod track;
 mod transport;
 mod unit;
 mod utility;
+mod send;
 
 static id_xml: usize = 0;
+
+pub fn reset_xml_id() {
+  id_xml = 0;
+}
 
 pub use serde::{Deserialize, Serialize};
 #[cfg(test)]
