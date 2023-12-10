@@ -47,6 +47,7 @@ pub struct Warps {
 
 impl Warps {
     pub fn new() -> Self {
+        id_xml += 1;
         Self {
             id: Some("id" + id_xml.to_string()),
             name: None,
