@@ -41,13 +41,13 @@ pub(crate) struct Clip {
 }
 
 impl Clip {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         Self {
             name: None,
             color: None,
             comment: None,
             notes_sequence_choice: None,
-            time: 0,
+            time: 0.0,
             duration: None,
             content_time_unit: None,
             play_start: None,

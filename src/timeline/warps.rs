@@ -2,6 +2,7 @@ use super::{
     audio::Audio, clip_slot::ClipSlot, clips::Clips, lanes::Lanes, markers::Markers, notes::Notes,
     points::Points, time_unit::TimeUnit, timeline::TimeLine, video::Video, warp::Warp,
 };
+use crate::add_one_get;
 
 use serde::Deserialize;
 use serde::Serialize;
@@ -46,10 +47,9 @@ pub struct Warps {
 }
 
 impl Warps {
-    pub fn new() -> Self {
-        id_xml += 1;
+    pub fn new_empty() -> Self {
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

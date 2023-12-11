@@ -1,3 +1,5 @@
+use crate::add_one_get;
+
 use super::{device::DeviceElements, device_role::DeviceRole};
 use serde::Deserialize;
 use serde::Serialize;
@@ -26,11 +28,10 @@ pub struct Plugin {
 }
 
 impl Plugin {
-    pub fn new() -> Self {
-        id_xml += 1;
+    pub fn new_empty() -> Self {
         Self {
-            id: Some("id" + id_xml.to_string()),
-            device_elements: None,
+            id: Some(format!("id{}", add_one_get().to_string())),
+            device_elements: vec![],
             device_id: None,
             device_name: None,
             device_role: None,

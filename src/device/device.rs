@@ -1,9 +1,9 @@
 use serde::{Deserialize, Serialize};
 
 use super::device_role::DeviceRole;
+use crate::add_one_get;
 use crate::bool_parameter::BoolParameter;
 use crate::file_reference::FileReference;
-use crate::id_xml;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub enum DeviceElementsEnum {
@@ -45,11 +45,10 @@ pub struct Device {
 }
 
 impl Device {
-    pub fn new() -> Self {
-        id_xml += 1;
+    pub fn new_empty() -> Self {
         Self {
-            id: Some("id" + id_xml.to_string()),
-            device_elements: None,
+            id: Some(format!("id{}", add_one_get().to_string())),
+            device_elements: vec![],
             device_id: None,
             device_name: None,
             device_role: None,

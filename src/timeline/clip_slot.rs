@@ -1,7 +1,7 @@
+use super::clip::Clip;
+use crate::add_one_get;
 use serde::Deserialize;
 use serde::Serialize;
-
-use super::clip::Clip;
 
 use super::time_unit::TimeUnit;
 
@@ -28,17 +28,16 @@ pub struct ClipSlot {
 }
 
 impl ClipSlot {
-    pub fn new() -> Self {
-        id_xml += 1;
+    pub fn new_empty() -> Self {
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,
             track: None,
             time_unit: None,
             clips: None,
-            has_stop: None,
+            has_stop: false,
         }
     }
 }

@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::add_one_get;
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct BoolParameter {
     #[serde(rename = "@id")]
@@ -22,9 +24,8 @@ pub struct BoolParameter {
 
 impl BoolParameter {
     pub fn new() -> Self {
-        id_xml += 1;
         Self {
-            id: Some("id" + id_xml.to_string),
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

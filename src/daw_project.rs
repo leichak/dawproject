@@ -15,7 +15,7 @@ const FILE_EXTENSION: &'static str = "dawproject";
 const PROJECT_FILE: &'static str = "project.xml";
 const METADATA_FILE: &'static str = "metadata.xml";
 
-struct DawProject {
+pub struct DawProject {
     format_name: &'static str,
     file_extension: &'static str,
     project_file: &'static str,
@@ -37,12 +37,12 @@ impl DawProject {
         }
     }
 
-    pub fn export_schema() -> Result<(), ()> {
+    pub fn export_schema() -> Result<String, ()> {
         /*
         This probably be able to export xml schema.xsd, but it is unnecessary since we will always derive it
         from its parent project in Java.
          */
-        Ok(())
+        Ok(String::new())
     }
 
     pub fn to_xml(object: ObjectType) -> Result<String, ()> {
@@ -55,13 +55,13 @@ impl DawProject {
         match object {
             ObjectType::P(o) => {
                 match to_string(&o) {
-                    Ok(object) => return Ok(object),
+                    Ok(o_string) => return Ok(o_string),
                     Err(_) => return Err(()),
                 };
             }
             ObjectType::M(o) => {
                 match to_string(&o) {
-                    Ok(object) => return Ok(object),
+                    Ok(o_string) => return Ok(o_string),
                     Err(_) => return Err(()),
                 };
             }
@@ -122,7 +122,7 @@ impl DawProject {
     pub fn save(
         project: Project,
         meta_data: MetaData,
-        embedded_files: HashMap<&[u8], String>,
+        embedded_files: HashMap<&Path, String>,
         zip_file_path: &Path,
     ) -> Result<(), ()> {
         let file = match std::fs::File::create(zip_file_path) {
@@ -142,22 +142,22 @@ impl DawProject {
             Err(_) => return Err(()),
         };
 
-        match Self::add_str_to_zip(&mut zip_writer, &project_xml, PROJECT_FILE) {
+        match Self::add_bytes_to_zip(&mut zip_writer, &project_xml.as_bytes(), PROJECT_FILE) {
             Ok(()) => (),
             Err(_) => return Err(()),
         }
 
-        match Self::add_str_to_zip(&mut zip_writer, &meta_data_xml, METADATA_FILE) {
+        match Self::add_bytes_to_zip(&mut zip_writer, &meta_data_xml.as_bytes(), METADATA_FILE) {
             Ok(()) => (),
             Err(_) => return Err(()),
         }
 
-        for (p, s) in &embedded_files {
-            match Self::add_bytes_to_zip(&mut zip_writer, *p, &s) {
-                Ok(_) => (),
-                Err(_) => return Err(()),
-            }
-        }
+        // for (p, s) in embedded_files {
+        //     match Self::add_bytes_to_zip(&mut zip_writer, , &s) {
+        //         Ok(_) => (),
+        //         Err(_) => return Err(()),
+        //     }
+        // }
 
         Ok(())
     }
@@ -214,30 +214,8 @@ impl DawProject {
         Ok(())
     }
 
-    fn add_to_zip_file(zip_path: &Path, file_path: &Path) -> Result<(), ()> {
-        let file = std::fs::File::create(zip_path).unwrap();
-
-        let mut zip = zip::ZipWriter::new(file);
-        /*xw
-              final ZipEntry entry = new ZipEntry(path);
-        zos.putNextEntry(entry);
-
-        try (FileInputStream fileInputStream = new FileInputStream(file))
-        {1
-            byte[] data = new byte[65536];
-            int size = 0;
-            while((size = fileInputStream.read(data)) != -1)
-               zos.write(data, 0, size);
-
-            zos.flush();
-        }
-
-        zos.closeEntry();
-             */
-        Ok(())
-    }
-
     pub fn strip_bom() {
+        // Thats just checks for byte order - I think that is irrelevant in that case
         /* I do not know that that is
         BOMInputStream bomInputStream = new BOMInputStream(inputStream ,
         ByteOrderMark.UTF_8, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_32LE, ByteOrderMark.UTF_32BE);
@@ -265,13 +243,6 @@ impl DawProject {
                 None => continue,
             };
 
-            {
-                let comment = file.comment();
-                if !comment.is_empty() {
-                    println!("File {i} comment: {comment}");
-                }
-            }
-
             if file.name() == PROJECT_FILE {
                 match file.read_to_string(&mut contents) {
                     Ok(v) => (),
@@ -279,8 +250,7 @@ impl DawProject {
                 };
             }
         }
-        // println!("{contents}");
-        // Ok(contents)
+
         let mut project: Project = match from_str(&contents) {
             Ok(p) => p,
             Err(_) => return Err(()),

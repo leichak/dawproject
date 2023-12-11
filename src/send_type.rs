@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all = "lowercase")]
 enum SendTypeEnum {
@@ -5,8 +7,8 @@ enum SendTypeEnum {
     Post,
 }
 
-#[derive(Deserialize)]
-struct SendType {
+#[derive(Deserialize, Serialize, Debug)]
+pub struct SendType {
     #[serde(rename = "$value")]
     field: Vec<SendTypeEnum>,
 }

@@ -1,5 +1,5 @@
+use crate::add_one_get;
 use crate::channel::ChannelElementsEnum;
-use crate::id_xml;
 use crate::mixer_role::MixerRoleEnum;
 use crate::real_parameter::RealParameter;
 use crate::unit::Unit;
@@ -23,7 +23,7 @@ enum ContentTypeAttribute {
 }
 
 #[derive(Deserialize, Serialize, Debug)]
-pub(crate) struct Track {
+pub struct Track {
     // Extends lane
     #[serde(rename = "@id")]
     id: Option<String>,
@@ -49,8 +49,8 @@ impl Track {
         volume: f64,
         pan: f64,
     ) -> Track {
-        let volume_parameter = RealParameter::create_dummy(volume, Unit::Linear);
-        let pan_parameter = RealParameter::create_dummy(pan, Unit::Normalized);
+        let volume_parameter = RealParameter::create_empty(volume, Unit::Linear);
+        let pan_parameter = RealParameter::create_empty(pan, Unit::Normalized);
 
         let mut channel = Channel::new_dummy();
         channel.channel_elements = Vec::new();
@@ -66,7 +66,7 @@ impl Track {
         let channel: TrackChannel = vec![TrackChannelEnum::Channel(Channel::new_dummy())];
 
         Track {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id{}", add_one_get().to_string())),
             name: Some(name),
             color: None,
             comment: None,

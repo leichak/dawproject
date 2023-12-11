@@ -1,3 +1,4 @@
+use crate::add_one_get;
 use serde::Deserialize;
 use serde::Serialize;
 
@@ -26,9 +27,9 @@ pub struct Clips {
 }
 
 impl Clips {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         Self {
-            id: "id" + id_xml.to_string(),
+            id: Some(format!("id{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

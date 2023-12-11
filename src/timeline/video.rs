@@ -1,6 +1,7 @@
 use serde::Deserialize;
 use serde::Serialize;
 
+use crate::add_one_get;
 use crate::file_reference::FileReference;
 
 use super::time_unit::TimeUnit;
@@ -35,9 +36,9 @@ pub struct Video {
 }
 
 impl Video {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

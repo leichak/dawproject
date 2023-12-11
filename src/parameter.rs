@@ -1,5 +1,5 @@
+use crate::add_one_get;
 use serde::{Deserialize, Serialize};
-
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Parameter {
     #[serde(rename = "@id")]
@@ -16,9 +16,8 @@ pub struct Parameter {
 
 impl Parameter {
     pub fn new() -> Self {
-        id_xml = id_xml + 1;
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

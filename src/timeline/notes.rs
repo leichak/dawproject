@@ -1,6 +1,8 @@
 use serde::Deserialize;
 use serde::Serialize;
 
+use crate::add_one_get;
+
 use super::{note::Note, time_unit::TimeUnit};
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -24,9 +26,9 @@ pub struct Notes {
 }
 
 impl Notes {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

@@ -1,5 +1,6 @@
-use crate::{id_xml, real_parameter::RealParameter};
-
+use crate::add_one_get;
+use crate::{channel::Channel, real_parameter::RealParameter, send_type::SendType};
+use serde::{Deserialize, Serialize};
 #[derive(Deserialize, Serialize, Debug)]
 struct Send {
     // Extends referenceable
@@ -16,9 +17,9 @@ struct Send {
 }
 
 impl Send {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id_{}", add_one_get().to_string())),
             volume: None,
             pan: None,
             destination: None,

@@ -1,6 +1,4 @@
-use serde::Deserialize;
-use serde::Serialize;
-
+use crate::add_one_get;
 use crate::{
     bool_parameter::BoolParameter, device::au_plugin::AuPlugin,
     device::builtin_device::BuiltinDevice, device::clap_plugin::ClapPlugin,
@@ -8,6 +6,8 @@ use crate::{
     device::limiter::Limiter, device::noise_gate::NoiseGate, device::vst2_plugin::Vst2Plugin,
     device::vst3_plugin::Vst3Plugin, mixer_role::MixerRoleEnum, real_parameter::RealParameter,
 };
+use serde::Deserialize;
+use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub enum DeviceTypes {
@@ -24,14 +24,14 @@ pub enum DeviceTypes {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Devices {
+pub struct Devices {
     #[serde(default)]
     #[serde(rename = "$value")]
     pub devices: Vec<DeviceTypes>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Sends {
+pub struct Sends {
     #[serde(default)]
     #[serde(rename = "$value")]
     devices: Vec<DeviceTypes>,
@@ -49,7 +49,7 @@ pub enum ChannelElementsEnum {
 type ChannelElements = Vec<ChannelElementsEnum>;
 
 #[derive(Debug, Deserialize, Serialize)]
-pub(crate) struct Channel {
+pub struct Channel {
     // Extends lane
     #[serde(rename = "@id")]
     id: Option<String>,
@@ -74,9 +74,8 @@ pub(crate) struct Channel {
 
 impl Channel {
     pub fn new_dummy() -> Self {
-        id_xml += 1;
         Channel {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

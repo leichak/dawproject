@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::add_one_get;
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Lane {
     #[serde(rename = "@id")]
@@ -14,9 +16,8 @@ pub struct Lane {
 
 impl Lane {
     pub fn new() -> Self {
-        id_xml = id_xml + 1;
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: todo!(),
             color: todo!(),
             comment: todo!(),

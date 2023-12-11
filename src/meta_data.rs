@@ -23,3 +23,11 @@ type MetaDataVec = Vec<MetaDataEnum>;
 pub struct MetaData {
     meta_data: MetaDataVec,
 }
+
+impl MetaData {
+    pub fn new() -> Self {
+        MetaData {
+            meta_data: Vec::new(),
+        }
+    }
+}

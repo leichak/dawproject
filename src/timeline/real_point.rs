@@ -23,7 +23,7 @@ pub struct RealPoint {
 }
 
 impl RealPoint {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         Self {
             time: None,
             real_point_sequence: None,

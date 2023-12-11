@@ -1,3 +1,4 @@
+use crate::add_one_get;
 use crate::timeline::lanes::Lanes;
 use crate::timeline::markers::Markers;
 use crate::timeline::points::Points;
@@ -31,9 +32,8 @@ pub struct Arrangement {
 
 impl Arrangement {
     pub fn new_empty() -> Self {
-        id_xml += 1;
         Arrangement {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,
