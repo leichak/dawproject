@@ -37,12 +37,12 @@ impl DawProject {
         }
     }
 
-    pub fn export_schema() -> Result<(), ()> {
+    pub fn export_schema() -> Result<String, ()> {
         /*
         This probably be able to export xml schema.xsd, but it is unnecessary since we will always derive it
         from its parent project in Java.
          */
-        Ok(())
+        Ok(String::new())
     }
 
     pub fn to_xml(object: ObjectType) -> Result<String, ()> {
@@ -55,13 +55,13 @@ impl DawProject {
         match object {
             ObjectType::P(o) => {
                 match to_string(&o) {
-                    Ok(object) => return Ok(object),
+                    Ok(o_string) => return Ok(o_string),
                     Err(_) => return Err(()),
                 };
             }
             ObjectType::M(o) => {
                 match to_string(&o) {
-                    Ok(object) => return Ok(object),
+                    Ok(o_string) => return Ok(o_string),
                     Err(_) => return Err(()),
                 };
             }
@@ -211,29 +211,6 @@ impl DawProject {
             Err(_) => return Err(()),
         }
 
-        Ok(())
-    }
-
-    fn add_to_zip_file(zip_path: &Path, file_path: &Path) -> Result<(), ()> {
-        let file = std::fs::File::create(zip_path).unwrap();
-
-        let mut zip = zip::ZipWriter::new(file);
-        /*xw
-              final ZipEntry entry = new ZipEntry(path);
-        zos.putNextEntry(entry);
-
-        try (FileInputStream fileInputStream = new FileInputStream(file))
-        {1
-            byte[] data = new byte[65536];
-            int size = 0;
-            while((size = fileInputStream.read(data)) != -1)
-               zos.write(data, 0, size);
-
-            zos.flush();
-        }
-
-        zos.closeEntry();
-             */
         Ok(())
     }
 
