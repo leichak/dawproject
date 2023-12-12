@@ -373,21 +373,37 @@ mod daw_project_test {
    }
     }
 
-    fn validate_daw_project() {}
+    fn validate_daw_project() {
+      // It requires to implement dawproject validate (not relevant for now)
+    }
 
-    fn validate_complex_daw_project() {}
+    fn validate_complex_daw_project() {
+      // It requires to implement dawproject validate (not relevant for now)
+    }
 
-    fn save_and_load_daw_project() {}
+    fn save_and_load_daw_project() {
+      // doable
+    }
 
-    fn save_complex_daw_project() {}
+    fn save_complex_daw_project() {
+      // doable
+    }
 
-    fn save_and_load_complex_daw_project() {}
+    fn save_and_load_complex_daw_project() {
+      // doable
+    }
 
-    fn write_meta_data_schema() {}
+    fn write_meta_data_schema() {
+      // requires to implement write schema - not relevant
+    }
 
-    fn write_project_schema() {}
+    fn write_project_schema() {
+      // requires to implement write schema - not relevant
+    }
 
-    fn load_embedded_file() {}
+    fn load_embedded_file() {
+      // doable
+    }
 
     enum AudioScenario {
         Warped,
