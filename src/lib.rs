@@ -497,8 +497,8 @@ mod daw_project_test {
         let mut meta_data = MetaData { meta_data: todo!() };
         let mut embedded_files: HashMap<File, String> = HashMap::new();
 
-        DawProject.save(project...)
-        DawProject.save_xml(project...)
-        DawProject.validate(project...)
+        DawProject.save(project)
+        DawProject.save_xml(project)
+        DawProject.validate(project)
     }
   }
