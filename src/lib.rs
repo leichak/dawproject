@@ -130,10 +130,12 @@ mod daw_project_test {
 
     use core::num;
     use std::collections::HashMap;
+    use std::path::Path;
 
     use crate::arrangement::Arrangement;
     use crate::channel::{Channel, DeviceTypes};
     use crate::content_type::ContentType;
+    use crate::daw_project::DawProject;
     use crate::device::device_role::DeviceRole;
     use crate::device::vst3_plugin::Vst3Plugin;
     use crate::file_reference::FileReference;
@@ -170,7 +172,7 @@ mod daw_project_test {
         project
     }
 
-    fn create_dummy_project(num_tracks: i32, features: Vec<Features>) {
+    fn create_dummy_project(num_tracks: i32, features: Vec<Features>) -> Project {
         let mut project = create_empty_project();
         let volume = 1.0;
         let pan = 0.5;
@@ -340,6 +342,7 @@ mod daw_project_test {
                 {}
             }
         }
+        project
     }
 
     fn create_point(time: f64, value: f64, interpolation: Interpolation) -> Point {
@@ -358,6 +361,7 @@ mod daw_project_test {
     }
 
     fn save_daw_project() {
+
       /*
       final Project project = createDummyProject(3, simpleFeatures);
       final MetaData metadata = new MetaData();
@@ -365,12 +369,16 @@ mod daw_project_test {
       final Map<File, String> embeddedFiles = new HashMap<>();
       DawProject.save(project, metadata, embeddedFiles, new File("target/test.dawproject"));
       DawProject.saveXML(project, new File("target/test.dawproject.xml"));*/
-      let mut project = create_dummy_project(3, simple_features);
-      let mut meta_data = MetaData {};
+      
+      let mut project: Project = create_dummy_project(3, Vec::new());
+      let mut project_1: Project = create_dummy_project(3, Vec::new());
+      let mut meta_data = MetaData::new();
 
-      let mut HashMap<File,String> = HashMap::new();
-
-   }
+      let mut embedded_files: HashMap<&[u8],String> = HashMap::new();
+      let file_path = Path::new("target/test.dawproject");
+  
+      DawProject::save(project, meta_data, embedded_files, file_path);
+      DawProject::save_xml(project_1, Path::new("target/test.dawproject.xml"));
     }
 
     fn validate_daw_project() {

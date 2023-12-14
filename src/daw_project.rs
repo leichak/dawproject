@@ -15,7 +15,7 @@ const FILE_EXTENSION: &'static str = "dawproject";
 const PROJECT_FILE: &'static str = "project.xml";
 const METADATA_FILE: &'static str = "metadata.xml";
 
-struct DawProject {
+pub struct DawProject {
     format_name: &'static str,
     file_extension: &'static str,
     project_file: &'static str,
