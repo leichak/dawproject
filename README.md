@@ -101,6 +101,7 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [x] Serialize Scenes
 - - - - [x] Serialize Full Project
 - - - - [in_progress] Test Serializing code
+- - - - [x] write DawProject Struct
 - - - - [ ] Review and clean-up
 - [ ] Create main file loading mod 
 = [ ] Write tests 
