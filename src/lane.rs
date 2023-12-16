@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::id_xml;
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Lane {
     #[serde(rename = "@id")]

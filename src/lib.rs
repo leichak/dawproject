@@ -25,7 +25,7 @@ mod unit;
 mod utility;
 mod send;
 
-static id_xml: usize = 0;
+pub static id_xml: usize = 0;
 
 pub fn reset_xml_id() {
   id_xml = 0;
@@ -369,7 +369,7 @@ mod daw_project_test {
       final Map<File, String> embeddedFiles = new HashMap<>();
       DawProject.save(project, metadata, embeddedFiles, new File("target/test.dawproject"));
       DawProject.saveXML(project, new File("target/test.dawproject.xml"));*/
-      
+
       let mut project: Project = create_dummy_project(3, Vec::new());
       let mut project_1: Project = create_dummy_project(3, Vec::new());
       let mut meta_data = MetaData::new();
