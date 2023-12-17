@@ -1,5 +1,7 @@
-use crate::{id_xml, real_parameter::RealParameter};
+use serde::{Deserialize, Serialize};
 
+use crate::id_xml;
+use crate::real_parameter::RealParameter;
 #[derive(Deserialize, Serialize, Debug)]
 struct Send {
     // Extends referenceable
