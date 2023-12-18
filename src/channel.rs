@@ -1,6 +1,4 @@
-use serde::Deserialize;
-use serde::Serialize;
-
+use crate::id_xml;
 use crate::{
     bool_parameter::BoolParameter, device::au_plugin::AuPlugin,
     device::builtin_device::BuiltinDevice, device::clap_plugin::ClapPlugin,
@@ -8,6 +6,8 @@ use crate::{
     device::limiter::Limiter, device::noise_gate::NoiseGate, device::vst2_plugin::Vst2Plugin,
     device::vst3_plugin::Vst3Plugin, mixer_role::MixerRoleEnum, real_parameter::RealParameter,
 };
+use serde::Deserialize;
+use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub enum DeviceTypes {

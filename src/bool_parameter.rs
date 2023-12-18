@@ -17,7 +17,7 @@ pub struct BoolParameter {
     #[serde(rename = "@value")]
     value: Option<bool>,
 }
-
+use crate::id_xml;
 impl BoolParameter {
     pub fn new() -> Self {
         id_xml += 1;

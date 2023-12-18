@@ -28,7 +28,7 @@ pub struct Arrangement {
     #[serde(rename = "$value")]
     sequence: Option<ArrangementSequence>,
 }
-
+use crate::id_xml;
 impl Arrangement {
     pub fn new_empty() -> Self {
         id_xml += 1;
