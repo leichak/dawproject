@@ -26,7 +26,7 @@ impl BoolParameter {
     pub fn new() -> Self {
         id_xml += 1;
         Self {
-            id: Some("id" + id_xml.to_string),
+            id: Some(format!("id_{}", id_xml.to_string())),
             name: None,
             color: None,
             comment: None,

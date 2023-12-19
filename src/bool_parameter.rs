@@ -17,12 +17,12 @@ pub struct BoolParameter {
     #[serde(rename = "@value")]
     value: Option<bool>,
 }
-use crate::id_xml;
+
 impl BoolParameter {
     pub fn new() -> Self {
         id_xml += 1;
         Self {
-            id: Some("id" + id_xml.to_string),
+            id: Some(format!("id_{}", id_xml.to_string())),
             name: todo!(),
             color: todo!(),
             comment: todo!(),

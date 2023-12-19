@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-use crate::id_xml;
 use crate::real_parameter::RealParameter;
 #[derive(Deserialize, Serialize, Debug)]
 struct Send {
@@ -20,7 +19,7 @@ struct Send {
 impl Send {
     pub fn new() -> Self {
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id_{}", id_xml.to_string())),
             volume: None,
             pan: None,
             destination: None,
