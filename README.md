@@ -102,6 +102,7 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [x] Serialize Full Project
 - - - - [in_progress] Test Serializing code
 - - - - [x] write DawProject Struct
+- - - - [ ] handle xml id
 - - - - [ ] Review and clean-up
 - [ ] Create main file loading mod 
 = [ ] Write tests 
