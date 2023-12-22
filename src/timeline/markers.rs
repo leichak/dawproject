@@ -1,3 +1,4 @@
+use crate::id_xml;
 use crate::timeline::marker::Marker;
 use crate::timeline::time_unit::TimeUnit;
 use crate::track::Track;
@@ -25,9 +26,10 @@ pub struct Markers {
 }
 
 impl Markers {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
+        id_xml += 1;
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id{}", id_xml.to_string())),
             name: None,
             color: None,
             comment: None,

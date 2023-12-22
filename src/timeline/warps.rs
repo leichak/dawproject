@@ -1,3 +1,5 @@
+use crate::id_xml;
+
 use super::{
     audio::Audio, clip_slot::ClipSlot, clips::Clips, lanes::Lanes, markers::Markers, notes::Notes,
     points::Points, time_unit::TimeUnit, timeline::TimeLine, video::Video, warp::Warp,
@@ -46,10 +48,10 @@ pub struct Warps {
 }
 
 impl Warps {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         id_xml += 1;
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id{}", id_xml.to_string())),
             name: None,
             color: None,
             comment: None,

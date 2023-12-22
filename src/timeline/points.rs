@@ -1,3 +1,5 @@
+use crate::id_xml;
+
 use super::{
     super::unit::Unit, automation_target::AutomationTarget, bool_point::BoolPoint,
     enum_point::EnumPoint, integer_point::IntegerPoint, point::Point, real_point::RealPoint,
@@ -45,9 +47,10 @@ pub struct Points {
 }
 
 impl Points {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
+        id_xml += 1;
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id{}", id_xml.to_string())),
             name: None,
             color: None,
             comment: None,

@@ -1,3 +1,5 @@
+use crate::id_xml;
+
 use super::device::DeviceElements;
 use super::device_role::DeviceRole;
 use serde::{Deserialize, Serialize};
@@ -26,8 +28,8 @@ impl BuiltinDevice {
     pub fn new() -> Self {
         id_xml += 1;
         Self {
-            id: Some("id" + id_xml),
-            device_elements: None,
+            id: Some(format!("id{}", id_xml.to_string())),
+            device_elements: vec![],
             device_id: None,
             device_name: None,
             device_role: None,

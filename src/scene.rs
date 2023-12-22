@@ -37,9 +37,9 @@ pub struct Scene {
 
 impl Scene {
     pub fn new() -> Self {
-        id_xml = id_xml + 1;
+        id_xml += 1;
         Self {
-            id: Some("id" + (id_xml).to_string()),
+            id: Some(format!("id_{}", id_xml.to_string())),
             name: todo!(),
             color: todo!(),
             comment: todo!(),

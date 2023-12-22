@@ -2,6 +2,7 @@ use serde::Deserialize;
 use serde::Serialize;
 
 use super::{device::DeviceElements, device_role::DeviceRole};
+use crate::id_xml;
 use crate::real_parameter::RealParameter;
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -39,17 +40,17 @@ pub struct Limiter {
 }
 
 impl Limiter {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         id_xml += 1;
         Self {
-            id: Some("id" + id_xml.to_string()),
-            device_elements: None,
+            id: Some(format!("id{}", id_xml.to_string())),
+            device_elements: vec![],
             device_id: None,
             device_name: None,
             device_role: None,
             device_vendor: None,
             loaded: None,
-            params: None,
+            params: vec![],
         }
     }
 }

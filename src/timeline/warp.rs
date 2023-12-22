@@ -17,7 +17,7 @@ pub struct Warp {
 }
 
 impl Warp {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         Self {
             time: 0.0,
             content_time: 0.0,

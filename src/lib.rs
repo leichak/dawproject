@@ -24,6 +24,7 @@ mod transport;
 mod unit;
 mod utility;
 mod send;
+mod send_type;
 
 pub static id_xml: usize = 0;
 

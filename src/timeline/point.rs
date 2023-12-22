@@ -10,7 +10,7 @@ pub struct Point {
 }
 
 impl Point {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         Self { time: None }
     }
 }

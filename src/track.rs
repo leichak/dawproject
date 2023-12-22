@@ -49,8 +49,8 @@ impl Track {
         volume: f64,
         pan: f64,
     ) -> Track {
-        let volume_parameter = RealParameter::create_dummy(volume, Unit::Linear);
-        let pan_parameter = RealParameter::create_dummy(pan, Unit::Normalized);
+        let volume_parameter = RealParameter::create_empty(volume, Unit::Linear);
+        let pan_parameter = RealParameter::create_empty(pan, Unit::Normalized);
 
         let mut channel = Channel::new_dummy();
         channel.channel_elements = Vec::new();
@@ -65,8 +65,9 @@ impl Track {
 
         let channel: TrackChannel = vec![TrackChannelEnum::Channel(Channel::new_dummy())];
 
+        id_xml += 1;
         Track {
-            id: Some(format!("id_{}", id_xml.to_string())),
+            id: Some(format!("id{}", id_xml.to_string())),
             name: Some(name),
             color: None,
             comment: None,

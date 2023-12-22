@@ -1,6 +1,7 @@
 use serde::Deserialize;
 use serde::Serialize;
 
+use crate::id_xml;
 use crate::timeline::time_unit::TimeUnit;
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -21,9 +22,10 @@ pub struct TimeLine {
 }
 
 impl TimeLine {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
+        id_xml += 1;
         Self {
-            id: Some("id" + id_xml.to_string()),
+            id: Some(format!("id{}", id_xml.to_string())),
             name: None,
             color: None,
             comment: None,
