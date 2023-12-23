@@ -146,6 +146,7 @@ mod daw_project_test {
     use crate::project::Project;
     use crate::timeline::clip::Clip;
     use crate::timeline::clips::Clips;
+    use crate::timeline::marker::Marker;
     use crate::timeline::note::Note;
     use crate::timeline::notes::Notes;
     use crate::timeline::real_point::RealPoint;
@@ -153,7 +154,7 @@ mod daw_project_test {
     use crate::track::{Track, TrackChannelEnum};
     use uuid::Uuid;
 
-    fn random_uuid() -> String {}
+    //fn random_uuid() -> String {}
 
     #[derive(PartialEq)]
     enum Features {
@@ -347,17 +348,14 @@ mod daw_project_test {
     }
 
     fn create_point(time: f64, value: f64, interpolation: Interpolation) -> Point {
-      let mut point = RealPoint::new();
-      point.time = time;
-      point.value = value;
-      point.interpolation = interpolation;
+      let mut point = RealPoint::new_empty();
+      point.time = None;
       point
     }
 
-    fn create_marker(time: f64, name: String) {
-      let mut marker = Marker::new();
-      marker.time = time;
-      marker.name = name;
+    fn create_marker(time: f64, name: String) -> Marker {
+      let mut marker = Marker { name: None, color: None, comment: None, time: None };
+
       marker
     }
 
