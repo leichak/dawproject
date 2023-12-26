@@ -107,3 +107,6 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [ ] Review and clean-up
 - [ ] Create main file loading mod 
 = [ ] Write tests 
+
+
+Finish of until 15th Jan.
