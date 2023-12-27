@@ -110,3 +110,7 @@ Feel free to contribute to adding support for more DAWs.
 
 
 Finish of until 15th Jan.
+
+To do:
+Tests for project and DAW Project
+Compatibility with Java
