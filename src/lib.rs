@@ -448,28 +448,6 @@ mod daw_project_test {
 
       // add master track
       // add instrument track
-
-      project.arrangement = new Arrangement{};
-      project.transport = new Transport{};
-      project.transport.tempo =  RealParameter::new();
-      project.transport.tempo.unit = Unit.bpm;
-      project.transport.tempo.value = 123.0;
-      let mut arrangement_lanes =  Lanes::new();
-      project.arrangement.lanes = arrangement_lanes;
-      project.arrangement.lanes.time_unit = TimeUnit::beats;
-
-      let mut automation = Points();
-      automation.unit = Unit::normalized;
-
-      if (is_pitch_bend) {
-        automation.target.expression = ExpressionType::PitchBend
-        automation.target.channel = 0;
-      } else {
-        automation.target.expression = ExpressionType::channelController;
-        automation.target.channel = 0;
-        automation.target.controller = 1;
-      }
-
       automation.points.push(createPoint(0, 0.0, Interpolation.linear));
       automation.points.push(createPoint(1, 0.0, Interpolation.linear));
       automation.points.push(createPoint(2, 0.5, Interpolation.linear));
@@ -494,7 +472,9 @@ mod daw_project_test {
       }
 
     fn double_adapter_test() {
-      let double_adapter = DoubleAdapter {};
+      let double_adapter = DoubleAdapter {
+        
+      };
 
       // test conversions to inf inf to values
       assert!(double_adapter..)

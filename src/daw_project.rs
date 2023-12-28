@@ -122,7 +122,7 @@ impl DawProject {
     pub fn save(
         project: Project,
         meta_data: MetaData,
-        embedded_files: HashMap<&[u8], String>,
+        embedded_files: HashMap<&Path, String>,
         zip_file_path: &Path,
     ) -> Result<(), ()> {
         let file = match std::fs::File::create(zip_file_path) {
@@ -142,18 +142,18 @@ impl DawProject {
             Err(_) => return Err(()),
         };
 
-        match Self::add_str_to_zip(&mut zip_writer, &project_xml, PROJECT_FILE) {
+        match Self::add_bytes_to_zip(&mut zip_writer, &project_xml.as_bytes(), PROJECT_FILE) {
             Ok(()) => (),
             Err(_) => return Err(()),
         }
 
-        match Self::add_str_to_zip(&mut zip_writer, &meta_data_xml, METADATA_FILE) {
+        match Self::add_bytes_to_zip(&mut zip_writer, &meta_data_xml.as_bytes(), METADATA_FILE) {
             Ok(()) => (),
             Err(_) => return Err(()),
         }
 
-        for (p, s) in &embedded_files {
-            match Self::add_bytes_to_zip(&mut zip_writer, *p, &s) {
+        for (p, s) in embedded_files {
+            match Self::add_bytes_to_zip(&mut zip_writer, , &s) {
                 Ok(_) => (),
                 Err(_) => return Err(()),
             }
@@ -215,6 +215,7 @@ impl DawProject {
     }
 
     pub fn strip_bom() {
+        // Thats just checks for byte order - I think that is irrelevant in that case
         /* I do not know that that is
         BOMInputStream bomInputStream = new BOMInputStream(inputStream ,
         ByteOrderMark.UTF_8, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_32LE, ByteOrderMark.UTF_32BE);
@@ -242,13 +243,6 @@ impl DawProject {
                 None => continue,
             };
 
-            {
-                let comment = file.comment();
-                if !comment.is_empty() {
-                    println!("File {i} comment: {comment}");
-                }
-            }
-
             if file.name() == PROJECT_FILE {
                 match file.read_to_string(&mut contents) {
                     Ok(v) => (),
@@ -256,8 +250,7 @@ impl DawProject {
                 };
             }
         }
-        // println!("{contents}");
-        // Ok(contents)
+
         let mut project: Project = match from_str(&contents) {
             Ok(p) => p,
             Err(_) => return Err(()),
