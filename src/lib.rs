@@ -224,6 +224,27 @@ mod daw_project_test {
                     TrackChannelEnum::Track(_) => {}
                 }
             }
+
+            for tr_ch in &mut master_track.track_channel {
+              match tr_ch {
+                  TrackChannelEnum::Channel(channel) => {
+                      for el in &mut channel.channel_elements {
+                          match el {
+                              crate::channel::ChannelElementsEnum::Devices(devices) => {
+                                  devices.devices.push(DeviceTypes::Vst3Plugin(device));
+                                  break;
+                              }
+                              crate::channel::ChannelElementsEnum::Pan(_) => (),
+                              crate::channel::ChannelElementsEnum::Mute(_) => (),
+                              crate::channel::ChannelElementsEnum::Volume(_) => (),
+                              crate::channel::ChannelElementsEnum::Sends(_) => (),
+                          }
+                          break;
+                      }
+                  }
+                  TrackChannelEnum::Track(_) => {}
+              }
+          }
         }
 
         let mut arragnement = Arrangement {
