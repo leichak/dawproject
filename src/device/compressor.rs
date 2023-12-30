@@ -40,7 +40,7 @@ pub struct Compressor {
 }
 
 impl Compressor {
-    pub fn new() -> Self {
+    pub fn new_empty()  -> Self {
         id_xml += 1;
         Self {
             id: Some(format!("id{}", id_xml.to_string())),

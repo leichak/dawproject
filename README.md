@@ -114,3 +114,4 @@ Finish of until 15th Jan.
 To do:
 Tests for project and DAW Project
 Compatibility with Java
+Java Compatibility can be only based on reading some files and nothing really else 
