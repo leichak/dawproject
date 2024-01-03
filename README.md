@@ -109,5 +109,5 @@ Feel free to contribute to adding support for more DAWs.
 = [ ] Write tests 
 
 
-Finish of until 15th Jan.
+
 
