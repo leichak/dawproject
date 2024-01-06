@@ -430,6 +430,9 @@ mod daw_project_test {
     }
 
     fn load_embedded_file() {
+      let mut v = vec![];
+      let mut x = 32usize;
+      let§
       // doable
 
       //undoable ping

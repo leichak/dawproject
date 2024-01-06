@@ -110,5 +110,5 @@ Feel free to contribute to adding support for more DAWs.
 
 
 
-
-WELL 
+Ideas:
+Maybe write tests for the Java compatibility
