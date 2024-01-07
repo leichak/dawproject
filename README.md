@@ -105,8 +105,7 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [x] continue lib.rs
 - - - - [ ] handle xml id
 - - - - [ ] Review and clean-up
-- [ ] Create main file loading mod 
-= [ ] Write tests 
+
 
 
 
