@@ -107,7 +107,4 @@ Feel free to contribute to adding support for more DAWs.
 - - - - [ ] Review and clean-up
 
 
-
-
-Ideas:
-Maybe write tests for the Java compatibility
+Compile and merge existing changes 
