@@ -401,43 +401,6 @@ mod daw_project_test {
       DawProject::save_xml(project_1, Path::new("target/test.dawproject.xml"));
     }
 
-    fn validate_daw_project() {
-      // It requires to implement dawproject validate (not relevant for now)
-    }
-
-    fn validate_complex_daw_project() {
-      // It requires to implement dawproject validate (not relevant for now)
-    }
-
-    fn save_and_load_daw_project() {
-      // doable
-    }
-
-    fn save_complex_daw_project() {
-      // doable
-    }
-
-    fn save_and_load_complex_daw_project() {
-      // doable
-    }
-
-    fn write_meta_data_schema() {
-      // requires to implement write schema - not relevant
-    }
-
-    fn write_project_schema() {
-      // requires to implement write schema - not relevant
-    }
-
-    fn load_embedded_file() {
-      let mut v = vec![];
-      let mut x = 32usize;
-      let§
-      // doable
-
-      //undoable ping
-    }
-
     enum AudioScenario {
         Warped,
         RawBeats,
@@ -455,9 +418,7 @@ mod daw_project_test {
         }
     }
 
-    fn create_audio_example_test() {}
-
-    fn create_audio_example() {}
+   
 
     fn create_midi_automation_in_clips_example() {
       create_midi_automation_example("MIDI-CC1-AutomationOnTrack", false, false);
