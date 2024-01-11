@@ -192,17 +192,7 @@ mod daw_project_test {
                 path: "plugin-states/12323545.vstpreset".to_string(),
                 external: None,
             };
-            // If plugins finds add some
-            let device = Vst3Plugin {
-                id: Some(Uuid::new_v4().to_string()),
-                device_elements: todo!(),
-                device_id: None,
-                device_name: Some("Limiter".to_string()),
-                device_role: Some(DeviceRole::audioFX),
-                device_vendor: todo!(),
-                loaded: todo!(),
-                plugin_version: todo!(),
-            };
+
 
             for tr_ch in &mut master_track.track_channel {
                 match tr_ch {
