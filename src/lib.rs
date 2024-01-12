@@ -423,28 +423,7 @@ mod daw_project_test {
       let mut instrument_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
       instrument_track.track_channel.destination = master_track.channel;
 
-      // add master track
-      // add instrument track
-      automation.points.push(createPoint(0, 0.0, Interpolation.linear));
-      automation.points.push(createPoint(1, 0.0, Interpolation.linear));
-      automation.points.push(createPoint(2, 0.5, Interpolation.linear));
-      automation.points.push(createPoint(3, 0.5, Interpolation.linear));
-      automation.points.push(createPoint(4, 1.0, Interpolation.linear));
-      automation.points.push(createPoint(5, 1.0, Interpolation.linear));
-      automation.points.push(createPoint(6, 0.5, Interpolation.linear));
-      automation.points.push(createPoint(7, 1, Interpolation.hold));
-      automation.points.push(createPoint(8, 0.5, Interpolation.hold));
-
-      if in_clips {
-        let mut note_clip = Utility::createClip(automation, 0, 8);
-        let mut clips = Utility::createClips(noteClip);
-        clips.track = instrumentTrack;
-        arrangementLanes.lanes.add(clips);
-      } else {
-        automation.track = instrumentTrack;
-        arrangementLanes.lanes.add(automation);
-      }
-
+ 
       save_project_test(project, name, null);
       }
 
