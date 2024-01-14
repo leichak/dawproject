@@ -427,21 +427,6 @@ mod daw_project_test {
       save_project_test(project, name, null);
       }
 
-    fn double_adapter_test() {
-      let double_adapter = DoubleAdapter {
-        
-      };
-
-      // test conversions to inf inf to values
-      assert!(double_adapter..)
-    }
-
-    fn save_test_project(project: Project, name: String, configurer: HashMap<File, String>) {
-        let mut meta_data = MetaData { meta_data: todo!() };
-        let mut embedded_files: HashMap<File, String> = HashMap::new();
-
-        DawProject.save(project)
-        DawProject.save_xml(project)
-        DawProject.validate(project)
+  
     }
   }
