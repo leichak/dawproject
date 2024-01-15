@@ -373,19 +373,7 @@ mod daw_project_test {
     fn save_daw_project() {
 
       /*
-      final Project project = createDummyProject(3, simpleFeatures);
-      final MetaData metadata = new MetaData();
-
-      final Map<File, String> embeddedFiles = new HashMap<>();
-      DawProject.save(project, metadata, embeddedFiles, new File("target/test.dawproject"));
-      DawProject.saveXML(project, new File("target/test.dawproject.xml"));*/
-
-      let mut project: Project = create_dummy_project(3, Vec::new());
-      let mut project_1: Project = create_dummy_project(3, Vec::new());
-      let mut meta_data = MetaData::new();
-
-      let mut embedded_files: HashMap<&[u8],String> = HashMap::new();
-      let file_path = Path::new("target/test.dawproject");
+  
   
       DawProject::save(project, meta_data, embedded_files, file_path);
       DawProject::save_xml(project_1, Path::new("target/test.dawproject.xml"));
