@@ -245,15 +245,7 @@ mod daw_project_test {
             sequence: todo!(),
         };
 
-        let mut arrangement_lanes = Lanes {
-            id: todo!(),
-            name: todo!(),
-            color: todo!(),
-            comment: todo!(),
-            track: todo!(),
-            timeUnit: todo!(),
-            lanes_sequence: todo!(),
-        };
+       
 
         if features
             .iter()
