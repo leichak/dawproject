@@ -245,23 +245,7 @@ mod daw_project_test {
             sequence: todo!(),
         };
 
-       
-
-        if features
-            .iter()
-            .find(|x| (**x) == Features::CUE_MARKERS)
-            .is_some()
-        {
-            let mut markers = Markers {
-                id: todo!(),
-                name: todo!(),
-                color: todo!(),
-                comment: todo!(),
-                track: todo!(),
-                timeUnit: todo!(),
-                markers: todo!(),
-            };
-        }
+     
 
         for i in 0..num_tracks {
             let mut track = Track::new_dummy(
