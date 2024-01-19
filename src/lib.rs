@@ -355,42 +355,4 @@ mod daw_project_test {
       DawProject::save_xml(project_1, Path::new("target/test.dawproject.xml"));
     }
 
-    enum AudioScenario {
-        Warped,
-        RawBeats,
-        RawSeconds,
-        FileWithAbsolutePath,
-        FileWithRelativePath,
-    }
-
-    fn should_test_offset_and_fades(scenario: AudioScenario) -> bool {
-        match scenario {
-            AudioScenario::Warped => true,
-            AudioScenario::RawBeats => true,
-            AudioScenario::RawSeconds => true,
-            _ => false,
-        }
-    }
-
    
-
-    fn create_midi_automation_in_clips_example() {
-      create_midi_automation_example("MIDI-CC1-AutomationOnTrack", false, false);
-      create_midi_automation_example("MIDI-CC1-AutomationInClips", true, false);
-      create_midi_automation_example("MIDI-PitchBend-AutomationOnTrack", false, true);
-      create_midi_automation_example("MIDI-PitchBend-AutomationInClips", true, true);
-    }
-
-    fn create_midi_automation_example(name: String, in_clips: bool, is_pitch_bend: bool) {
-      let mut project = Project::new_empty();
-      let mut master_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
-      let mut instrument_track = Track::new_dummy(name, content_type, mixer_role, volume, pan);
-      instrument_track.track_channel.destination = master_track.channel;
-
- 
-      save_project_test(project, name, null);
-      }
-
-  
-    }
-  }
