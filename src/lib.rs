@@ -345,14 +345,3 @@ mod daw_project_test {
 
       marker
     }
-
-    fn save_daw_project() {
-
-      /*
-  
-  
-      DawProject::save(project, meta_data, embedded_files, file_path);
-      DawProject::save_xml(project_1, Path::new("target/test.dawproject.xml"));
-    }
-
-   
