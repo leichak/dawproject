@@ -334,14 +334,3 @@ mod daw_project_test {
         project
     }
 
-    fn create_point(time: f64, value: f64, interpolation: Interpolation) -> Point {
-      let mut point = RealPoint::new_empty();
-      point.time = None;
-      point
-    }
-
-    fn create_marker(time: f64, name: String) -> Marker {
-      let mut marker = Marker { name: None, color: None, comment: None, time: None };
-
-      marker
-    }
