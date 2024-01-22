@@ -309,23 +309,7 @@ mod daw_project_test {
                     let mut note = Note {
                         notes_sequence_choice: todo!(),
                         time: todo!(),
-                        duration: todo!(),
-                        channel: todo!(),
-                        key: todo!(),
-                        vel: todo!(),
-                        rel: todo!(),
-                    };
-                }
 
-                if features
-                    .iter()
-                    .find(|x| (**x) == Features::ALIAS_CLIPS)
-                    .is_some()
-                {}
-
-                if i == 0
-                    && features
-                        .iter()
                         .find(|x| (**x) == Features::AUTOMATION)
                         .is_some()
                 {}
