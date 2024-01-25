@@ -140,18 +140,4 @@ mod daw_project_test {
     use crate::device::device_role::DeviceRole;
     use crate::device::vst3_plugin::Vst3Plugin;
     use crate::file_reference::FileReference;
-    use crate::interpolation::Interpolation;
-    use crate::meta_data::MetaData;
-    use crate::mixer_role::MixerRoleEnum;
-    use crate::project::Project;
-    use crate::timeline::clip::Clip;
-    use crate::timeline::clips::Clips;
-    use crate::timeline::marker::Marker;
-    use crate::timeline::note::Note;
-    use crate::timeline::notes::Notes;
-    use crate::timeline::real_point::RealPoint;
-    use crate::timeline::{lanes::Lanes, markers::Markers};
-    use crate::track::{Track, TrackChannelEnum};
-    use uuid::Uuid;
-
-    //fn random_uuid() -> String {}
+    use cr
