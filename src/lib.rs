@@ -17,19 +17,19 @@ mod parameter;
 mod project;
 mod real_parameter;
 mod scene;
+mod send;
+mod send_type;
 mod time_signature_parameter;
 mod timeline;
 mod track;
 mod transport;
 mod unit;
 mod utility;
-mod send;
-mod send_type;
 
 pub static id_xml: usize = 0;
 
 pub fn reset_xml_id() {
-  id_xml = 0;
+    id_xml = 0;
 }
 
 pub use serde::{Deserialize, Serialize};
@@ -126,18 +126,3 @@ fn load_daw_project_test() {
 
     println!("Deserialized object {:#?}", obj);
 }
-
-mod daw_project_test {
-
-    use core::num;
-    use std::collections::HashMap;
-    use std::path::Path;
-
-    use crate::arrangement::Arrangement;
-    use crate::channel::{Channel, DeviceTypes};
-    use crate::content_type::ContentType;
-    use crate::daw_project::DawProject;
-    use crate::device::device_role::DeviceRole;
-    use crate::device::vst3_plugin::Vst3Plugin;
-    use crate::file_reference::FileReference;
-    use cr
