@@ -448,6 +448,3 @@ let xml = r##"
 "##;
 
 let mut obj: Project = from_str(xml).unwrap();
-
-println!("Deserialized object {:#?}", obj);
-}
