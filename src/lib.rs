@@ -354,8 +354,6 @@ fn load_daw_project_test() {
 
 let mut obj: Project = from_str(xml).unwrap();
 
-println!("Deserialized object {:#?}", obj);
-}
 
 pub use serde::{Deserialize, Serialize};
 #[cfg(test)]
