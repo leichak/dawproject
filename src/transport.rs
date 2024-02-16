@@ -22,10 +22,4 @@ impl Transport {
             sequence: Vec::new(),
         }
     }
-
-    pub fn new() -> Self {
-        Self {
-            sequence: Vec::new(),
-        }
-    }
 }
