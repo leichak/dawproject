@@ -65,7 +65,6 @@ impl Track {
 
         let channel: TrackChannel = vec![TrackChannelEnum::Channel(Channel::new_dummy())];
 
-        id_xml += 1;
         Track {
             id: Some(format!("id{}", id_xml.to_string())),
             name: Some(name),
