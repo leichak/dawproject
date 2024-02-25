@@ -23,11 +23,6 @@ impl BoolParameter {
         id_xml += 1;
         Self {
             id: Some(format!("id_{}", id_xml.to_string())),
-            name: todo!(),
-            color: todo!(),
-            comment: todo!(),
-            parameter_id: todo!(),
-            value: todo!(),
         }
     }
 }
