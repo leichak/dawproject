@@ -17,12 +17,3 @@ pub struct BoolParameter {
     #[serde(rename = "@value")]
     value: Option<bool>,
 }
-
-impl BoolParameter {
-    pub fn new() -> Self {
-        id_xml += 1;
-        Self {
-            id: Some(format!("id_{}", id_xml.to_string())),
-        }
-    }
-}
