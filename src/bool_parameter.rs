@@ -1,7 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-use crate::id_xml;
-
 #[derive(Debug, Deserialize, Serialize)]
 pub struct BoolParameter {
     #[serde(rename = "@id")]
