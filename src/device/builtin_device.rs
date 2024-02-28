@@ -1,4 +1,4 @@
-use crate::id_xml;
+use crate::add_one_get;
 
 use super::device::DeviceElements;
 use super::device_role::DeviceRole;
@@ -25,10 +25,9 @@ pub struct BuiltinDevice {
 }
 
 impl BuiltinDevice {
-    pub fn new_empty()  -> Self {
-        id_xml += 1;
+    pub fn new_empty() -> Self {
         Self {
-            id: Some(format!("id{}", id_xml.to_string())),
+            id: Some(format!("id{}", add_one_get().to_string())),
             device_elements: vec![],
             device_id: None,
             device_name: None,

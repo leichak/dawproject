@@ -30,7 +30,7 @@ pub(crate) struct Project {
     #[serde(rename = "Application")]
     pub application: Application,
     #[serde(rename = "Transport")]
-    transport: Transport,
+    transport: Option<Transport>,
     #[serde(rename = "Structure")]
     structure: Option<Structure>,
     #[serde(rename = "Arrangement")]
@@ -52,7 +52,7 @@ impl Project {
         Project {
             version: "1.0".to_string(),
             application: Application::new_empty(),
-            transport: Transport::new_empty(),
+            transport: None,
             structure: None,
             arrangement: Arrangement::new_empty(),
             scenes: None,

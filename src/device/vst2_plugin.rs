@@ -1,6 +1,5 @@
-use crate::id_xml;
-
 use super::{device::DeviceElements, device_role::DeviceRole};
+use crate::add_one_get;
 use serde::Deserialize;
 use serde::Serialize;
 
@@ -28,10 +27,9 @@ pub struct Vst2Plugin {
 }
 
 impl Vst2Plugin {
-    pub fn new_empty()  -> Self {
-        id_xml += 1;
+    pub fn new_empty() -> Self {
         Self {
-            id: Some(format!("id{}", id_xml.to_string())),
+            id: Some(format!("id{}", add_one_get().to_string())),
             device_elements: vec![],
             device_id: None,
             device_name: None,

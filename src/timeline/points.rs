@@ -1,10 +1,9 @@
-use crate::id_xml;
-
 use super::{
     super::unit::Unit, automation_target::AutomationTarget, bool_point::BoolPoint,
     enum_point::EnumPoint, integer_point::IntegerPoint, point::Point, real_point::RealPoint,
     time_signature_point::TimeSignaturePoint, time_unit::TimeUnit,
 };
+use crate::add_one_get;
 use serde::Deserialize;
 use serde::Serialize;
 
@@ -48,9 +47,8 @@ pub struct Points {
 
 impl Points {
     pub fn new_empty() -> Self {
-        id_xml += 1;
         Self {
-            id: Some(format!("id{}", id_xml.to_string())),
+            id: Some(format!("id{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

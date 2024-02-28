@@ -152,12 +152,12 @@ impl DawProject {
             Err(_) => return Err(()),
         }
 
-        for (p, s) in embedded_files {
-            match Self::add_bytes_to_zip(&mut zip_writer, , &s) {
-                Ok(_) => (),
-                Err(_) => return Err(()),
-            }
-        }
+        // for (p, s) in embedded_files {
+        //     match Self::add_bytes_to_zip(&mut zip_writer, , &s) {
+        //         Ok(_) => (),
+        //         Err(_) => return Err(()),
+        //     }
+        // }
 
         Ok(())
     }
