@@ -1,4 +1,4 @@
-use crate::id_xml;
+use crate::add_one_get;
 use crate::{
     bool_parameter::BoolParameter, device::au_plugin::AuPlugin,
     device::builtin_device::BuiltinDevice, device::clap_plugin::ClapPlugin,
@@ -74,9 +74,8 @@ pub(crate) struct Channel {
 
 impl Channel {
     pub fn new_dummy() -> Self {
-        id_xml += 1;
         Channel {
-            id: Some(format!("id_{}", id_xml.to_string())),
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

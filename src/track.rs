@@ -1,5 +1,5 @@
+use crate::add_one_get;
 use crate::channel::ChannelElementsEnum;
-use crate::id_xml;
 use crate::mixer_role::MixerRoleEnum;
 use crate::real_parameter::RealParameter;
 use crate::unit::Unit;
@@ -66,7 +66,7 @@ impl Track {
         let channel: TrackChannel = vec![TrackChannelEnum::Channel(Channel::new_dummy())];
 
         Track {
-            id: Some(format!("id{}", id_xml.to_string())),
+            id: Some(format!("id{}", add_one_get().to_string())),
             name: Some(name),
             color: None,
             comment: None,

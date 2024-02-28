@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use serde::Serialize;
 
-use crate::id_xml;
+use crate::add_one_get;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct EnumParameter {
@@ -26,7 +26,7 @@ pub struct EnumParameter {
 impl EnumParameter {
     pub fn new() -> Self {
         Self {
-            id: Some(format!("id_{}", id_xml.to_string())),
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

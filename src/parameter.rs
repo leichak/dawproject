@@ -1,4 +1,4 @@
-use crate::id_xml;
+use crate::add_one_get;
 use serde::{Deserialize, Serialize};
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Parameter {
@@ -16,9 +16,8 @@ pub struct Parameter {
 
 impl Parameter {
     pub fn new() -> Self {
-        id_xml += 1;
         Self {
-            id: Some(format!("id_{}", id_xml.to_string())),
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,

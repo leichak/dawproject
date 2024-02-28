@@ -1,7 +1,7 @@
 use serde::Deserialize;
 use serde::Serialize;
 
-use crate::id_xml;
+use crate::add_one_get;
 use crate::timeline::{
     audio::Audio, clip_slot::ClipSlot, clips::Clips, lanes::Lanes, markers::Markers, notes::Notes,
     points::Points, timeline::TimeLine, video::Video, warps::Warps,
@@ -37,9 +37,8 @@ pub struct Scene {
 
 impl Scene {
     pub fn new() -> Self {
-        id_xml += 1;
         Self {
-            id: Some(format!("id_{}", id_xml.to_string())),
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: todo!(),
             color: todo!(),
             comment: todo!(),
