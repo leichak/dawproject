@@ -24,14 +24,14 @@ pub enum DeviceTypes {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Devices {
+pub struct Devices {
     #[serde(default)]
     #[serde(rename = "$value")]
     pub devices: Vec<DeviceTypes>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Sends {
+pub struct Sends {
     #[serde(default)]
     #[serde(rename = "$value")]
     devices: Vec<DeviceTypes>,
@@ -49,7 +49,7 @@ pub enum ChannelElementsEnum {
 type ChannelElements = Vec<ChannelElementsEnum>;
 
 #[derive(Debug, Deserialize, Serialize)]
-pub(crate) struct Channel {
+pub struct Channel {
     // Extends lane
     #[serde(rename = "@id")]
     id: Option<String>,

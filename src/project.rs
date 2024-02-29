@@ -24,7 +24,7 @@ struct Structure {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub(crate) struct Project {
+pub struct Project {
     #[serde(rename = "@version")]
     pub version: String,
     #[serde(rename = "Application")]

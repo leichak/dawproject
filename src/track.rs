@@ -23,7 +23,7 @@ enum ContentTypeAttribute {
 }
 
 #[derive(Deserialize, Serialize, Debug)]
-pub(crate) struct Track {
+pub struct Track {
     // Extends lane
     #[serde(rename = "@id")]
     id: Option<String>,
