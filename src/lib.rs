@@ -35,7 +35,7 @@ fn add_one_get() -> i32 {
 }
 
 pub fn reset_xml_id() {
-    ID_XML.fetch_and(0, Ordering::SeqCst);
+    let _ = ID_XML.fetch_and(0, Ordering::SeqCst);
 }
 
 pub use serde::{Deserialize, Serialize};
@@ -225,4 +225,9 @@ fn load_daw_project_test1() {
     let mut obj: Project = from_str(xml).unwrap();
 
     println!("Deserialized object {:#?}", obj);
+}
+
+#[cfet(test)]
+fn save_daw_project_test() {
+    // Implementation and tests of serialisation
 }
