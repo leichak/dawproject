@@ -227,7 +227,21 @@ fn load_daw_project_test1() {
     println!("Deserialized object {:#?}", obj);
 }
 
-#[cfet(test)]
+mod project_creator {
+    use crate::project::Project;
+
+    pub fn empty_project() -> Project {
+        Project::new()
+    }
+
+    pub fn create_dummy_project() -> Project {
+        let mut project = empty_project();
+    }
+}
+
+#[cfg(test)]
 fn save_daw_project_test() {
     // Implementation and tests of serialisation
+
+    use daw_project::DawProject;
 }
