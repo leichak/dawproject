@@ -1,17 +1,26 @@
+use crate::add_one_get;
+use crate::content_type::ContentType;
+use crate::mixer_role::MixerRoleEnum;
 use crate::timeline::{
     audio::Audio, clip::Clip, clips::Clips, time_unit::TimeUnit, timeline::TimeLine, warp::Warp,
 };
 use crate::track::Track;
 
-pub fn create_track() -> Track {
+pub fn create_track(
+    name: String,
+    content_type: ContentType,
+    mixer_role: MixerRoleEnum,
+    volume: f64,
+    pan: f64,
+) -> Track {
     Track {
-        id: todo!(),
-        name: todo!(),
-        color: todo!(),
-        comment: todo!(),
+        id: Some(format!("id_{}", add_one_get().to_string())),
+        name: Some(name),
+        color: None,
+        comment: None,
         track_channel: todo!(),
-        content_type: todo!(),
-        loaded: todo!(),
+        content_type: vec![content_type],
+        loaded: false,
     }
 }
 
