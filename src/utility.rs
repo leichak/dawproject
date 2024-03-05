@@ -6,6 +6,7 @@ use crate::timeline::{
 };
 use crate::track::Track;
 
+// create construtctors for all structs
 pub fn create_track(
     name: String,
     content_type: ContentType,
