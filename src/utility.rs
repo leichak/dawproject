@@ -18,63 +18,68 @@ pub fn create_track(
         name: Some(name),
         color: None,
         comment: None,
-        track_channel: todo!(),
+        track_channel: vec![],
         content_type: vec![content_type],
         loaded: false,
     }
 }
 
-pub fn create_audio() -> Audio {
+pub fn create_audio(
+    relative_path: String,
+    sample_rate: i32,
+    channels: i32,
+    duration: f64,
+) -> Audio {
     Audio {
-        id: todo!(),
-        name: todo!(),
-        color: todo!(),
-        comment: todo!(),
-        track: todo!(),
-        timeUnit: todo!(),
-        files_sequence: todo!(),
-        duration: todo!(),
-        algorithm: todo!(),
-        channels: todo!(),
-        sample_rate: todo!(),
+        id: Some(format!("id_{}", add_one_get().to_string())),
+        name: None,
+        color: None,
+        comment: None,
+        track: None,
+        timeUnit: None,
+        files_sequence: None,
+        duration: Some(duration),
+        algorithm: None,
+        channels: Some(channels),
+        sample_rate: Some(sample_rate),
     }
 }
 
-pub fn create_warp() -> Warp {
+pub fn create_warp(time: f64, content_time: f64) -> Warp {
     Warp {
-        time: todo!(),
-        content_time: todo!(),
+        time: time,
+        content_time: content_time,
     }
 }
 
-pub fn create_clip() -> Clip {
+pub fn create_clip(content: TimeLine, time: f64, duration: f64) -> Clip {
     Clip {
-        name: todo!(),
-        color: todo!(),
-        comment: todo!(),
-        notes_sequence_choice: todo!(),
-        time: todo!(),
-        duration: todo!(),
-        content_time_unit: todo!(),
-        play_start: todo!(),
-        play_stop: todo!(),
-        loop_start: todo!(),
-        loop_end: todo!(),
-        fade_time_unit: todo!(),
-        fade_in_time: todo!(),
-        fade_out_time: todo!(),
-        reference: todo!(),
+        name: None,
+        color: None,
+        comment: None,
+        notes_sequence_choice: None,
+        time: time,
+        duration: Some(duration),
+        content_time_unit: None,
+        play_start: None,
+        play_stop: None,
+        loop_start: None,
+        loop_end: None,
+        fade_time_unit: None,
+        fade_in_time: None,
+        fade_out_time: None,
+        reference: None,
     }
 }
 
-pub fn create_clips() -> Clips {
+pub fn create_clips(clips: Vec<Clip>) -> Clips {
     Clips {
-        id: todo!(),
-        name: todo!(),
-        color: todo!(),
-        comment: todo!(),
-        track: todo!(),
-        time_unit: todo!(),
-        clips: todo!(),
+        id: Some(format!("id_{}", add_one_get().to_string())),
+        name: None,
+        color: None,
+        comment: None,
+        track: None,
+        time_unit: None,
+        clips: Some(clips),
     }
 }

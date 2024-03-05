@@ -236,6 +236,8 @@ mod project_creator {
 
     pub fn create_dummy_project() -> Project {
         let mut project = empty_project();
+
+        let mut master_track = 
     }
 }
 
