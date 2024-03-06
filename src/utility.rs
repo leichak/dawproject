@@ -14,6 +14,8 @@ pub fn create_track(
     volume: f64,
     pan: f64,
 ) -> Track {
+    let mut track = Track::new_empty();
+
     Track {
         id: Some(format!("id_{}", add_one_get().to_string())),
         name: Some(name),
@@ -31,6 +33,8 @@ pub fn create_audio(
     channels: i32,
     duration: f64,
 ) -> Audio {
+    let mut audio = Audio::new_empty();
+
     Audio {
         id: Some(format!("id_{}", add_one_get().to_string())),
         name: None,
@@ -47,6 +51,8 @@ pub fn create_audio(
 }
 
 pub fn create_warp(time: f64, content_time: f64) -> Warp {
+    let mut warp = Warp::new_empty();
+
     Warp {
         time: time,
         content_time: content_time,
@@ -54,6 +60,8 @@ pub fn create_warp(time: f64, content_time: f64) -> Warp {
 }
 
 pub fn create_clip(content: TimeLine, time: f64, duration: f64) -> Clip {
+    let mut clip = Clip::new(content, time, duration);
+
     Clip {
         name: None,
         color: None,
@@ -74,6 +82,8 @@ pub fn create_clip(content: TimeLine, time: f64, duration: f64) -> Clip {
 }
 
 pub fn create_clips(clips: Vec<Clip>) -> Clips {
+    let mut clips = Clips::new_empty();
+
     Clips {
         id: Some(format!("id_{}", add_one_get().to_string())),
         name: None,
