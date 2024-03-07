@@ -1,3 +1,4 @@
+use super::timeline::TimeLine;
 use super::{lanes::ArrangementTypeChoiceEnum, time_unit::TimeUnit};
 use serde::Deserialize;
 use serde::Serialize;
@@ -5,7 +6,7 @@ use serde::Serialize;
 type ClipSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 
 #[derive(Debug, Deserialize, Serialize)]
-pub(crate) struct Clip {
+pub struct Clip {
     // #Extends nameable
     #[serde(rename = "@name")]
     name: Option<String>,
@@ -41,14 +42,14 @@ pub(crate) struct Clip {
 }
 
 impl Clip {
-    pub fn new_empty() -> Self {
-        Self {
+    pub fn new_test(content: TimeLine, time: f64, duration: f64) -> Self {
+        Clip {
             name: None,
             color: None,
             comment: None,
             notes_sequence_choice: None,
-            time: 0.0,
-            duration: None,
+            time: time,
+            duration: Some(duration),
             content_time_unit: None,
             play_start: None,
             play_stop: None,

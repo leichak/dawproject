@@ -27,15 +27,15 @@ pub struct Clips {
 }
 
 impl Clips {
-    pub fn new_empty() -> Self {
-        Self {
-            id: Some(format!("id{}", add_one_get().to_string())),
+    pub fn new_test(clips: Vec<Clip>) -> Self {
+        Clips {
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,
             track: None,
             time_unit: None,
-            clips: None,
+            clips: Some(clips),
         }
     }
 }

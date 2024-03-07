@@ -34,19 +34,19 @@ pub struct Audio {
 }
 
 impl Audio {
-    pub fn new_empty() -> Self {
-        Self {
-            id: Some(format!("id{}", add_one_get().to_string())),
+    pub fn new_test(relative_path: String, sample_rate: i32, channels: i32, duration: f64) -> Self {
+        Audio {
+            id: Some(format!("id_{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,
             track: None,
             timeUnit: None,
             files_sequence: None,
-            duration: None,
+            duration: Some(duration),
             algorithm: None,
-            channels: None,
-            sample_rate: None,
+            channels: Some(channels),
+            sample_rate: Some(sample_rate),
         }
     }
 }

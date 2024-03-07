@@ -75,4 +75,22 @@ impl Track {
             loaded: false,
         }
     }
+
+    pub fn new_test(
+        name: String,
+        content_type: ContentType,
+        mixer_role: MixerRoleEnum,
+        volume: f64,
+        pan: f64,
+    ) -> Track {
+        Track {
+            id: Some(format!("id_{}", add_one_get().to_string())),
+            name: Some(name),
+            color: None,
+            comment: None,
+            track_channel: vec![],
+            content_type: vec![content_type],
+            loaded: false,
+        }
+    }
 }

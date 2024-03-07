@@ -14,17 +14,7 @@ pub fn create_track(
     volume: f64,
     pan: f64,
 ) -> Track {
-    let mut track = Track::new_empty();
-
-    Track {
-        id: Some(format!("id_{}", add_one_get().to_string())),
-        name: Some(name),
-        color: None,
-        comment: None,
-        track_channel: vec![],
-        content_type: vec![content_type],
-        loaded: false,
-    }
+    Track::new_test(name, content_type, mixer_role, volume, pan)
 }
 
 pub fn create_audio(
@@ -33,64 +23,17 @@ pub fn create_audio(
     channels: i32,
     duration: f64,
 ) -> Audio {
-    let mut audio = Audio::new_empty();
-
-    Audio {
-        id: Some(format!("id_{}", add_one_get().to_string())),
-        name: None,
-        color: None,
-        comment: None,
-        track: None,
-        timeUnit: None,
-        files_sequence: None,
-        duration: Some(duration),
-        algorithm: None,
-        channels: Some(channels),
-        sample_rate: Some(sample_rate),
-    }
+    Audio::new_test(relative_path, sample_rate, channels, duration)
 }
 
 pub fn create_warp(time: f64, content_time: f64) -> Warp {
-    let mut warp = Warp::new_empty();
-
-    Warp {
-        time: time,
-        content_time: content_time,
-    }
+    Warp::new_test(time, content_time)
 }
 
 pub fn create_clip(content: TimeLine, time: f64, duration: f64) -> Clip {
-    let mut clip = Clip::new(content, time, duration);
-
-    Clip {
-        name: None,
-        color: None,
-        comment: None,
-        notes_sequence_choice: None,
-        time: time,
-        duration: Some(duration),
-        content_time_unit: None,
-        play_start: None,
-        play_stop: None,
-        loop_start: None,
-        loop_end: None,
-        fade_time_unit: None,
-        fade_in_time: None,
-        fade_out_time: None,
-        reference: None,
-    }
+    Clip::new_test(content, time, duration)
 }
 
 pub fn create_clips(clips: Vec<Clip>) -> Clips {
-    let mut clips = Clips::new_empty();
-
-    Clips {
-        id: Some(format!("id_{}", add_one_get().to_string())),
-        name: None,
-        color: None,
-        comment: None,
-        track: None,
-        time_unit: None,
-        clips: Some(clips),
-    }
+    Clips::new_test(clips)
 }
