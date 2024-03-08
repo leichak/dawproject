@@ -78,7 +78,7 @@ impl Track {
 
     pub fn new_test(
         name: String,
-        content_type: ContentType,
+        content_type: Vec<ContentType>,
         mixer_role: MixerRoleEnum,
         volume: f64,
         pan: f64,
@@ -89,7 +89,7 @@ impl Track {
             color: None,
             comment: None,
             track_channel: vec![],
-            content_type: vec![content_type],
+            content_type: content_type,
             loaded: false,
         }
     }

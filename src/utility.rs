@@ -9,7 +9,7 @@ use crate::track::Track;
 // create construtctors for all structs
 pub fn create_track(
     name: String,
-    content_type: ContentType,
+    content_type: Vec<ContentType>,
     mixer_role: MixerRoleEnum,
     volume: f64,
     pan: f64,

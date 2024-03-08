@@ -15,4 +15,11 @@ impl Application {
             version: "".to_string(),
         }
     }
+
+    pub fn new_name_ver(name: String, version: f64) -> Self {
+        Application {
+            name: name,
+            version: version.to_string(),
+        }
+    }
 }

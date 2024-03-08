@@ -7,3 +7,12 @@ pub struct FileReference {
     #[serde(rename = "@external")]
     external: Option<bool>,
 }
+
+impl FileReference {
+    pub fn new(path: String) -> Self {
+        Self {
+            path,
+            external: None,
+        }
+    }
+}

@@ -11,13 +11,13 @@ pub struct Vst3Plugin {
     id: Option<String>,
     #[serde(rename = "$value")]
     #[serde(default)]
-    device_elements: DeviceElements,
+    pub device_elements: DeviceElements,
     #[serde(rename = "@deviceID")]
     device_id: Option<String>,
     #[serde(rename = "@deviceName")]
-    device_name: Option<String>,
+    pub device_name: Option<String>,
     #[serde(rename = "@deviceRole")]
-    device_role: Option<DeviceRole>,
+    pub device_role: Option<DeviceRole>,
     #[serde(rename = "@deviceVendor")]
     device_vendor: Option<String>,
     #[serde(rename = "@loaded")]

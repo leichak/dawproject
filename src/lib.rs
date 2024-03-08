@@ -227,15 +227,69 @@ fn load_daw_project_test1() {
     println!("Deserialized object {:#?}", obj);
 }
 
+#[derive(PartialEq)]
+pub enum Features {
+    CUE_MARKERS,
+    CLIPS,
+    AUDIO,
+    NOTES,
+    AUTOMATION,
+    ALIAS_CLIPS,
+    PLUGINS,
+}
 mod project_creator {
-    use crate::project::Project;
 
-    pub fn empty_project() -> Project {
-        Project::new()
+    use crate::channel::Channel;
+    use crate::device::device::DeviceElementsEnum;
+    use crate::device::device_role::DeviceRole;
+    use crate::device::vst3_plugin::Vst3Plugin;
+    use crate::file_reference::FileReference;
+    use crate::track::TrackChannelEnum;
+    use crate::utility::create_track;
+    use crate::Features;
+    use crate::{project::Project, reset_xml_id};
+
+    pub fn create_empty_project() -> Project {
+        reset_xml_id();
+        Project::new_name_ver("Test".to_string(), 1.0)
     }
 
-    pub fn create_dummy_project() -> Project {
-        let mut project = empty_project();
+    pub fn create_dummy_project(num_tracks: i32, features: Vec<Features>) -> Project {
+        let mut project = create_empty_project();
+
+        let mut master_track = create_track(
+            "Master".to_string(),
+            vec![],
+            crate::mixer_role::MixerRoleEnum::Master,
+            1.0,
+            0.5,
+        );
+
+        if features.iter().any(|f| *f == Features::PLUGINS) {
+            let mut device = Vst3Plugin::new_empty();
+            device.device_name = Some("Limiter".to_string());
+            device.device_role = Some(DeviceRole::audioFX);
+            device.device_elements = vec![DeviceElementsEnum::State(FileReference::new(
+                "plugin-states/12323545.vstpreset".to_string(),
+            ))];
+
+            if master_track.track_channel.iter().any(|e| match e {
+                TrackChannelEnum::Channel(channel) => {
+                    channel.channel_elements.iter().any(|e| match e {
+                        crate::channel::ChannelElementsEnum::Devices(devices) => false,
+                        _ => false,
+                    })
+                }
+                _ => false,
+            }) {
+                master_track
+                    .track_channel
+                    .push(TrackChannelEnum::Channel(Channel::new_dummy()));
+            }
+
+            {}
+        }
+
         project
     }
 }

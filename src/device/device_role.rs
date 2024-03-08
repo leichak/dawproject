@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 #[derive(Debug, Deserialize, Serialize)]
-pub(crate) enum DeviceRole {
+pub enum DeviceRole {
     instrument,
     noteFX,
     audioFX,
