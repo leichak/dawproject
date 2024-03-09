@@ -4,6 +4,7 @@ use crate::add_one_get;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Lane {
+    // Extends referenceable / nameable
     #[serde(rename = "@id")]
     id: Option<String>,
     #[serde(rename = "@name")]

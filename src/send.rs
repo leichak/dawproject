@@ -7,7 +7,7 @@ struct Send {
     #[serde(rename = "@id")]
     id: Option<String>,
     #[serde(rename = "Volume")]
-    volume: Option<RealParameter>,
+    volume: RealParameter,
     #[serde(rename = "Pan")]
     pan: Option<RealParameter>,
     #[serde(rename = "@destination")]
@@ -20,7 +20,7 @@ impl Send {
     pub fn new_empty() -> Self {
         Self {
             id: Some(format!("id_{}", add_one_get().to_string())),
-            volume: None,
+            volume: RealParameter::new_required(),
             pan: None,
             destination: None,
             send_type: None,

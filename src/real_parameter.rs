@@ -18,7 +18,7 @@ pub struct RealParameter {
     #[serde(rename = "@parameterID")]
     parameter_id: Option<i32>,
     #[serde(rename = "@value")]
-    value: f64,
+    value: Option<f64>,
     #[serde(rename = "@unit")]
     unit: Unit,
     #[serde(rename = "@min")]
@@ -28,14 +28,14 @@ pub struct RealParameter {
 }
 
 impl RealParameter {
-    pub fn create_empty(value: f64, unit: Unit) -> RealParameter {
+    pub fn new_required(unit: Unit) -> RealParameter {
         RealParameter {
-            id: Some(format!("id_{}", add_one_get().to_string())),
+            id: Some(format!("id{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,
             parameter_id: None,
-            value: value,
+            value: None,
             unit: unit,
             min: None,
             max: None,
