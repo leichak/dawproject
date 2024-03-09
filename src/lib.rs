@@ -241,13 +241,14 @@ mod project_creator {
 
     use crate::arrangement::Arrangement;
     use crate::channel::{Channel, DeviceTypes};
+    use crate::content_type::ContentType;
     use crate::device::device::DeviceElementsEnum;
     use crate::device::device_role::DeviceRole;
     use crate::device::vst3_plugin::Vst3Plugin;
     use crate::file_reference::FileReference;
     use crate::track::TrackChannelEnum;
-    use crate::utility::create_track;
-    use crate::{Features, arrangement};
+    use crate::utility::{self, create_track};
+    use crate::{arrangement, Features};
     use crate::{project::Project, reset_xml_id};
 
     pub fn create_empty_project() -> Project {
@@ -299,11 +300,30 @@ mod project_creator {
                 })
         }
 
-        let mut arrangement = Arrangement::new_test();
-        arrangement.l
+        /*
+           project.arrangement = new Arrangement();
         final var arrangementLanes = new Lanes();
         arrangementLanes.timeUnit = TimeUnit.beats;
         project.arrangement.lanes = arrangementLanes;
+
+        if (features.contains(Features.CUE_MARKERS))
+        {
+           final var cueMarkers = new Markers();
+           project.arrangement.markers = cueMarkers;
+           cueMarkers.markers.add(createMarker(0, "Verse"));
+           cueMarkers.markers.add(createMarker(24, "Chorus"));
+        }
+           */
+
+        for i in 0..num_tracks {
+            let mut track = utility::create_track(
+                format!("Track {}", (i + 1).to_string()),
+                vec![ContentType::notes],
+                crate::mixer_role::MixerRoleEnum::Regular,
+                1.0,
+                0.5,
+            );
+        }
 
         project
     }
