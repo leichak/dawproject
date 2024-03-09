@@ -10,12 +10,12 @@ pub struct TimeLine {
     #[serde(rename = "@id")]
     id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>, // attribute
+    name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>, // att
+    color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>, // att
-    #[serde(rename = "@track")]
+    comment: Option<String>,
+    #[serde(rename = "@track")] // this is IDREF type
     track: Option<String>,
     #[serde(rename = "@timeUnit")]
     timeUnit: Option<TimeUnit>,

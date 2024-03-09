@@ -48,13 +48,13 @@ impl Structure {
 }
 
 impl Project {
-    pub fn new_name_ver(name: String, version: f64) -> Self {
+    pub fn new_test(name: String, version: f64) -> Self {
         Project {
             version: "1.0".to_string(),
             application: Application::new_name_ver(name, version),
             transport: None,
             structure: None,
-            arrangement: Arrangement::new_empty(),
+            arrangement: Arrangement::new_test(),
             scenes: None,
         }
     }

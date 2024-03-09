@@ -18,7 +18,7 @@ pub struct RealParameter {
     #[serde(rename = "@parameterID")]
     parameter_id: Option<i32>,
     #[serde(rename = "@value")]
-    value: Option<f64>,
+    pub value: Option<f64>,
     #[serde(rename = "@unit")]
     unit: Unit,
     #[serde(rename = "@min")]

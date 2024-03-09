@@ -23,17 +23,4 @@ pub struct EnumParameter {
     value: Option<i32>,
 }
 
-impl EnumParameter {
-    pub fn new() -> Self {
-        Self {
-            id: Some(format!("id_{}", add_one_get().to_string())),
-            name: None,
-            color: None,
-            comment: None,
-            parameter_id: None,
-            count: None,
-            labels: None,
-            value: None,
-        }
-    }
-}
+impl EnumParameter {}

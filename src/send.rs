@@ -16,14 +16,4 @@ struct Send {
     send_type: SendType, // post when creating / just assign
 }
 
-impl Send {
-    pub fn new_empty() -> Self {
-        Self {
-            id: Some(format!("id_{}", add_one_get().to_string())),
-            volume: RealParameter::new_required(),
-            pan: None,
-            destination: None,
-            send_type: None,
-        }
-    }
-}
+impl Send {}

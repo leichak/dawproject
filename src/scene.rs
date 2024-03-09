@@ -38,14 +38,4 @@ pub struct Scene {
     content: Option<TimeLine>,
 }
 
-impl Scene {
-    pub fn new() -> Self {
-        // Self {
-        //     id: Some(format!("id_{}", add_one_get().to_string())),
-        //     name: todo!(),
-        //     color: todo!(),
-        //     comment: todo!(),
-        //     warps_sequence: todo!(),
-        // }
-    }
-}
+impl Scene {}

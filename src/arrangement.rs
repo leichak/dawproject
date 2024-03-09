@@ -31,7 +31,7 @@ pub struct Arrangement {
 }
 
 impl Arrangement {
-    pub fn new_empty() -> Self {
+    pub fn new_test() -> Self {
         Arrangement {
             id: Some(format!("id_{}", add_one_get().to_string())),
             name: None,

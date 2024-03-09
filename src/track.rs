@@ -42,40 +42,6 @@ pub struct Track {
 }
 
 impl Track {
-    pub fn new_dummy(
-        name: String,
-        content_type: Vec<ContentType>,
-        mixer_role: Option<MixerRoleEnum>,
-        volume: f64,
-        pan: f64,
-    ) -> Track {
-        let volume_parameter = RealParameter::create_empty(volume, Unit::Linear);
-        let pan_parameter = RealParameter::create_empty(pan, Unit::Normalized);
-
-        let mut channel = Channel::new_dummy();
-        channel.channel_elements = Vec::new();
-        channel
-            .channel_elements
-            .push(ChannelElementsEnum::Pan(pan_parameter));
-        channel
-            .channel_elements
-            .push(ChannelElementsEnum::Volume(volume_parameter));
-
-        channel.role = mixer_role;
-
-        let channel: TrackChannel = vec![TrackChannelEnum::Channel(Channel::new_dummy())];
-
-        Track {
-            id: Some(format!("id{}", add_one_get().to_string())),
-            name: Some(name),
-            color: None,
-            comment: None,
-            track_channel: channel,
-            content_type: content_type,
-            loaded: false,
-        }
-    }
-
     pub fn new_test(
         name: String,
         content_type: Vec<ContentType>,
@@ -83,12 +49,14 @@ impl Track {
         volume: f64,
         pan: f64,
     ) -> Track {
+        let channel = Channel::new_test(volume, pan, mixer_role);
+
         Track {
             id: Some(format!("id_{}", add_one_get().to_string())),
             name: Some(name),
             color: None,
             comment: None,
-            track_channel: vec![],
+            track_channel: vec![TrackChannelEnum::Channel(channel)],
             content_type: content_type,
             loaded: false,
         }

@@ -43,20 +43,7 @@ pub struct Warps {
     #[serde(rename = "$value")]
     warps_sequence: Option<WarpsSequence>,
     #[serde(rename = "@contentTimeUnit")]
-    content_time_unit: Option<TimeUnit>,
+    content_time_unit: TimeUnit,
 }
 
-impl Warps {
-    pub fn new_empty() -> Self {
-        Self {
-            id: Some(format!("id{}", add_one_get().to_string())),
-            name: None,
-            color: None,
-            comment: None,
-            track: None,
-            timeUnit: None,
-            warps_sequence: None,
-            content_time_unit: None,
-        }
-    }
-}
+impl Warps {}

@@ -208,7 +208,7 @@ fn load_daw_project_test1() {
                   <Warp time="0.0" contentTime="0.0"/>
                   <Warp time="8.00003433227539" contentTime="2.823541666666667"/>
                 </Warps>
-              </Clip>
+              </Clip> 
             </Clips>
           </Clip>
         </Clips>
@@ -239,19 +239,20 @@ pub enum Features {
 }
 mod project_creator {
 
-    use crate::channel::Channel;
+    use crate::arrangement::Arrangement;
+    use crate::channel::{Channel, DeviceTypes};
     use crate::device::device::DeviceElementsEnum;
     use crate::device::device_role::DeviceRole;
     use crate::device::vst3_plugin::Vst3Plugin;
     use crate::file_reference::FileReference;
     use crate::track::TrackChannelEnum;
     use crate::utility::create_track;
-    use crate::Features;
+    use crate::{Features, arrangement};
     use crate::{project::Project, reset_xml_id};
 
     pub fn create_empty_project() -> Project {
         reset_xml_id();
-        Project::new_name_ver("Test".to_string(), 1.0)
+        Project::new_test("Test".to_string(), 1.0)
     }
 
     pub fn create_dummy_project(num_tracks: i32, features: Vec<Features>) -> Project {
@@ -273,22 +274,36 @@ mod project_creator {
                 "plugin-states/12323545.vstpreset".to_string(),
             ))];
 
-            if master_track.track_channel.iter().any(|e| match e {
-                TrackChannelEnum::Channel(channel) => {
-                    channel.channel_elements.iter().any(|e| match e {
-                        crate::channel::ChannelElementsEnum::Devices(devices) => false,
-                        _ => false,
-                    })
-                }
-                _ => false,
-            }) {
-                master_track
-                    .track_channel
-                    .push(TrackChannelEnum::Channel(Channel::new_dummy()));
-            }
-
-            {}
+            master_track
+                .track_channel
+                .iter_mut()
+                .filter(|x| match x {
+                    TrackChannelEnum::Channel(_) => true,
+                    _ => false,
+                })
+                .for_each(|x| match x {
+                    TrackChannelEnum::Channel(x) => x
+                        .channel_elements
+                        .iter()
+                        .filter(|x| match x {
+                            crate::channel::ChannelElementsEnum::Devices(_) => true,
+                            _ => false,
+                        })
+                        .for_each(|x| match x {
+                            crate::channel::ChannelElementsEnum::Devices(x) => {
+                                x.devices.push(DeviceTypes::Vst3Plugin(device));
+                            }
+                            _ => (),
+                        }),
+                    _ => (),
+                })
         }
+
+        let mut arrangement = Arrangement::new_test();
+        arrangement.l
+        final var arrangementLanes = new Lanes();
+        arrangementLanes.timeUnit = TimeUnit.beats;
+        project.arrangement.lanes = arrangementLanes;
 
         project
     }

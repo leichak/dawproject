@@ -28,25 +28,9 @@ pub struct Audio {
     #[serde(rename = "@algorithm")]
     algorithm: Option<String>,
     #[serde(rename = "@channels")]
-    channels: Option<i32>,
+    channels: i32,
     #[serde(rename = "@sampleRate")]
-    sample_rate: Option<i32>,
+    sample_rate: i32,
 }
 
-impl Audio {
-    pub fn new_test(relative_path: String, sample_rate: i32, channels: i32, duration: f64) -> Self {
-        Audio {
-            id: Some(format!("id_{}", add_one_get().to_string())),
-            name: None,
-            color: None,
-            comment: None,
-            track: None,
-            timeUnit: None,
-            files_sequence: None,
-            duration: Some(duration),
-            algorithm: None,
-            channels: Some(channels),
-            sample_rate: Some(sample_rate),
-        }
-    }
-}
+impl Audio {}
