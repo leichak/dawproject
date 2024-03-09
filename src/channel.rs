@@ -40,9 +40,6 @@ pub struct Sends {
 #[derive(Debug, Deserialize, Serialize)]
 pub enum ChannelElementsEnum {
     Devices(Devices),
-    Pan(RealParameter),
-    Mute(BoolParameter),
-    Volume(RealParameter),
     Sends(Sends),
 }
 
@@ -59,17 +56,21 @@ pub struct Channel {
     color: Option<String>,
     #[serde(rename = "@comment")]
     comment: Option<String>,
-    #[serde(rename = "$value")]
-    #[serde(default)]
-    pub channel_elements: ChannelElements,
-    #[serde(rename = "@audioChannels")]
-    audio_channels: Option<i32>,
-    #[serde(rename = "@destination")]
-    destination: Option<String>,
     #[serde(rename = "@role")]
     pub role: Option<MixerRoleEnum>,
+    #[serde(rename = "@audioChannels")]
+    audio_channels: i32, // required bc has value default
+    #[serde(rename = "@Volume")]
+    volume: Option<RealParameter>,
+    #[serde(rename = "@Pan")]
+    pan: Option<RealParameter>,
     #[serde(rename = "@solo")]
     solo: Option<bool>,
+    #[serde(rename = "@destination")]
+    destination: Option<String>, // This is of type id ref ratehr
+    #[serde(rename = "$value")] // name should be Devices or Sends and element name accordignly to its name
+    #[serde(default)]
+    pub channel_elements: ChannelElements,
 }
 
 impl Channel {

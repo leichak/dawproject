@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use crate::add_one_get;
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct BoolParameter {
+pub struct IntegerParameter {
     #[serde(rename = "@id")]
     id: Option<String>,
     #[serde(rename = "@name")]
@@ -22,7 +22,7 @@ pub struct BoolParameter {
     value: Option<i32>,
 }
 
-impl BoolParameter {
+impl IntegerParameter {
     pub fn new() -> Self {
         Self {
             id: Some(format!("id_{}", add_one_get().to_string())),

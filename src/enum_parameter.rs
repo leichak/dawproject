@@ -16,7 +16,7 @@ pub struct EnumParameter {
     #[serde(rename = "@parameterID")]
     parameter_id: Option<i32>,
     #[serde(rename = "@count")]
-    count: Option<i32>,
+    count: i32, // required
     #[serde(rename = "@labels")]
     labels: Option<Vec<String>>,
     #[serde(rename = "@value")]

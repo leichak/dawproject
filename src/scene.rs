@@ -23,6 +23,7 @@ enum SceneSequenceEnum {
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Scene {
+    // extends referenceable
     #[serde(rename = "@id")]
     id: Option<String>,
     #[serde(rename = "@name")]
@@ -31,18 +32,20 @@ pub struct Scene {
     color: Option<String>,
     #[serde(rename = "@comment")]
     comment: Option<String>,
-    #[serde(rename = "$value")]
-    warps_sequence: Option<SceneSequenceEnum>,
+    // #[serde(rename = "$value")]
+    // warps_sequence: Option<SceneSequenceEnum>,
+    #[serde(rename = "Timeline")] // not sure its good but let it be
+    content: Option<TimeLine>,
 }
 
 impl Scene {
     pub fn new() -> Self {
-        Self {
-            id: Some(format!("id_{}", add_one_get().to_string())),
-            name: todo!(),
-            color: todo!(),
-            comment: todo!(),
-            warps_sequence: todo!(),
-        }
+        // Self {
+        //     id: Some(format!("id_{}", add_one_get().to_string())),
+        //     name: todo!(),
+        //     color: todo!(),
+        //     comment: todo!(),
+        //     warps_sequence: todo!(),
+        // }
     }
 }

@@ -26,7 +26,7 @@ struct Structure {
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Project {
     #[serde(rename = "@version")]
-    pub version: String,
+    pub version: String, // assign 1.0
     #[serde(rename = "Application")]
     pub application: Application,
     #[serde(rename = "Transport")]
@@ -34,7 +34,7 @@ pub struct Project {
     #[serde(rename = "Structure")]
     structure: Option<Structure>,
     #[serde(rename = "Arrangement")]
-    arrangement: Arrangement,
+    arrangement: Option<Arrangement>,
     #[serde(rename = "Scenes")]
     scenes: Option<Vec<Scene>>,
 }
