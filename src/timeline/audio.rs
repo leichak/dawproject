@@ -33,4 +33,23 @@ pub struct Audio {
     sample_rate: i32,
 }
 
-impl Audio {}
+impl Audio {
+    pub fn new_test(relative_path: String, sample_rate: i32, channels: i32, duration: f64) -> Self {
+        Self {
+            id: Some(format!("id_{}", add_one_get().to_string())),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            timeUnit: None,
+            files_sequence: Some(vec![FileReference {
+                path: relative_path,
+                external: None,
+            }]),
+            duration: Some(duration),
+            algorithm: None,
+            channels: channels,
+            sample_rate: sample_rate,
+        }
+    }
+}
