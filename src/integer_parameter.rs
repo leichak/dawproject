@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::add_one_get;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct IntegerParameter {
     #[serde(rename = "@id")]
     id: Option<String>,

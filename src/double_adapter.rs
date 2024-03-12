@@ -17,5 +17,5 @@ public class DoubleAdapter extends XmlAdapter<String, Double>
       }
       return String.format(Locale.US, "%.6f", v).replace("Infinity", "inf");
    }
-}
+}   
  */

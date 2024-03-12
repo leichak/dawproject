@@ -54,7 +54,7 @@ impl Project {
             application: Application::new_name_ver(name, version),
             transport: None,
             structure: None,
-            arrangement: Arrangement::new_test(),
+            arrangement: Some(Arrangement::new_test()),
             scenes: None,
         }
     }
