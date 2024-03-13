@@ -172,54 +172,6 @@ mod project_creator {
             0.5,
         );
 
-        if features.iter().any(|f| *f == Features::PLUGINS) {
-            let mut device = Vst3Plugin::new_empty();
-            device.device_name = Some("Limiter".to_string());
-            device.device_role = Some(DeviceRole::audioFX);
-            device.device_elements = vec![DeviceElementsEnum::State(FileReference::new(
-                "plugin-states/12323545.vstpreset".to_string(),
-            ))];
-
-            master_track
-                .track_channel
-                .iter_mut()
-                .filter(|x| match x {
-                    TrackChannelEnum::Channel(_) => true,
-                    _ => false,
-                })
-                .for_each(|x| match x {
-                    TrackChannelEnum::Channel(x) => x
-                        .channel_elements
-                        .iter()
-                        .filter(|x| match x {
-                            crate::channel::ChannelElementsEnum::Devices(_) => true,
-                            _ => false,
-                        })
-                        .for_each(|x| match x {
-                            crate::channel::ChannelElementsEnum::Devices(x) => {
-                                x.devices.push(DeviceTypes::Vst3Plugin(device));
-                            }
-                            _ => (),
-                        }),
-                    _ => (),
-                })
-        }
-
-        /*
-           project.arrangement = new Arrangement();
-        final var arrangementLanes = new Lanes();
-        arrangementLanes.timeUnit = TimeUnit.beats;
-        project.arrangement.lanes = arrangementLanes;
-
-        if (features.contains(Features.CUE_MARKERS))
-        {
-           final var cueMarkers = new Markers();
-           project.arrangement.markers = cueMarkers;
-           cueMarkers.markers.add(createMarker(0, "Verse"));
-           cueMarkers.markers.add(createMarker(24, "Chorus"));
-        }
-           */
-
         for i in 0..num_tracks {
             let mut track = utility::create_track(
                 format!("Track {}", (i + 1).to_string()),
