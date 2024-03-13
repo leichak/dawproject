@@ -172,6 +172,19 @@ mod project_creator {
             0.5,
         );
 
+        if features.contains(&Features::PLUGINS) {
+            // create the device and add it to channel devices struct of master track
+        }
+
+        // create arrangement
+        // add lanes to arrangement
+
+        if features.contains(&FEATURES::CUE_MARKERS) {
+            // create markers
+
+            // add some markers to cue markers
+        }
+
         for i in 0..num_tracks {
             let mut track = utility::create_track(
                 format!("Track {}", (i + 1).to_string()),
@@ -180,6 +193,26 @@ mod project_creator {
                 1.0,
                 0.5,
             );
+
+            // create tracks add to structure
+
+            // add color
+
+            // add desitnation
+
+            // track lanes to arrangament lanes
+
+            // if there are clips
+
+            // create clips
+
+            // if there are alias clips
+
+            // create them
+
+            // if there is automation
+
+            // add some
         }
 
         project
