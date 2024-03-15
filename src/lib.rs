@@ -214,7 +214,39 @@ mod project_creator {
 
             // add some
         }
-
+        /*
+        1. RealPoint and Marker Structs
+        Create a RealPoint struct with fields time, value, and interpolation.
+        Create a Marker struct with fields time and name.
+        2. Enum Definitions
+        Define an Interpolation enum.
+        Define an AudioScenario enum.
+        3. Project Struct
+        Create a Project struct.
+        Include fields like structure, scenes, arrangement, transport, etc.
+        4. RealParameter and Lanes Structs
+        Create a RealParameter struct for tempo values.
+        Create a Lanes struct with timeUnit field.
+        5. Utility Functions
+        Implement utility functions to create tracks, clips, audio, and warps.
+        Implement functions to save projects.
+        6. Implement Tests
+        Implement tests similar to Java methods, converting assertions to Rust equivalents.
+        Handle file operations using Rust's file handling libraries.
+        7. Stream Handling
+        Implement stream handling for reading/writing project files.
+        Implement methods to load embedded files.
+        8. Export Schema
+        Implement functions to export schema for MetaData and Project.
+        9. Serialization
+        Implement serialization/deserialization functions for DoubleAdapter and related tests.
+        10. Main Functions
+        Implement main functions to create and manipulate projects, tracks, and clips.
+        11. Error Handling
+        Implement error handling using Rust's Result type for file operations and other potential errors.
+        12. Trait Implementations
+        Implement necessary traits like Debug, Clone, etc., for custom structs.
+         */
         project
     }
 }
