@@ -193,26 +193,6 @@ mod project_creator {
                 1.0,
                 0.5,
             );
-
-            // create tracks add to structure
-
-            // add color
-
-            // add desitnation
-
-            // track lanes to arrangament lanes
-
-            // if there are clips
-
-            // create clips
-
-            // if there are alias clips
-
-            // create them
-
-            // if there is automation
-
-            // add some
         }
         /*
         1. RealPoint and Marker Structs
