@@ -18,7 +18,7 @@ pub struct TimeLine {
     #[serde(rename = "@track")] // this is IDREF type
     track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: Option<TimeUnit>,
+    time_unit: Option<TimeUnit>,
 }
 
 impl TimeLine {
@@ -29,7 +29,7 @@ impl TimeLine {
             color: None,
             comment: None,
             track: None,
-            timeUnit: None,
+            time_unit: None,
         }
     }
 }

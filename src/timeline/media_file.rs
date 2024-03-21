@@ -18,7 +18,7 @@ struct MediaFile {
     #[serde(rename = "@track")]
     track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: Option<TimeUnit>,
+    time_unit: Option<TimeUnit>,
     // End of extension
     #[serde(rename = "File")]
     files_sequence: Option<Vec<FileReference>>,
@@ -34,7 +34,7 @@ impl MediaFile {
             color: None,
             comment: None,
             track: None,
-            timeUnit: None,
+            time_unit: None,
             files_sequence: None,
             duration: None,
         }

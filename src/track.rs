@@ -1,17 +1,12 @@
 use crate::add_one_get;
 use crate::channel::ChannelElementsEnum;
 use crate::mixer_role::MixerRoleEnum;
+use crate::project::TrackChannelEnum;
 use crate::real_parameter::RealParameter;
 use crate::unit::Unit;
 use crate::{channel::Channel, content_type::ContentType};
 use serde::Deserialize;
 use serde::Serialize;
-
-#[derive(Deserialize, Serialize, Debug)]
-pub enum TrackChannelEnum {
-    Channel(Channel),
-    Track(Track),
-}
 
 pub type TrackChannel = Vec<TrackChannelEnum>;
 

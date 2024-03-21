@@ -19,7 +19,7 @@ pub struct Notes {
     #[serde(rename = "@track")]
     track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: Option<TimeUnit>,
+    time_unit: Option<TimeUnit>,
     // Extension finishes
     #[serde(rename = "$value")]
     notes_sequence: Option<Vec<Note>>,
@@ -33,7 +33,7 @@ impl Notes {
             color: None,
             comment: None,
             track: None,
-            timeUnit: None,
+            time_unit: None,
             notes_sequence: None,
         }
     }

@@ -38,7 +38,7 @@ pub struct Lanes {
     #[serde(rename = "@track")]
     track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: Option<TimeUnit>,
+    pub time_unit: Option<TimeUnit>,
     // Extension finishes
     #[serde(rename = "$value")]
     lanes_sequence: Option<LanesSequenceChoice>,
@@ -52,7 +52,7 @@ impl Lanes {
             color: None,
             comment: None,
             track: None,
-            timeUnit: None,
+            time_unit: None,
             lanes_sequence: None,
         }
     }

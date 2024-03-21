@@ -14,3 +14,14 @@ pub struct Marker {
     #[serde(rename = "@time")]
     time: Option<Vec<f64>>,
 }
+
+impl Marker {
+    pub fn new(time: f64, name: String) -> Self {
+        Self {
+            name: Some(name),
+            color: None,
+            comment: None,
+            time: Some(vec![time]),
+        }
+    }
+}

@@ -145,13 +145,17 @@ pub enum Features {
 mod project_creator {
 
     use crate::arrangement::Arrangement;
-    use crate::channel::{Channel, DeviceTypes};
+    use crate::channel::{Channel, ChannelElementsEnum, DeviceTypes, Devices};
     use crate::content_type::ContentType;
     use crate::device::device::DeviceElementsEnum;
     use crate::device::device_role::DeviceRole;
     use crate::device::vst3_plugin::Vst3Plugin;
     use crate::file_reference::FileReference;
-    use crate::track::TrackChannelEnum;
+    use crate::project::TrackChannelEnum;
+    use crate::timeline::lanes::Lanes;
+    use crate::timeline::marker::Marker;
+    use crate::timeline::markers::Markers;
+    use crate::timeline::time_unit::TimeUnit;
     use crate::utility::{self, create_track};
     use crate::{arrangement, Features};
     use crate::{project::Project, reset_xml_id};
@@ -172,168 +176,112 @@ mod project_creator {
             0.5,
         );
 
+        let mut master_track_ref = &mut master_track;
+
         if features.contains(&Features::PLUGINS) {
-            // create the device and add it to channel devices struct of master track
-        }
-
-        // create arrangement
-        // add lanes to arrangement
-
-        if features.contains(&FEATURES::CUE_MARKERS) {
-            // create markers
-
-            // add some markers to cue markers
-        }
-
-        for i in 0..num_tracks {
-            let mut track = utility::create_track(
-                format!("Track {}", (i + 1).to_string()),
-                vec![ContentType::notes],
-                crate::mixer_role::MixerRoleEnum::Regular,
-                1.0,
-                0.5,
-            );
-        }
-
-        struct RealPoint {
-            time: f64,
-            value: f64,
-            interpolation: Interpolation,
-        }
-
-        struct Marker {
-            time: f64,
-            name: String,
-        }
-
-        #[derive(Debug)]
-        enum Interpolation {
-            Linear,
-            Cubic,
-        }
-
-        #[derive(Debug)]
-        enum AudioScenario {
-            Scenario1,
-            Scenario2,
-        }
-
-        struct Project {
-            structure: Vec<RealPoint>,
-            scenes: Vec<Scene>,
-            arrangement: Arrangement,
-            transport: Transport,
-            // Other fields...
-        }
-
-        struct RealParameter {
-            value: f64,
-        }
-
-        struct Lanes {
-            time_unit: TimeUnit,
-        }
-
-        // Functions to create tracks, clips, audio, and warps...
-
-        fn create_track() -> Track {
-            // Implementation
-        }
-
-        fn create_clip() -> Clip {
-            // Implementation
-        }
-
-        fn save_project(project: &Project, filename: &str) -> Result<(), Error> {
-            // Implementation
-            Ok(())
-        }
-
-        #[cfg(test)]
-        mod tests {
-            use super::*;
-
-            #[test]
-            fn test_create_track() {
-                // Test creation of a track
-            }
-
-            #[test]
-            fn test_create_clip() {
-                // Test creation of a clip
-            }
-
-            #[test]
-            fn test_save_project() {
-                // Test saving a project
-            }
-
-            // Other tests...
-        }
-
-        // Implement stream handling for reading/writing project files...
-
-        fn read_project_file(filename: &str) -> Result<Project, Error> {
-            // Implementation
-        }
-
-        fn write_project_file(project: &Project, filename: &str) -> Result<(), Error> {
-            // Implementation
-            Ok(())
-        }
-
-        // Implement functions to export schema for MetaData and Project...
-
-        fn export_metadata_schema() -> Schema {
-            // Implementation
-        }
-
-        fn export_project_schema() -> Schema {
-            // Implementation
-        }
-
-        // Implement serialization/deserialization functions for DoubleAdapter and related tests...
-
-        impl Serialize for DoubleAdapter {
-            // Implementation
-        }
-
-        impl Deserialize for DoubleAdapter {
-            // Implementation
-        }
-
-        // Implement main functions to create and manipulate projects, tracks, and clips...
-
-        fn main() {
-            // Implementation
-        }
-
-        // Implement error handling using Rust's Result type for file operations and other potential errors...
-
-        fn load_project(filename: &str) -> Result<Project, Error> {
-            // Implementation
-        }
-
-        // Implement necessary traits like Debug, Clone, etc., for custom structs...
-
-        impl Clone for RealPoint {
-            fn clone(&self) -> Self {
-                RealPoint {
-                    time: self.time,
-                    value: self.value,
-                    interpolation: self.interpolation.clone(),
+            let mut device = Vst3Plugin::new_empty();
+            device.device_role = Some(DeviceRole::audioFX);
+            if let Some(state) = device.device_elements.iter_mut().find(|el| match el {
+                DeviceElementsEnum::State(_) => true,
+                _ => false,
+            }) {
+                match state {
+                    DeviceElementsEnum::State(state) => {
+                        state.path = "plugin-states/12323545.vstpreset".to_string();
+                    }
+                    _ => (),
                 }
+            } else {
+                device
+                    .device_elements
+                    .push(DeviceElementsEnum::State(FileReference::new(
+                        "plugin-states/12323545.vstpreset".to_string(),
+                    )));
+            }
+
+            if let Some(c) = master_track_ref
+                .track_channel
+                .iter_mut()
+                .find(|el| match el {
+                    TrackChannelEnum::Channel(_) => true,
+                    _ => false,
+                })
+            {
+                match c {
+                    TrackChannelEnum::Channel(c) => {
+                        if let Some(devices) = c.channel_elements.iter_mut().find(|el| match el {
+                            ChannelElementsEnum::Devices(_) => true,
+                            _ => false,
+                        }) {
+                            match devices {
+                                ChannelElementsEnum::Devices(devices) => {
+                                    devices.devices.push(DeviceTypes::Vst3Plugin(device))
+                                }
+                                _ => (),
+                            }
+                        } else {
+                            c.channel_elements
+                                .push(ChannelElementsEnum::Devices(Devices {
+                                    devices: vec![DeviceTypes::Vst3Plugin(device)],
+                                }));
+                        }
+                    }
+                    _ => (),
+                }
+            } else {
+                master_track_ref
+                    .track_channel
+                    .push(TrackChannelEnum::Channel(Channel::new_test(
+                        1.0,
+                        0.0,
+                        crate::mixer_role::MixerRoleEnum::Master,
+                    )))
             }
         }
 
-        impl Debug for Marker {
-            fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-                f.debug_struct("Marker")
-                    .field("time", &self.time)
-                    .field("name", &self.name)
-                    .finish()
-            }
+        project
+            .structure
+            .as_mut()
+            .unwrap()
+            .sequence
+            .push(TrackChannelEnum::Track(master_track));
+
+        let mut arrangement = Arrangement::new_test();
+        if arrangement.sequence.is_none() {
+            arrangement.sequence = Some(vec![]);
         }
+        let mut arrangement_lanes = Lanes::new_empty();
+
+        arrangement_lanes.time_unit = Some(TimeUnit::beats);
+        arrangement.lanes = arrangement_lanes;
+
+        if features.contains(&Features::CUE_MARKERS) {
+            let mut cue_markers = Markers::new_empty();
+            cue_markers
+                .markers
+                .as_mut()
+                .unwrap()
+                .push(Marker::new(0.0, "Verse".to_string()));
+            cue_markers
+                .markers
+                .as_mut()
+                .unwrap()
+                .push(Marker::new(24.0, "Chorus".to_string()));
+        }
+
+        //arrangement.markers.mar
+
+        // if features.contains(&Features::CUE_MARKERS) {}
+
+        // for i in 0..num_tracks {
+        //     let mut track = utility::create_track(
+        //         format!("Track {}", (i + 1).to_string()),
+        //         vec![ContentType::notes],
+        //         crate::mixer_role::MixerRoleEnum::Regular,
+        //         1.0,
+        //         0.5,
+        //     );
+        // }
 
         // Other trait implementations...
 

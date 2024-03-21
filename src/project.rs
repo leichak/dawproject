@@ -12,15 +12,15 @@ use serde::Deserialize;
 use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
-enum TrackChannelEnum {
+pub enum TrackChannelEnum {
     Track(Track),
     Channel(Channel),
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct Structure {
+pub struct Structure {
     #[serde(rename = "$value")]
-    sequence: Vec<TrackChannelEnum>,
+    pub sequence: Vec<TrackChannelEnum>,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -32,7 +32,7 @@ pub struct Project {
     #[serde(rename = "Transport")]
     transport: Option<Transport>,
     #[serde(rename = "Structure")]
-    structure: Option<Structure>,
+    pub structure: Option<Structure>,
     #[serde(rename = "Arrangement")]
     arrangement: Option<Arrangement>,
     #[serde(rename = "Scenes")]
@@ -53,7 +53,7 @@ impl Project {
             version: "1.0".to_string(),
             application: Application::new_name_ver(name, version),
             transport: None,
-            structure: None,
+            structure: Some(Structure { sequence: vec![] }),
             arrangement: Some(Arrangement::new_test()),
             scenes: None,
         }

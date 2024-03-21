@@ -19,10 +19,10 @@ pub struct Markers {
     #[serde(rename = "@track")]
     track: Option<Track>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: Option<TimeUnit>,
+    time_unit: Option<TimeUnit>,
     // Extension ends
     #[serde(rename = "Marker")]
-    markers: Option<Vec<Marker>>,
+    pub markers: Option<Vec<Marker>>,
 }
 
 impl Markers {
@@ -33,8 +33,8 @@ impl Markers {
             color: None,
             comment: None,
             track: None,
-            timeUnit: None,
-            markers: None,
+            time_unit: None,
+            markers: Some(vec![]),
         }
     }
 }
