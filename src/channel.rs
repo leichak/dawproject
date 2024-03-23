@@ -68,7 +68,7 @@ pub struct Channel {
     #[serde(rename = "@solo")]
     solo: Option<bool>,
     #[serde(rename = "@destination")]
-    destination: Option<String>, // This is of type id ref ratehr
+    pub destination: Option<String>, // This is of type id ref ratehr
     #[serde(rename = "$value")] // name should be Devices or Sends and element name accordignly to its name
     #[serde(default)]
     pub channel_elements: ChannelElements,

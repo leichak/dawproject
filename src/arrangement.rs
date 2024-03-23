@@ -7,7 +7,7 @@ use serde::Deserialize;
 use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
-enum ArrangementSequenceEnum {
+pub enum ArrangementSequenceEnum {
     Points(Points),
     Lanes(Lanes),
     Markers(Markers),

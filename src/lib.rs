@@ -144,7 +144,7 @@ pub enum Features {
 }
 mod project_creator {
 
-    use crate::arrangement::Arrangement;
+    use crate::arrangement::{Arrangement, ArrangementSequenceEnum};
     use crate::channel::{Channel, ChannelElementsEnum, DeviceTypes, Devices};
     use crate::content_type::ContentType;
     use crate::device::device::DeviceElementsEnum;
@@ -156,6 +156,7 @@ mod project_creator {
     use crate::timeline::marker::Marker;
     use crate::timeline::markers::Markers;
     use crate::timeline::time_unit::TimeUnit;
+    use crate::track::Track;
     use crate::utility::{self, create_track};
     use crate::{arrangement, Features};
     use crate::{project::Project, reset_xml_id};
@@ -253,7 +254,11 @@ mod project_creator {
         let mut arrangement_lanes = Lanes::new_empty();
 
         arrangement_lanes.time_unit = Some(TimeUnit::beats);
-        arrangement.lanes = arrangement_lanes;
+        arrangement
+            .sequence
+            .as_mut()
+            .unwrap()
+            .push(ArrangementSequenceEnum::Lanes(arrangement_lanes));
 
         if features.contains(&Features::CUE_MARKERS) {
             let mut cue_markers = Markers::new_empty();
@@ -269,29 +274,28 @@ mod project_creator {
                 .push(Marker::new(24.0, "Chorus".to_string()));
         }
 
-        //arrangement.markers.mar
-
-        // if features.contains(&Features::CUE_MARKERS) {}
-
-        // for i in 0..num_tracks {
-        //     let mut track = utility::create_track(
-        //         format!("Track {}", (i + 1).to_string()),
-        //         vec![ContentType::notes],
-        //         crate::mixer_role::MixerRoleEnum::Regular,
-        //         1.0,
-        //         0.5,
-        //     );
-        // }
+        for i in 0..num_tracks {
+            let mut track = utility::create_track(
+                format!("Track {}", (i + 1).to_string()),
+                vec![ContentType::notes],
+                crate::mixer_role::MixerRoleEnum::Regular,
+                1.0,
+                0.5,
+            );
+            track.color = Some(format!("#{}{}{}{}{}{}", i, i, i, i, i, i).to_string());
+            if let Some(c) = track.track_channel.iter_mut().find(|el| match el {
+                TrackChannelEnum::Track(_) => false,
+                TrackChannelEnum::Channel(_) => true,
+            }) {
+                match c {
+                    TrackChannelEnum::Channel(c) => c.destination = Some(),
+                    _ => (),
+                }
+            }
+        }
 
         // Other trait implementations...
 
         project
     }
-}
-
-#[cfg(test)]
-fn save_daw_project_test() {
-    // Implementation and tests of serialisation
-
-    use daw_project::DawProject;
 }

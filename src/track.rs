@@ -25,7 +25,7 @@ pub struct Track {
     #[serde(rename = "@name")]
     name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>,
+    pub color: Option<String>,
     #[serde(rename = "@comment")]
     comment: Option<String>,
     #[serde(rename = "$value")]
@@ -55,5 +55,9 @@ impl Track {
             content_type: content_type,
             loaded: false,
         }
+    }
+
+    pub fn get_id(&self) -> String {
+        self.id.clone().unwrap()
     }
 }

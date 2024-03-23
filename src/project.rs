@@ -58,4 +58,27 @@ impl Project {
             scenes: None,
         }
     }
+
+    pub fn get_master_track(&self) -> &Track {
+        if let Some(t_ref) = self.structure.unwrap().sequence.iter().find(|el| match el {
+            TrackChannelEnum::Track(t) => t
+            .track_channel
+            .iter()
+            .find(|el| match el {
+                TrackChannelEnum::Channel(c) => match c
+                .role
+                .unwrap() {
+                    crate::mixer_role::MixerRoleEnum::Master => true,
+                    _ => false,
+                },
+        
+            }),
+            _ => false,
+        }) {
+            match t_ref {
+                TrackChannelEnum::Track(t) => t,
+                _ => ,
+            }
+        }
+    }
 }
