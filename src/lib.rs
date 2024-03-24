@@ -151,10 +151,18 @@ mod project_creator {
     use crate::device::device_role::DeviceRole;
     use crate::device::vst3_plugin::Vst3Plugin;
     use crate::file_reference::FileReference;
+    use crate::interpolation::{Interpolation, InterpolationEnum};
     use crate::project::TrackChannelEnum;
+    use crate::timeline::clip::Clip;
+    use crate::timeline::clips::Clips;
     use crate::timeline::lanes::Lanes;
     use crate::timeline::marker::Marker;
     use crate::timeline::markers::Markers;
+    use crate::timeline::note::Note;
+    use crate::timeline::notes::Notes;
+    use crate::timeline::point::Point;
+    use crate::timeline::points::Points;
+    use crate::timeline::real_point::RealPoint;
     use crate::timeline::time_unit::TimeUnit;
     use crate::track::Track;
     use crate::utility::{self, create_track};
@@ -283,19 +291,81 @@ mod project_creator {
                 0.5,
             );
             track.color = Some(format!("#{}{}{}{}{}{}", i, i, i, i, i, i).to_string());
+
+            // Set destination
             if let Some(c) = track.track_channel.iter_mut().find(|el| match el {
-                TrackChannelEnum::Track(_) => false,
                 TrackChannelEnum::Channel(_) => true,
+                _ => false,
             }) {
                 match c {
-                    TrackChannelEnum::Channel(c) => c.destination = Some(),
+                    TrackChannelEnum::Channel(c) => {
+                        if let Some(r) = project.get_master_track() {
+                            c.destination = Some(r.get_id());
+                        }
+                    }
                     _ => (),
+                }
+            }
+
+            // create track lines
+
+            let mut track_lanes = Lanes::new_empty(); // move it later to project
+
+            if features.contains(&Features::CLIPS) {
+                let mut clips = Clips::new_empty();
+
+                let mut clip = Clip::new_empty();
+                clip.name = Some(format!("Clip {}", i));
+                clip.time = 8.0 * i as f64;
+                clip.duration = Some(4.0);
+                // add clip
+
+                let mut notes = Notes::new_empty();
+                // add to clip
+
+                for j in 0..8 {
+                    let mut note = Note::new_empty();
+                    note.key = Some(36 + 12 * (j % (1 + i)));
+                    note.vel = Some(0.8);
+                    note.rel = Some(0.5);
+                    note.time = Some(0.5 * (j as f64));
+                    note.duration = Some(0.5);
+                    // notes.notes.add(note); // add to notes
+                }
+
+                if features.contains(&Features::ALIAS_CLIPS) {
+                    let mut clip2 = Clip::new_empty();
+                    clip2.name = Some(format!("Alias Clip {}", i));
+                    clip2.time = 32.0 + 8.0 * i as f64;
+                    clip2.duration = Some(4.0);
+                    //clips.clips.add(clip2); add to clips
+                    //clip2.reference = notes; // add refrence to notes (String of id)
+                }
+
+                if i == 0 && features.contains(&Features::AUTOMATION) {
+                    let mut points = Points::new_empty();
+                    //  points.target.parameter = track.channel.volume;
+                    //  trackLanes.lanes.add(points);
+
+                    if points.points.is_none() {
+                        points.points = Some(vec![]);
+                    }
+                    let mut point = create_point(0.0, 0.0, InterpolationEnum::Linear);
+                    let mut point1 = create_point(8.0, 1.0, InterpolationEnum::Linear);
+
+                    points.points.as_ref().unwrap().push(point);
+                    points.points.as_ref().unwrap().push(point1);
                 }
             }
         }
 
-        // Other trait implementations...
-
         project
+    }
+
+    fn create_point(time: f64, value: f64, interp: Interpolation) -> RealPoint {
+        let point = RealPoint::new_empty();
+        point.time = time;
+        point.value = value;
+        point.interpolation = interp;
     }
 }

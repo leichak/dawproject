@@ -9,20 +9,20 @@ use super::{note::Note, time_unit::TimeUnit};
 pub struct Notes {
     // Extends timeline
     #[serde(rename = "@id")]
-    id: Option<String>,
+    pub id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>, // attribute
+    pub name: Option<String>, // attribute
     #[serde(rename = "@color")]
-    color: Option<String>, // att
+    pub color: Option<String>, // att
     #[serde(rename = "@comment")]
-    comment: Option<String>, // att
+    pub comment: Option<String>, // att
     #[serde(rename = "@track")]
-    track: Option<String>,
+    pub track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    time_unit: Option<TimeUnit>,
+    pub time_unit: Option<TimeUnit>,
     // Extension finishes
     #[serde(rename = "$value")]
-    notes_sequence: Option<Vec<Note>>,
+    pub notes_sequence: Option<Vec<Note>>,
 }
 
 impl Notes {

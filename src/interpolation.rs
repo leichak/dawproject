@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
-enum InterpolationEnum {
+pub enum InterpolationEnum {
     Hold,
     Linear,
 }

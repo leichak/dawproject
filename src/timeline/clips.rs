@@ -38,4 +38,16 @@ impl Clips {
             clips: Some(clips),
         }
     }
+
+    pub fn new_empty() -> Self {
+        Self {
+            id: Some(format!("id_{}", add_one_get().to_string())),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            time_unit: None,
+            clips: None,
+        }
+    }
 }

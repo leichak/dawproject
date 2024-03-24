@@ -6,23 +6,23 @@ type NoteSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 #[derive(Debug, Deserialize, Serialize)]
 pub(crate) struct Note {
     #[serde(rename = "$value")]
-    notes_sequence_choice: Option<NoteSequenceChoice>,
+    pub notes_sequence_choice: Option<NoteSequenceChoice>,
     #[serde(rename = "@time")]
-    time: Option<String>,
+    pub time: Option<f64>,
     #[serde(rename = "@duration")]
-    duration: Option<String>,
+    pub duration: Option<f64>,
     #[serde(rename = "@channel")]
-    channel: Option<i32>,
+    pub channel: Option<i32>,
     #[serde(rename = "@key")]
-    key: Option<i32>,
-    #[serde(rename = "@vel")]
-    vel: Option<String>,
-    #[serde(rename = "@rel")]
-    rel: Option<String>,
+    pub key: Option<i32>,
+    #[serde(rename = "@velocity")]
+    pub vel: Option<f64>,
+    #[serde(rename = "@releaseVelocity")]
+    pub rel: Option<f64>,
 }
 
 impl Note {
-    pub fn new() -> Self {
+    pub fn new_empty() -> Self {
         Self {
             notes_sequence_choice: None,
             time: None,

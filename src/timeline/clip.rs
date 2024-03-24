@@ -9,36 +9,38 @@ type ClipSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 pub struct Clip {
     // #Extends nameable
     #[serde(rename = "@name")]
-    name: Option<String>,
+    pub name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>,
+    pub color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>,
+    pub comment: Option<String>,
     // End of extension
     #[serde(rename = "$value")]
-    notes_sequence_choice: Option<ClipSequenceChoice>,
+    pub notes_sequence_choice: Option<ClipSequenceChoice>,
     #[serde(rename = "@time")]
-    time: f64,
+    pub time: f64,
     #[serde(rename = "@duration")]
-    duration: Option<f64>,
+    pub duration: Option<f64>,
     #[serde(rename = "@contentTimeUnit")]
-    content_time_unit: Option<TimeUnit>,
+    pub content_time_unit: Option<TimeUnit>,
     #[serde(rename = "@playStart")]
-    play_start: Option<f64>,
+    pub play_start: Option<f64>,
     #[serde(rename = "@playStop")]
-    play_stop: Option<f64>,
+    pub play_stop: Option<f64>,
     #[serde(rename = "@loopStart")]
-    loop_start: Option<f64>,
+    pub loop_start: Option<f64>,
     #[serde(rename = "@loopEnd")]
-    loop_end: Option<f64>,
+    pub loop_end: Option<f64>,
     #[serde(rename = "@fadeTimeUnit")]
-    fade_time_unit: Option<TimeUnit>,
+    pub fade_time_unit: Option<TimeUnit>,
     #[serde(rename = "@fadeInTime")]
-    fade_in_time: Option<f64>,
+    pub fade_in_time: Option<f64>,
     #[serde(rename = "@fadeOutTime")]
-    fade_out_time: Option<f64>,
+    pub fade_out_time: Option<f64>,
+    #[serde(rename = "@content")]
+    pub content: Option<TimeLine>,
     #[serde(rename = "@reference")]
-    reference: Option<String>,
+    pub reference: Option<String>,
 }
 
 impl Clip {
@@ -58,6 +60,28 @@ impl Clip {
             fade_time_unit: None,
             fade_in_time: None,
             fade_out_time: None,
+            content: None,
+            reference: None,
+        }
+    }
+
+    pub fn new_empty() -> Self {
+        Clip {
+            name: None,
+            color: None,
+            comment: None,
+            notes_sequence_choice: None,
+            time: 0.0,
+            duration: None,
+            content_time_unit: None,
+            play_start: None,
+            play_stop: None,
+            loop_start: None,
+            loop_end: None,
+            fade_time_unit: None,
+            fade_in_time: None,
+            fade_out_time: None,
+            content: None,
             reference: None,
         }
     }

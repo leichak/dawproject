@@ -18,7 +18,7 @@ enum PointsTypeEnum {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-enum PointsSequenceEnum {
+pub enum PointsSequenceEnum {
     Target(AutomationTarget),
     PointType(PointsTypeEnum),
 }
@@ -27,22 +27,22 @@ enum PointsSequenceEnum {
 pub struct Points {
     // Extends timeline
     #[serde(rename = "@id")]
-    id: Option<String>,
+    pub id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>,
+    pub name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>,
+    pub color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>,
+    pub comment: Option<String>,
     #[serde(rename = "@track")]
-    track: Option<String>,
+    pub track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: Option<TimeUnit>,
+    pub timeUnit: Option<TimeUnit>,
     // Extension finish
     #[serde(rename = "$value")]
-    points: Option<Vec<PointsSequenceEnum>>,
+    pub points: Option<Vec<PointsSequenceEnum>>,
     #[serde(rename = "@unit")]
-    unit: Option<Unit>,
+    pub unit: Option<Unit>,
 }
 
 impl Points {

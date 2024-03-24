@@ -61,30 +61,41 @@ impl Project {
     }
 
     pub fn get_master_track(&self) -> Option<&Track> {
-        if let Some(t) = self.structure.unwrap().sequence.iter().find(|el| match el {
-            TrackChannelEnum::Track(t) => {
-                let filtered = t.track_channel.iter().filter(|el| match el {
-                    TrackChannelEnum::Channel(c) => {
-                        if c.role.is_some() {
-                            if c.role.unwrap() == MixerRoleEnum::Master {
-                                true
-                            } else {
-                                false
+        if let Some(t) = self
+            .structure
+            .as_ref()
+            .unwrap()
+            .sequence
+            .iter()
+            .find(|el| match el {
+                TrackChannelEnum::Track(t) => {
+                    if t.track_channel
+                        .iter()
+                        .filter(|el| match el {
+                            TrackChannelEnum::Channel(c) => {
+                                if c.role.is_some() {
+                                    if c.role.unwrap() == MixerRoleEnum::Master {
+                                        true
+                                    } else {
+                                        false
+                                    }
+                                } else {
+                                    false
+                                }
                             }
-                        } else {
-                            false
-                        }
+                            _ => false,
+                        })
+                        .count()
+                        == 0
+                    {
+                        false
+                    } else {
+                        true
                     }
-                    _ => false,
-                });
-                if filtered.count() == 0 {
-                    false
-                } else {
-                    true
                 }
-            }
-            TrackChannelEnum::Channel(_) => false,
-        }) {
+                TrackChannelEnum::Channel(_) => false,
+            })
+        {
             match t {
                 TrackChannelEnum::Track(t) => return Some(&t),
                 _ => (),
