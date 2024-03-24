@@ -1,6 +1,7 @@
 use crate::application::Application;
 use crate::arrangement::Arrangement;
 
+use crate::mixer_role::MixerRoleEnum;
 use crate::scene::Scene;
 
 use crate::transport::Transport;
@@ -59,26 +60,36 @@ impl Project {
         }
     }
 
-    pub fn get_master_track(&self) -> &Track {
-        if let Some(t_ref) = self.structure.unwrap().sequence.iter().find(|el| match el {
-            TrackChannelEnum::Track(t) => t
-            .track_channel
-            .iter()
-            .find(|el| match el {
-                TrackChannelEnum::Channel(c) => match c
-                .role
-                .unwrap() {
-                    crate::mixer_role::MixerRoleEnum::Master => true,
+    pub fn get_master_track(&self) -> Option<&Track> {
+        if let Some(t) = self.structure.unwrap().sequence.iter().find(|el| match el {
+            TrackChannelEnum::Track(t) => {
+                let filtered = t.track_channel.iter().filter(|el| match el {
+                    TrackChannelEnum::Channel(c) => {
+                        if c.role.is_some() {
+                            if c.role.unwrap() == MixerRoleEnum::Master {
+                                true
+                            } else {
+                                false
+                            }
+                        } else {
+                            false
+                        }
+                    }
                     _ => false,
-                },
-        
-            }),
-            _ => false,
+                });
+                if filtered.count() == 0 {
+                    false
+                } else {
+                    true
+                }
+            }
+            TrackChannelEnum::Channel(_) => false,
         }) {
-            match t_ref {
-                TrackChannelEnum::Track(t) => t,
-                _ => ,
+            match t {
+                TrackChannelEnum::Track(t) => return Some(&t),
+                _ => (),
             }
         }
+        None
     }
 }
