@@ -12,3 +12,11 @@ pub struct Interpolation {
     #[serde(rename = "$value")]
     interpolation_type: Vec<InterpolationEnum>,
 }
+
+impl Interpolation {
+    pub fn create(interpolation_type: InterpolationEnum) -> Self {
+        Self {
+            interpolation_type: vec![interpolation_type],
+        }
+    }
+}

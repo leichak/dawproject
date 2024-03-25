@@ -23,7 +23,7 @@ pub struct Clips {
     time_unit: Option<TimeUnit>,
     // End of extension
     #[serde(rename = "$value")]
-    clips: Option<Vec<Clip>>,
+    pub clips: Option<Vec<Clip>>,
 }
 
 impl Clips {
@@ -47,7 +47,7 @@ impl Clips {
             comment: None,
             track: None,
             time_unit: None,
-            clips: None,
+            clips: Some(vec![]),
         }
     }
 }

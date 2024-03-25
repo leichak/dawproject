@@ -34,7 +34,7 @@ impl Notes {
             comment: None,
             track: None,
             time_unit: None,
-            notes_sequence: None,
+            notes_sequence: Some(vec![]),
         }
     }
 }

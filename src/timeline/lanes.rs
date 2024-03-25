@@ -28,20 +28,20 @@ type LanesSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 pub struct Lanes {
     // Extends timeline
     #[serde(rename = "@id")]
-    id: Option<String>,
+    pub id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>,
+    pub name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>,
+    pub color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>,
+    pub comment: Option<String>,
     #[serde(rename = "@track")]
-    track: Option<String>,
+    pub track: Option<String>,
     #[serde(rename = "@timeUnit")]
     pub time_unit: Option<TimeUnit>,
     // Extension finishes
     #[serde(rename = "$value")]
-    lanes_sequence: Option<LanesSequenceChoice>,
+    pub lanes_sequence: Option<LanesSequenceChoice>,
 }
 
 impl Lanes {
@@ -53,7 +53,7 @@ impl Lanes {
             comment: None,
             track: None,
             time_unit: None,
-            lanes_sequence: None,
+            lanes_sequence: Some(vec![]),
         }
     }
 }

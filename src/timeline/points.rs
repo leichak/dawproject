@@ -8,7 +8,7 @@ use serde::Deserialize;
 use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
-enum PointsTypeEnum {
+pub enum PointsTypeEnum {
     Point(Point),
     RealPoint(RealPoint),
     EnumPoint(EnumPoint),

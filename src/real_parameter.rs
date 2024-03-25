@@ -8,7 +8,7 @@ use crate::unit::Unit;
 #[derive(Debug, Deserialize, Serialize)]
 pub struct RealParameter {
     #[serde(rename = "@id")]
-    id: Option<String>,
+    pub id: Option<String>,
     #[serde(rename = "@name")]
     name: Option<String>,
     #[serde(rename = "@color")]

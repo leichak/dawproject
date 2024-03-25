@@ -6,13 +6,25 @@ use serde::Serialize;
 #[derive(Debug, Deserialize, Serialize)]
 pub struct AutomationTarget {
     #[serde(rename = "@parameter")]
-    parameter: Option<String>,
+    pub parameter: Option<String>,
     #[serde(rename = "@expression")]
-    expression: Option<ExpressionType>,
+    pub expression: Option<ExpressionType>,
     #[serde(rename = "@channel")]
-    channel: Option<i32>,
+    pub channel: Option<i32>,
     #[serde(rename = "@key")]
-    key: Option<i32>,
+    pub key: Option<i32>,
     #[serde(rename = "@controller")]
-    controller: Option<i32>,
+    pub controller: Option<i32>,
+}
+
+impl AutomationTarget {
+    pub fn new_empty() -> Self {
+        Self {
+            parameter: None,
+            expression: None,
+            channel: None,
+            key: None,
+            controller: None,
+        }
+    }
 }

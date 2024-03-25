@@ -144,6 +144,8 @@ pub enum Features {
 }
 mod project_creator {
 
+    use std::sync::Arc;
+
     use crate::arrangement::{Arrangement, ArrangementSequenceEnum};
     use crate::channel::{Channel, ChannelElementsEnum, DeviceTypes, Devices};
     use crate::content_type::ContentType;
@@ -153,15 +155,16 @@ mod project_creator {
     use crate::file_reference::FileReference;
     use crate::interpolation::{Interpolation, InterpolationEnum};
     use crate::project::TrackChannelEnum;
+    use crate::timeline::automation_target::AutomationTarget;
     use crate::timeline::clip::Clip;
     use crate::timeline::clips::Clips;
-    use crate::timeline::lanes::Lanes;
+    use crate::timeline::lanes::{ArrangementTypeChoiceEnum, Lanes};
     use crate::timeline::marker::Marker;
     use crate::timeline::markers::Markers;
     use crate::timeline::note::Note;
     use crate::timeline::notes::Notes;
     use crate::timeline::point::Point;
-    use crate::timeline::points::Points;
+    use crate::timeline::points::{Points, PointsSequenceEnum, PointsTypeEnum};
     use crate::timeline::real_point::RealPoint;
     use crate::timeline::time_unit::TimeUnit;
     use crate::track::Track;
@@ -262,11 +265,6 @@ mod project_creator {
         let mut arrangement_lanes = Lanes::new_empty();
 
         arrangement_lanes.time_unit = Some(TimeUnit::beats);
-        arrangement
-            .sequence
-            .as_mut()
-            .unwrap()
-            .push(ArrangementSequenceEnum::Lanes(arrangement_lanes));
 
         if features.contains(&Features::CUE_MARKERS) {
             let mut cue_markers = Markers::new_empty();
@@ -292,7 +290,6 @@ mod project_creator {
             );
             track.color = Some(format!("#{}{}{}{}{}{}", i, i, i, i, i, i).to_string());
 
-            // Set destination
             if let Some(c) = track.track_channel.iter_mut().find(|el| match el {
                 TrackChannelEnum::Channel(_) => true,
                 _ => false,
@@ -307,8 +304,6 @@ mod project_creator {
                 }
             }
 
-            // create track lines
-
             let mut track_lanes = Lanes::new_empty(); // move it later to project
 
             if features.contains(&Features::CLIPS) {
@@ -318,7 +313,6 @@ mod project_creator {
                 clip.name = Some(format!("Clip {}", i));
                 clip.time = 8.0 * i as f64;
                 clip.duration = Some(4.0);
-                // add clip
 
                 let mut notes = Notes::new_empty();
                 // add to clip
@@ -330,42 +324,95 @@ mod project_creator {
                     note.rel = Some(0.5);
                     note.time = Some(0.5 * (j as f64));
                     note.duration = Some(0.5);
-                    // notes.notes.add(note); // add to notes
-                }
-
-                if features.contains(&Features::ALIAS_CLIPS) {
-                    let mut clip2 = Clip::new_empty();
-                    clip2.name = Some(format!("Alias Clip {}", i));
-                    clip2.time = 32.0 + 8.0 * i as f64;
-                    clip2.duration = Some(4.0);
-                    //clips.clips.add(clip2); add to clips
-                    //clip2.reference = notes; // add refrence to notes (String of id)
+                    notes.notes_sequence.as_mut().unwrap().push(note);
                 }
 
                 if i == 0 && features.contains(&Features::AUTOMATION) {
                     let mut points = Points::new_empty();
                     //  points.target.parameter = track.channel.volume;
-                    //  trackLanes.lanes.add(points);
+                    let mut automation_target = AutomationTarget::new_empty();
+                    automation_target.parameter = track
+                        .track_channel
+                        .iter()
+                        .find(|el| match el {
+                            TrackChannelEnum::Channel(_) => true,
+                            _ => false,
+                        })
+                        .map(|el| match el {
+                            TrackChannelEnum::Channel(c) => {
+                                c.volume.as_ref().unwrap().id.as_ref().unwrap().clone()
+                            }
+                            _ => "".to_string(),
+                        });
+                    points
+                        .points
+                        .as_mut()
+                        .unwrap()
+                        .push(PointsSequenceEnum::Target(automation_target));
 
                     if points.points.is_none() {
                         points.points = Some(vec![]);
                     }
-                    let mut point = create_point(0.0, 0.0, InterpolationEnum::Linear);
-                    let mut point1 = create_point(8.0, 1.0, InterpolationEnum::Linear);
+                    let mut point = PointsSequenceEnum::PointType(PointsTypeEnum::RealPoint(
+                        create_point(0.0, 0.0, InterpolationEnum::Linear),
+                    ));
+                    let mut point_1 = PointsSequenceEnum::PointType(PointsTypeEnum::RealPoint(
+                        create_point(8.0, 1.0, InterpolationEnum::Linear),
+                    ));
 
-                    points.points.as_ref().unwrap().push(point);
-                    points.points.as_ref().unwrap().push(point1);
+                    points
+                        .points
+                        .as_mut()
+                        .unwrap()
+                        .append(&mut vec![point, point_1]);
+
+                    track_lanes
+                        .lanes_sequence
+                        .as_mut()
+                        .unwrap()
+                        .push(ArrangementTypeChoiceEnum::Points(points));
                 }
+                // add clip to clips
+                clips.clips.as_mut().unwrap().push(clip);
+
+                if features.contains(&Features::ALIAS_CLIPS) {
+                    let mut clip_2 = Clip::new_empty();
+                    clip_2.name = Some(format!("Alias Clip {}", i));
+                    clip_2.time = 32.0 + 8.0 * i as f64;
+                    clip_2.duration = Some(4.0);
+                    clip_2.reference = notes.id.clone();
+                    clips.clips.as_mut().unwrap().push(clip_2);
+                }
+
+                // add clips to track_lanes
+                let clips = ArrangementTypeChoiceEnum::Clips(clips);
+                track_lanes.lanes_sequence.as_mut().unwrap().push(clips);
+                track_lanes.track = Some(track.get_id());
             }
+
+            arrangement_lanes
+                .lanes_sequence
+                .as_mut()
+                .unwrap()
+                .push(ArrangementTypeChoiceEnum::Lanes(track_lanes));
         }
+
+        arrangement
+            .sequence
+            .as_mut()
+            .unwrap()
+            .push(ArrangementSequenceEnum::Lanes(arrangement_lanes));
 
         project
     }
 
-    fn create_point(time: f64, value: f64, interp: Interpolation) -> RealPoint {
-        let point = RealPoint::new_empty();
-        point.time = time;
-        point.value = value;
-        point.interpolation = interp;
+    fn create_point(time: f64, value: f64, interpolation: InterpolationEnum) -> RealPoint {
+        RealPoint {
+            time: Some(time),
+            value: Some(value),
+            interpolation: Some(Interpolation::create(interpolation)),
+        }
     }
+
+    pub fn create_marker(time: f64, name: String) {}
 }

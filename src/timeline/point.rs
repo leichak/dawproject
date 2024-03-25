@@ -6,7 +6,7 @@ use serde::Serialize;
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Point {
     #[serde(rename = "@time")]
-    pub time: Option<Vec<String>>,
+    pub time: Option<f64>,
 }
 
 impl Point {
