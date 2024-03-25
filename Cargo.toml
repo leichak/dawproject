@@ -15,3 +15,4 @@ uuid = { version = "1.6.1", features = [
     "macro-diagnostics", # Enable better diagnostics for compile-time UUIDs
 ]}
 zip = "0.6.6"
+ strum = { version = "0.26", features = ["derive"] }

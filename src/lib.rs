@@ -144,17 +144,23 @@ pub enum Features {
 }
 mod project_creator {
 
+    use std::collections::HashMap;
+    use std::fs::File;
+    use std::path::Path;
     use std::sync::Arc;
 
     use crate::arrangement::{Arrangement, ArrangementSequenceEnum};
     use crate::channel::{Channel, ChannelElementsEnum, DeviceTypes, Devices};
     use crate::content_type::ContentType;
+    use crate::daw_project::DawProject;
     use crate::device::device::DeviceElementsEnum;
     use crate::device::device_role::DeviceRole;
     use crate::device::vst3_plugin::Vst3Plugin;
     use crate::file_reference::FileReference;
     use crate::interpolation::{Interpolation, InterpolationEnum};
+    use crate::meta_data::MetaData;
     use crate::project::TrackChannelEnum;
+    use crate::timeline::audio::Audio;
     use crate::timeline::automation_target::AutomationTarget;
     use crate::timeline::clip::Clip;
     use crate::timeline::clips::Clips;
@@ -171,6 +177,7 @@ mod project_creator {
     use crate::utility::{self, create_track};
     use crate::{arrangement, Features};
     use crate::{project::Project, reset_xml_id};
+    use strum::{EnumIter, IntoEnumIterator};
 
     pub fn create_empty_project() -> Project {
         reset_xml_id();
@@ -414,5 +421,122 @@ mod project_creator {
         }
     }
 
-    pub fn create_marker(time: f64, name: String) {}
+    pub fn create_marker(time: f64, name: String) -> Marker {
+        Marker::new(time, name)
+    }
+
+    #[test]
+    pub fn save_daw_project() -> Result<(), ()> {
+        let mut features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO];
+        let proj = create_dummy_project(3, features);
+        let meta_data = MetaData::new();
+        let mut embedded_files: HashMap<&Path, String> = HashMap::new();
+
+        DawProject::save(
+            proj,
+            meta_data,
+            embedded_files,
+            Path::new("target/test.dawproject"),
+        )?;
+
+        Ok(())
+    }
+
+    #[test]
+    pub fn validate_daw_project() -> Result<(), ()> {
+        let mut features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO];
+        let proj = create_dummy_project(3, features);
+
+        Ok(())
+    }
+
+    #[test]
+    pub fn validate_complex_project() -> Result<(), ()> {
+        let mut features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO]; // more features
+        let proj = create_dummy_project(3, features);
+
+        Ok(())
+    }
+
+    #[test]
+    pub fn save_and_load_daw_project() -> Result<(), ()> {
+        let mut features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO];
+        let proj = create_dummy_project(3, features);
+        let meta_data = MetaData::new();
+        let mut embedded_files: HashMap<&Path, String> = HashMap::new();
+        let file = Path::new("target/test.dawproject");
+
+        DawProject::save(proj, meta_data, embedded_files, file)?;
+
+        let loaded_project = DawProject::load_project(file)?;
+
+        //assert_eq!(proj.structure.unwrap(), loaded_project.structure.unwrap());
+        //assert_eq!(proj.scenes.unwrap(), loaded_project.scenes.unwrap());
+        Ok(())
+    }
+
+    #[test]
+    pub fn save_complex_daw_project() -> Result<(), ()> {
+        Ok(())
+    }
+
+    #[test]
+    pub fn save_and_load_complex_daw_project() -> Result<(), ()> {
+        Ok(())
+    }
+
+    #[test]
+    pub fn write_metadata_schema() -> Result<(), ()> {
+        Ok(())
+    }
+
+    #[test]
+    pub fn write_project_schema() -> Result<(), ()> {
+        Ok(())
+    }
+
+    #[test]
+    pub fn load_embedded_file() -> Result<(), ()> {
+        Ok(())
+    }
+
+    #[derive(EnumIter, Debug)]
+    enum AudioScenario {
+        Warped,
+        RawBeats,
+        RawSeconds,
+        FileWithAbsolutePath,
+        FileWithRelativePath,
+    }
+
+    fn should_test_offset_and_fades(scenario: AudioScenario) -> bool {
+        match scenario {
+            AudioScenario::FileWithAbsolutePath => false,
+            AudioScenario::FileWithRelativePath => false,
+            _ => true,
+        }
+    }
+
+    #[test]
+    pub fn create_audio_example() -> Result<(), ()> {
+        for scenario in AudioScenario::iter() {
+            // createAudioExample(0, 0, scenario, false);
+            // if (shouldTestOffsetAndFades(scenario)) {
+            //     createAudioExample(0, 0, scenario, true);
+            //     createAudioExample(1, 0, scenario, false);
+            //     createAudioExample(0, 1, scenario, false);
+            // }
+        }
+
+        Ok(())
+    }
+
+    pub fn create_project_audio_example(
+        play_start_offset: f64,
+        clip_time: f64,
+        scenario: AudioScenario,
+        with_fades: bool,
+    ) -> Result<(), ()> {
+        Ok(())
+    }
 }
