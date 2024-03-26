@@ -1,3 +1,5 @@
+use self::timeline::TimeLine;
+
 pub mod audio;
 pub mod automation_target;
 pub mod bool_point;
@@ -21,3 +23,7 @@ pub mod timeline;
 pub mod video;
 pub mod warp;
 pub mod warps;
+
+pub trait UpcastTimeline {
+    fn upcast(&self) -> TimeLine;
+}

@@ -38,7 +38,7 @@ pub struct Clip {
     #[serde(rename = "@fadeOutTime")]
     pub fade_out_time: Option<f64>,
     #[serde(rename = "@content")]
-    pub content: Option<TimeLine>,
+    pub content: Option<TimeLine>, // in java only methods of super class are accesible so create enum that performs upcasting
     #[serde(rename = "@reference")]
     pub reference: Option<String>,
 }

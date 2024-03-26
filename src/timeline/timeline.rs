@@ -8,17 +8,17 @@ use crate::timeline::time_unit::TimeUnit;
 pub struct TimeLine {
     // Extends referenceable
     #[serde(rename = "@id")]
-    id: Option<String>,
+    pub id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>,
+    pub name: Option<String>,
     #[serde(rename = "@color")]
-    color: Option<String>,
+    pub color: Option<String>,
     #[serde(rename = "@comment")]
-    comment: Option<String>,
+    pub comment: Option<String>,
     #[serde(rename = "@track")] // this is IDREF type
-    track: Option<String>,
+    pub track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    time_unit: Option<TimeUnit>,
+    pub time_unit: Option<TimeUnit>,
 }
 
 impl TimeLine {

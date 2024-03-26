@@ -3,7 +3,7 @@ use serde::Deserialize;
 use serde::Serialize;
 
 #[derive(Debug, Deserialize, Serialize)]
-enum TransportSequence {
+pub enum TransportSequence {
     Tempo(RealParameter),
     TimeSignature(TimeSignatureParameter),
 }
@@ -13,5 +13,11 @@ type TransportSequenceVec = Vec<TransportSequence>;
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Transport {
     #[serde(rename = "$value")]
-    sequence: TransportSequenceVec,
+    pub sequence: TransportSequenceVec,
+}
+
+impl Transport {
+    pub fn new_test() -> Self {
+        Self { sequence: vec![] }
+    }
 }

@@ -145,6 +145,7 @@ pub enum Features {
 mod project_creator {
 
     use std::collections::HashMap;
+    use std::fmt::format;
     use std::fs::File;
     use std::path::Path;
     use std::sync::Arc;
@@ -160,9 +161,11 @@ mod project_creator {
     use crate::interpolation::{Interpolation, InterpolationEnum};
     use crate::meta_data::MetaData;
     use crate::project::TrackChannelEnum;
-    use crate::timeline::audio::Audio;
+    use crate::real_parameter::RealParameter;
+    use crate::timeline::UpcastTimeline;
+    use crate::timeline::audio::{self, Audio};
     use crate::timeline::automation_target::AutomationTarget;
-    use crate::timeline::clip::Clip;
+    use crate::timeline::clip::{self, Clip};
     use crate::timeline::clips::Clips;
     use crate::timeline::lanes::{ArrangementTypeChoiceEnum, Lanes};
     use crate::timeline::marker::Marker;
@@ -173,11 +176,15 @@ mod project_creator {
     use crate::timeline::points::{Points, PointsSequenceEnum, PointsTypeEnum};
     use crate::timeline::real_point::RealPoint;
     use crate::timeline::time_unit::TimeUnit;
+    use crate::timeline::timeline::TimeLine;
+    use crate::timeline::warps::{Warps, WarpsSequenceEnum};
     use crate::track::Track;
+    use crate::transport::{Transport, TransportSequence};
+    use crate::unit::Unit;
     use crate::utility::{self, create_track};
     use crate::{arrangement, Features};
     use crate::{project::Project, reset_xml_id};
-    use strum::{EnumIter, IntoEnumIterator};
+    use strum::{EnumIter, IntoEnumIterator, VariantNames};
 
     pub fn create_empty_project() -> Project {
         reset_xml_id();
@@ -410,6 +417,8 @@ mod project_creator {
             .unwrap()
             .push(ArrangementSequenceEnum::Lanes(arrangement_lanes));
 
+        project.arrangement = Some(arrangement);
+
         project
     }
 
@@ -500,8 +509,8 @@ mod project_creator {
         Ok(())
     }
 
-    #[derive(EnumIter, Debug)]
-    enum AudioScenario {
+    #[derive(EnumIter, VariantNames, Debug, PartialEq)]
+    pub enum AudioScenario {
         Warped,
         RawBeats,
         RawSeconds,
@@ -519,7 +528,8 @@ mod project_creator {
 
     #[test]
     pub fn create_audio_example() -> Result<(), ()> {
-        for scenario in AudioScenario::iter() {
+        for (scenario, name) in AudioScenario::iter().zip(AudioScenario::VARIANTS.iter()) {
+            // create_audio_example(0, 0, scenario, name.to_string(), false);
             // createAudioExample(0, 0, scenario, false);
             // if (shouldTestOffsetAndFades(scenario)) {
             //     createAudioExample(0, 0, scenario, true);
@@ -535,8 +545,114 @@ mod project_creator {
         play_start_offset: f64,
         clip_time: f64,
         scenario: AudioScenario,
+        scenario_name: String,
         with_fades: bool,
     ) -> Result<(), ()> {
+        let mut name = format!("Audio {}", scenario_name);
+        if with_fades {
+            name += &"WithFades";
+        }
+        if play_start_offset != 0.0 {
+            name += &"Offset";
+        }
+        if clip_time != 0.0 {
+            name += &"Clipstart";
+        }
+
+        let mut project = create_empty_project();
+        let mut master_track = create_track(
+            "Master".to_string(),
+            vec![],
+            crate::mixer_role::MixerRoleEnum::Master,
+            1.0,
+            0.5,
+        );
+        let mut audio_track = create_track(
+            "Audio".to_string(),
+            vec![ContentType::audio],
+            crate::mixer_role::MixerRoleEnum::Regular,
+            1.0,
+            0.5,
+        );
+
+        //
+
+        if let Some(c) = audio_track.track_channel.iter_mut().find(|el| match el {
+            TrackChannelEnum::Channel(_) => true,
+            _ => false,
+        }) {
+            match c {
+                TrackChannelEnum::Channel(c) => c.destination = Some(master_track.get_id()),
+                _ => (),
+            }
+        }
+
+        let mut arrangement = Arrangement::new_test(); // add to proj later
+        let mut transport = Transport::new_test();
+        let mut tempo = RealParameter::new_test(Unit::Bpm);
+        tempo.value = Some(155.0);
+        transport.sequence.push(TransportSequence::Tempo(tempo));
+        if arrangement.sequence.is_none() {
+            arrangement.sequence = Some(vec![]);
+        }
+        let mut arrangement_lanes = Lanes::new_empty();
+        let mut arrangement_in_seconds = scenario == AudioScenario::RawBeats;
+
+        arrangement_lanes.time_unit = if arrangement_in_seconds {
+            Some(TimeUnit::seconds)
+        } else {
+            Some(TimeUnit::beats)
+        };
+
+        let mut sample = "white-glasses.wav".to_string();
+        let mut audio_clip = Clip::new_empty();
+        let mut sample_duration = 3.097;
+        let mut audio = utility::create_audio(sample, 44100, 2, sample_duration);
+
+        if scenario == AudioScenario::FileWithAbsolutePath {
+            if audio.files_sequence.is_none() {
+                audio.files_sequence = Some(vec![]);
+            }
+            // Create file here and return absolute path 
+            let path = utility::create_file_path_absolute_string(format!("test-data/{}", sample)).unwrap();
+            audio.files_sequence.as_mut().unwrap().push(FileReference { path: path, external: Some(true) });
+
+        } else if scenario == AudioScenario::FileWithRelativePath {
+            if audio.files_sequence.is_none() {
+                audio.files_sequence = Some(vec![]);
+            }
+            audio.files_sequence.as_mut().unwrap().push(FileReference { path: format!("test-data/{}", sample), external: Some(true) });
+        }  
+
+        if scenario == AudioScenario::Warped {
+            let mut warps = Warps::new_test(TimeUnit::beats);
+            warps.warps_sequence.as_mut().unwrap().push(WarpsSequenceEnum::Warp(utility::create_warp(0.0, 0.0)));
+            warps.warps_sequence.as_mut().unwrap().push(WarpsSequenceEnum::Warp(utility::create_warp(8.0, sample_duration)));
+            audio_clip = utility::create_clip(warps.upcast(), clip_time, 8.0); // I think it is just upcasting to parent class
+            audio_clip.content_time_unit = Some(TimeUnit::beats);
+            audio_clip.play_start = Some(play_start_offset);
+            if with_fades {
+                audio_clip.fade_time_unit = Some(TimeUnit::beats);
+                audio_clip.fade_in_time = Some(0.25);
+                audio_clip.fade_out_time = Some(0.25);
+            }                
+        } else {
+            audio_clip = utility::create_clip(audio.upcast(), clip_time, 8.0); // I think it is just upcasting to parent class
+            audio_clip.content_time_unit = Some(TimeUnit::beats);
+            audio_clip.play_start = Some(play_start_offset);
+            if with_fades {
+                audio_clip.fade_time_unit = Some(TimeUnit::beats);
+                audio_clip.fade_in_time = Some(0.25);
+                audio_clip.fade_out_time = Some(0.25);
+            }                
+        }
+
+        //let mut clips = utility::create_clips(clips);
+        // clips. = audio_track
+        // arrangement_lanes . push (clips)
+
+        save_test_project
+
         Ok(())
     }
 }

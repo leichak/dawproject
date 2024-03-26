@@ -1,3 +1,4 @@
+use super::UpcastTimeline;
 use super::{
     audio::Audio, clip_slot::ClipSlot, clips::Clips, lanes::Lanes, markers::Markers, notes::Notes,
     points::Points, time_unit::TimeUnit, timeline::TimeLine, video::Video, warp::Warp,
@@ -8,7 +9,7 @@ use serde::Deserialize;
 use serde::Serialize;
 
 #[derive(Deserialize, Debug, Serialize)]
-enum WarpsSequenceEnum {
+pub enum WarpsSequenceEnum {
     Timeline(TimeLine),
     Lanes(Lanes),
     Notes(Notes),
@@ -28,22 +29,49 @@ type WarpsSequence = Vec<WarpsSequenceEnum>;
 pub struct Warps {
     // Extends Timeline
     #[serde(rename = "@id")]
-    id: Option<String>,
+    pub id: Option<String>,
     #[serde(rename = "@name")]
-    name: Option<String>, // attribute
+    pub name: Option<String>, // attribute
     #[serde(rename = "@color")]
-    color: Option<String>, // att
+    pub color: Option<String>, // att
     #[serde(rename = "@comment")]
-    comment: Option<String>, // att
+    pub comment: Option<String>, // att
     #[serde(rename = "@track")]
-    track: Option<String>,
+    pub track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: Option<TimeUnit>,
+    pub time_unit: Option<TimeUnit>,
     // Extension ends
     #[serde(rename = "$value")]
-    warps_sequence: Option<WarpsSequence>,
+    pub warps_sequence: Option<WarpsSequence>,
     #[serde(rename = "@contentTimeUnit")]
-    content_time_unit: TimeUnit,
+    pub content_time_unit: TimeUnit,
 }
 
-impl Warps {}
+impl Warps {
+    pub fn new_test(time_unit: TimeUnit) -> Self {
+        Self {
+            id: Some(format!("id{}", add_one_get().to_string())),
+            name: None,
+            color: None,
+            comment: None,
+            track: None,
+            time_unit: None,
+            warps_sequence: None,
+            content_time_unit: time_unit,
+        }
+    }
+}
+
+impl UpcastTimeline for Warps {
+    // this is to emulate upcasting
+    fn upcast(&self) -> TimeLine {
+        TimeLine {
+            id: self.id.clone(),
+            name: self.name.clone(),
+            color: self.color.clone(),
+            comment: self.comment.clone(),
+            track: self.track.clone(),
+            time_unit: self.time_unit.clone(),
+        }
+    }
+}

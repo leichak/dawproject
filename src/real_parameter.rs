@@ -28,7 +28,7 @@ pub struct RealParameter {
 }
 
 impl RealParameter {
-    pub fn new_required(unit: Unit) -> RealParameter {
+    pub fn new_test(unit: Unit) -> RealParameter {
         RealParameter {
             id: Some(format!("id{}", add_one_get().to_string())),
             name: None,

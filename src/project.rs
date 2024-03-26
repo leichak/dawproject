@@ -35,9 +35,9 @@ pub struct Project {
     #[serde(rename = "Structure")]
     pub structure: Option<Structure>,
     #[serde(rename = "Arrangement")]
-    arrangement: Option<Arrangement>,
+    pub arrangement: Option<Arrangement>,
     #[serde(rename = "Scenes")]
-    scenes: Option<Vec<Scene>>,
+    pub scenes: Option<Vec<Scene>>,
 }
 
 impl Structure {
