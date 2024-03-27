@@ -24,6 +24,7 @@ pub mod video;
 pub mod warp;
 pub mod warps;
 
+// This trait is for imitating upcast behaviour when needed, like in Clip that holds Timeline that can be Warps type
 pub trait UpcastTimeline {
     fn upcast(&self) -> TimeLine;
 }

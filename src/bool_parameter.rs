@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
-
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct BoolParameter {
     #[serde(rename = "@id")]
     id: Option<String>,

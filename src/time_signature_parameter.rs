@@ -3,7 +3,7 @@ use serde::Serialize;
 
 use crate::add_one_get;
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct TimeSignatureParameter {
     // Extends parameter
     #[serde(rename = "@name")]

@@ -7,7 +7,7 @@ use crate::timeline::{
     points::Points, timeline::TimeLine, video::Video, warps::Warps,
 };
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 enum SceneSequenceEnum {
     Timeline(TimeLine),
     Lanes(Lanes),
@@ -21,7 +21,7 @@ enum SceneSequenceEnum {
     Points(Points),
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Scene {
     // extends referenceable
     #[serde(rename = "@id")]

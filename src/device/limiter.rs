@@ -5,7 +5,7 @@ use super::{device::DeviceElements, device_role::DeviceRole};
 use crate::add_one_get;
 use crate::real_parameter::RealParameter;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 enum LimiterParamsEnum {
     Attack(RealParameter),
     InputGain(RealParameter),
@@ -16,7 +16,7 @@ enum LimiterParamsEnum {
 
 type LimiterParams = Vec<LimiterParamsEnum>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Limiter {
     // Extendes builtInDevice
     #[serde(rename = "@id")]
@@ -52,6 +52,4 @@ impl Limiter {
             params: vec![],
         }
     }
-
-   
 }

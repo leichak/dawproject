@@ -5,7 +5,7 @@ use serde::Serialize;
 
 use crate::unit::Unit;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RealParameter {
     #[serde(rename = "@id")]
     pub id: Option<String>,
@@ -20,7 +20,7 @@ pub struct RealParameter {
     #[serde(rename = "@value")]
     pub value: Option<f64>,
     #[serde(rename = "@unit")]
-    unit: Unit,
+    pub unit: Unit,
     #[serde(rename = "@min")]
     min: Option<f64>,
     #[serde(rename = "@max")]

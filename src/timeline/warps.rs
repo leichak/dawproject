@@ -8,7 +8,7 @@ use crate::add_one_get;
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Deserialize, Debug, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub enum WarpsSequenceEnum {
     Timeline(TimeLine),
     Lanes(Lanes),
@@ -25,7 +25,7 @@ pub enum WarpsSequenceEnum {
 
 type WarpsSequence = Vec<WarpsSequenceEnum>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Warps {
     // Extends Timeline
     #[serde(rename = "@id")]

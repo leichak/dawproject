@@ -10,7 +10,7 @@ use crate::{
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub enum DeviceTypes {
     Device(Device),
     Vst2Plugin(Vst2Plugin),
@@ -24,21 +24,21 @@ pub enum DeviceTypes {
     AuPlugin(AuPlugin),
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Devices {
     #[serde(default)]
     #[serde(rename = "$value")]
     pub devices: Vec<DeviceTypes>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Sends {
     #[serde(default)]
     #[serde(rename = "$value")]
     devices: Vec<DeviceTypes>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub enum ChannelElementsEnum {
     Devices(Devices),
     Sends(Sends),
@@ -46,7 +46,7 @@ pub enum ChannelElementsEnum {
 
 type ChannelElements = Vec<ChannelElementsEnum>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Channel {
     // Extends lane
     #[serde(rename = "@id")]
@@ -76,9 +76,9 @@ pub struct Channel {
 
 impl Channel {
     pub fn new_test(volume_value: f64, pan_value: f64, role: MixerRoleEnum) -> Self {
-        let mut volume = RealParameter::new_required(Unit::Linear);
+        let mut volume = RealParameter::new_test(Unit::Linear);
         volume.value = Some(volume_value);
-        let mut pan = RealParameter::new_required(Unit::Normalized);
+        let mut pan = RealParameter::new_test(Unit::Normalized);
         pan.value = Some(pan_value);
 
         Self {

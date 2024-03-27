@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::add_one_get;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Lane {
     // Extends referenceable / nameable
     #[serde(rename = "@id")]

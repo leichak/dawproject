@@ -3,7 +3,7 @@ use serde::Serialize;
 
 use crate::add_one_get;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct EnumParameter {
     #[serde(rename = "@id")]
     id: Option<String>,

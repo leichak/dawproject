@@ -7,7 +7,7 @@ use crate::add_one_get;
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub enum PointsTypeEnum {
     Point(Point),
     RealPoint(RealPoint),
@@ -17,13 +17,13 @@ pub enum PointsTypeEnum {
     TimeSignaturePoint(TimeSignaturePoint),
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub enum PointsSequenceEnum {
     Target(AutomationTarget),
     PointType(PointsTypeEnum),
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Points {
     // Extends timeline
     #[serde(rename = "@id")]

@@ -6,7 +6,7 @@ use crate::file_reference::FileReference;
 
 use super::time_unit::TimeUnit;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Video {
     // Extends media file
     #[serde(rename = "@id")]

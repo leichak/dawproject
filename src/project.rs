@@ -12,19 +12,19 @@ use crate::track::Track;
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub enum TrackChannelEnum {
     Track(Track),
     Channel(Channel),
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Structure {
     #[serde(rename = "$value")]
     pub sequence: Vec<TrackChannelEnum>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Project {
     #[serde(rename = "@version")]
     pub version: String, // assign 1.0

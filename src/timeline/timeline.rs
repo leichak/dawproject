@@ -4,7 +4,7 @@ use serde::Serialize;
 use crate::add_one_get;
 use crate::timeline::time_unit::TimeUnit;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct TimeLine {
     // Extends referenceable
     #[serde(rename = "@id")]

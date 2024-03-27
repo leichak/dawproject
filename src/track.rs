@@ -12,12 +12,12 @@ pub type TrackChannel = Vec<TrackChannelEnum>;
 
 type Content = Vec<ContentType>;
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 enum ContentTypeAttribute {
     Content(Content),
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Track {
     // Extends lane
     #[serde(rename = "@id")]

@@ -159,10 +159,9 @@ mod project_creator {
     use crate::device::vst3_plugin::Vst3Plugin;
     use crate::file_reference::FileReference;
     use crate::interpolation::{Interpolation, InterpolationEnum};
-    use crate::meta_data::MetaData;
+    use crate::meta_data::{self, MetaData};
     use crate::project::TrackChannelEnum;
     use crate::real_parameter::RealParameter;
-    use crate::timeline::UpcastTimeline;
     use crate::timeline::audio::{self, Audio};
     use crate::timeline::automation_target::AutomationTarget;
     use crate::timeline::clip::{self, Clip};
@@ -178,6 +177,7 @@ mod project_creator {
     use crate::timeline::time_unit::TimeUnit;
     use crate::timeline::timeline::TimeLine;
     use crate::timeline::warps::{Warps, WarpsSequenceEnum};
+    use crate::timeline::UpcastTimeline;
     use crate::track::Track;
     use crate::transport::{Transport, TransportSequence};
     use crate::unit::Unit;
@@ -607,27 +607,44 @@ mod project_creator {
         let mut sample = "white-glasses.wav".to_string();
         let mut audio_clip = Clip::new_empty();
         let mut sample_duration = 3.097;
-        let mut audio = utility::create_audio(sample, 44100, 2, sample_duration);
+        let mut audio = utility::create_audio(sample.clone(), 44100, 2, sample_duration);
 
         if scenario == AudioScenario::FileWithAbsolutePath {
             if audio.files_sequence.is_none() {
                 audio.files_sequence = Some(vec![]);
             }
-            // Create file here and return absolute path 
-            let path = utility::create_file_path_absolute_string(format!("test-data/{}", sample)).unwrap();
-            audio.files_sequence.as_mut().unwrap().push(FileReference { path: path, external: Some(true) });
-
+            let path =
+                utility::create_file_path_absolute_string(format!("test-data/{}", sample.clone()))
+                    .unwrap();
+            audio.files_sequence.as_mut().unwrap().push(FileReference {
+                path: path,
+                external: Some(true),
+            });
         } else if scenario == AudioScenario::FileWithRelativePath {
             if audio.files_sequence.is_none() {
                 audio.files_sequence = Some(vec![]);
             }
-            audio.files_sequence.as_mut().unwrap().push(FileReference { path: format!("test-data/{}", sample), external: Some(true) });
-        }  
+            audio.files_sequence.as_mut().unwrap().push(FileReference {
+                path: format!("test-data/{}", sample),
+                external: Some(true),
+            });
+        }
 
         if scenario == AudioScenario::Warped {
             let mut warps = Warps::new_test(TimeUnit::beats);
-            warps.warps_sequence.as_mut().unwrap().push(WarpsSequenceEnum::Warp(utility::create_warp(0.0, 0.0)));
-            warps.warps_sequence.as_mut().unwrap().push(WarpsSequenceEnum::Warp(utility::create_warp(8.0, sample_duration)));
+            warps
+                .warps_sequence
+                .as_mut()
+                .unwrap()
+                .push(WarpsSequenceEnum::Warp(utility::create_warp(0.0, 0.0)));
+            warps
+                .warps_sequence
+                .as_mut()
+                .unwrap()
+                .push(WarpsSequenceEnum::Warp(utility::create_warp(
+                    8.0,
+                    sample_duration,
+                )));
             audio_clip = utility::create_clip(warps.upcast(), clip_time, 8.0); // I think it is just upcasting to parent class
             audio_clip.content_time_unit = Some(TimeUnit::beats);
             audio_clip.play_start = Some(play_start_offset);
@@ -635,23 +652,52 @@ mod project_creator {
                 audio_clip.fade_time_unit = Some(TimeUnit::beats);
                 audio_clip.fade_in_time = Some(0.25);
                 audio_clip.fade_out_time = Some(0.25);
-            }                
+            }
         } else {
             audio_clip = utility::create_clip(audio.upcast(), clip_time, 8.0); // I think it is just upcasting to parent class
             audio_clip.content_time_unit = Some(TimeUnit::beats);
             audio_clip.play_start = Some(play_start_offset);
             if with_fades {
                 audio_clip.fade_time_unit = Some(TimeUnit::beats);
-                audio_clip.fade_in_time = Some(0.25);
-                audio_clip.fade_out_time = Some(0.25);
-            }                
+                audio_clip.fade_in_time = Some(0.1);
+                audio_clip.fade_out_time = Some(0.1);
+            }
         }
 
-        //let mut clips = utility::create_clips(clips);
-        // clips. = audio_track
-        // arrangement_lanes . push (clips)
+        let mut clips = utility::create_clips(vec![audio_clip]);
+        clips.track = Some(audio_track.get_id());
+        arrangement_lanes
+            .lanes_sequence
+            .as_mut()
+            .unwrap()
+            .push(ArrangementTypeChoiceEnum::Clips(clips));
 
-        save_test_project
+        project
+            .structure
+            .as_mut()
+            .unwrap()
+            .sequence
+            .push(TrackChannelEnum::Track(master_track));
+        project
+            .structure
+            .as_mut()
+            .unwrap()
+            .sequence
+            .push(TrackChannelEnum::Track(audio_track));
+
+        Ok(())
+    }
+
+    pub fn save_test_project(project: Project, name: String) -> Result<(), ()> {
+        let mut meta_data = MetaData::new();
+        let mut embedded_files: HashMap<&Path, String> = HashMap::new();
+        let path_file = format!("target/{}.dawproject", name);
+        let path_file = Path::new(&path_file);
+        let path_xml = format!("target/{}.xml", name);
+        let path_xml = Path::new(&path_xml);
+        DawProject::save(project.clone(), meta_data, embedded_files, path_file);
+        DawProject::save_xml(project, path_xml);
+        // Here comes additional thing to validate
 
         Ok(())
     }

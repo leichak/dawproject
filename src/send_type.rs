@@ -1,13 +1,13 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 #[serde(rename_all = "lowercase")]
 enum SendTypeEnum {
     Pre,
     Post,
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct SendType {
     #[serde(rename = "$value")]
     field: Vec<SendTypeEnum>,

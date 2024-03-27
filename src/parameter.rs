@@ -1,6 +1,6 @@
 use crate::add_one_get;
 use serde::{Deserialize, Serialize};
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Parameter {
     #[serde(rename = "@id")]
     id: Option<String>,

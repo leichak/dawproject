@@ -1,7 +1,7 @@
 use crate::add_one_get;
 use crate::{channel::Channel, real_parameter::RealParameter, send_type::SendType};
 use serde::{Deserialize, Serialize};
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 struct Send {
     // Extends referenceable
     #[serde(rename = "@id")]

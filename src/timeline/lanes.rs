@@ -8,7 +8,7 @@ use super::{
     points::Points, time_unit::TimeUnit, timeline::TimeLine, video::Video, warps::Warps,
 };
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub enum ArrangementTypeChoiceEnum {
     Timeline(TimeLine),
     Lanes(Lanes),
@@ -24,7 +24,7 @@ pub enum ArrangementTypeChoiceEnum {
 
 type LanesSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Lanes {
     // Extends timeline
     #[serde(rename = "@id")]

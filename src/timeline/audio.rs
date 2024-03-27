@@ -7,7 +7,7 @@ use super::UpcastTimeline;
 use crate::add_one_get;
 use crate::file_reference::FileReference;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Audio {
     // Extends media file
     #[serde(rename = "@id")]
@@ -59,12 +59,12 @@ impl Audio {
 impl UpcastTimeline for Audio {
     fn upcast(&self) -> TimeLine {
         TimeLine {
-            id: self.id,
-            name: self.name,
-            color: self.color,
-            comment: self.comment,
-            track: self.track,
-            time_unit: self.time_unit,
+            id: self.id.clone(),
+            name: self.name.clone(),
+            color: self.color.clone(),
+            comment: self.comment.clone(),
+            track: self.track.clone(),
+            time_unit: self.time_unit.clone(),
         }
     }
 }

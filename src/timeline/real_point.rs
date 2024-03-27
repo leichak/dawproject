@@ -12,7 +12,7 @@ use serde::Serialize;
 
 // type RealPointSequence = Vec<RealPointEnum>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct RealPoint {
     // Extends Point
     #[serde(rename = "@time")]

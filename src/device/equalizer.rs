@@ -5,14 +5,14 @@ use super::{device::DeviceElements, device_role::DeviceRole, eq_band::EqBand};
 use crate::add_one_get;
 use crate::real_parameter::RealParameter;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 enum EqParamsEnum {
     Band(EqBand),
     InputGain(RealParameter),
     OutputGain(RealParameter),
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Equalizer {
     // Extends builtinDevice
     #[serde(rename = "@id")]

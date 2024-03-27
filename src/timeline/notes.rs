@@ -5,7 +5,7 @@ use crate::add_one_get;
 
 use super::{note::Note, time_unit::TimeUnit};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Notes {
     // Extends timeline
     #[serde(rename = "@id")]

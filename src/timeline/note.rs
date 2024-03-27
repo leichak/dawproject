@@ -3,7 +3,7 @@ use serde::Deserialize;
 use serde::Serialize;
 
 type NoteSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub(crate) struct Note {
     #[serde(rename = "$value")]
     pub notes_sequence_choice: Option<NoteSequenceChoice>,

@@ -4,7 +4,7 @@ use super::{device::DeviceElements, device_role::DeviceRole};
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Plugin {
     // Extends device
     #[serde(rename = "@id")]

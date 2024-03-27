@@ -5,7 +5,7 @@ use serde::Serialize;
 
 type ClipSequenceChoice = Vec<ArrangementTypeChoiceEnum>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Clip {
     // #Extends nameable
     #[serde(rename = "@name")]

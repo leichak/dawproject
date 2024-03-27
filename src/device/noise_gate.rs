@@ -5,7 +5,7 @@ use super::{device::DeviceElements, device_role::DeviceRole};
 use crate::add_one_get;
 use crate::real_parameter::RealParameter;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 enum NoiseGateParamsEnum {
     Attack(RealParameter),
     Range(RealParameter),
@@ -16,7 +16,7 @@ enum NoiseGateParamsEnum {
 
 type NoiseGateParams = Vec<NoiseGateParamsEnum>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct NoiseGate {
     // Extnds builtInDevice
     #[serde(rename = "@id")]

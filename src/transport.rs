@@ -2,7 +2,7 @@ use crate::{real_parameter::RealParameter, time_signature_parameter::TimeSignatu
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub enum TransportSequence {
     Tempo(RealParameter),
     TimeSignature(TimeSignatureParameter),
@@ -10,7 +10,7 @@ pub enum TransportSequence {
 
 type TransportSequenceVec = Vec<TransportSequence>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Transport {
     #[serde(rename = "$value")]
     pub sequence: TransportSequenceVec,
