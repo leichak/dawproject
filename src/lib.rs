@@ -157,6 +157,7 @@ mod project_creator {
     use crate::device::device::DeviceElementsEnum;
     use crate::device::device_role::DeviceRole;
     use crate::device::vst3_plugin::Vst3Plugin;
+    use crate::expression_type::{ExpressionType, ExpressionTypeEnum};
     use crate::file_reference::FileReference;
     use crate::interpolation::{Interpolation, InterpolationEnum};
     use crate::meta_data::{self, MetaData};
@@ -684,6 +685,145 @@ mod project_creator {
             .unwrap()
             .sequence
             .push(TrackChannelEnum::Track(audio_track));
+
+        Ok(())
+    }
+
+    pub fn create_midi_automation_in_clips_example() -> Result<(), ()> {
+        create_midi_automation_example("MIDI-CC1-AutomationOnTrack".to_string(), false, false)?;
+        create_midi_automation_example("MIDI-CC1-AutomationInClips".to_string(), true, false)?;
+        create_midi_automation_example(
+            "MIDI-PitchBend-AutomationOnTrack".to_string(),
+            false,
+            true,
+        )?;
+        create_midi_automation_example("MIDI-PitchBend-AutomationInClips".to_string(), true, true)?;
+        Ok(())
+    }
+
+    pub fn create_midi_automation_example(
+        name: String,
+        in_clips: bool,
+        is_pitch_bend: bool,
+    ) -> Result<(), ()> {
+        let mut project = create_empty_project();
+        let mut master_track = create_track(
+            "Master".to_string(),
+            vec![],
+            crate::mixer_role::MixerRoleEnum::Master,
+            1.0,
+            0.5,
+        );
+        let mut instruments_track = create_track(
+            "Notes".to_string(),
+            vec![ContentType::notes],
+            crate::mixer_role::MixerRoleEnum::Regular,
+            1.0,
+            0.5,
+        );
+
+        let mut arrangement = Arrangement::new_test(); // add to proj later
+        let mut transport = Transport::new_test();
+        let mut tempo = RealParameter::new_test(Unit::Bpm);
+        tempo.value = Some(123.0);
+        transport.sequence.push(TransportSequence::Tempo(tempo));
+        if arrangement.sequence.is_none() {
+            arrangement.sequence = Some(vec![]);
+        }
+        let mut arrangement_lanes = Lanes::new_empty();
+        arrangement_lanes.time_unit = Some(TimeUnit::beats);
+
+        let mut automation = Points::new_test();
+        automation.unit = Some(Unit::Normalized);
+
+        if is_pitch_bend {
+            let mut target = AutomationTarget::new_test();
+            let mut expression_type = ExpressionType::new_test();
+            expression_type
+                .expression_type
+                .push(ExpressionTypeEnum::pitchBend);
+
+            target.expression = Some(expression_type);
+            target.channel = Some(0);
+            automation
+                .points
+                .as_mut()
+                .unwrap()
+                .push(PointsSequenceEnum::Target(target));
+            automation
+                .points
+                .as_mut()
+                .unwrap()
+                .push(PointsSequenceEnum::Target(target));
+        } else {
+            let mut target = AutomationTarget::new_test();
+            let mut expression_type = ExpressionType::new_test();
+            expression_type
+                .expression_type
+                .push(ExpressionTypeEnum::channelController);
+            target.controller = Some(1);
+            target.expression = Some(expression_type);
+            target.channel = Some(0);
+            automation
+                .points
+                .as_mut()
+                .unwrap()
+                .push(PointsSequenceEnum::Target(target));
+            automation
+                .points
+                .as_mut()
+                .unwrap()
+                .push(PointsSequenceEnum::Target(target));
+        }
+
+        let mut points_values = [
+            (0.0, 0.0, InterpolationEnum::Linear),
+            (1.0, 0.0, InterpolationEnum::Linear),
+            (2.0, 0.5, InterpolationEnum::Linear),
+            (3.0, 0.5, InterpolationEnum::Linear),
+            (4.0, 1.0, InterpolationEnum::Linear),
+            (5.0, 1.0, InterpolationEnum::Linear),
+            (6.0, 0.5, InterpolationEnum::Linear),
+            (7.0, 1.0, InterpolationEnum::Hold),
+            (8.0, 0.5, InterpolationEnum::Hold),
+        ];
+
+        for (a, b, c) in points_values {
+            automation
+                .points
+                .as_mut()
+                .unwrap()
+                .push(PointsSequenceEnum::PointType(PointsTypeEnum::RealPoint(
+                    create_point(a, b, c),
+                )));
+        }
+
+        if in_clips {
+            let mut note_clip = utility::create_clip(automation.upcast(), 0.0, 8.0);
+            let mut clips = utility::create_clips(vec![note_clip]);
+            clips.track = Some(instruments_track.get_id());
+            arrangement_lanes
+                .lanes_sequence
+                .as_mut()
+                .unwrap()
+                .push(ArrangementTypeChoiceEnum::Clips(clips));
+        } else {
+            automation.track = Some(instruments_track.get_id());
+            arrangement_lanes
+                .lanes_sequence
+                .as_mut()
+                .unwrap()
+                .push(ArrangementTypeChoiceEnum::Points(automation));
+        }
+
+        //instruments_track.track_channel
+
+        /*
+           instrumentTrack.channel.destination = masterTrack.channel;
+              project.structure.add(masterTrack);
+        project.structure.add(instrumentTrack);
+          project.arrangement.lanes = arrangementLanes;
+           */
 
         Ok(())
     }

@@ -1,3 +1,5 @@
+use super::timeline::TimeLine;
+use super::UpcastTimeline;
 use super::{
     super::unit::Unit, automation_target::AutomationTarget, bool_point::BoolPoint,
     enum_point::EnumPoint, integer_point::IntegerPoint, point::Point, real_point::RealPoint,
@@ -37,7 +39,7 @@ pub struct Points {
     #[serde(rename = "@track")]
     pub track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    pub timeUnit: Option<TimeUnit>,
+    pub time_unit: Option<TimeUnit>,
     // Extension finish
     #[serde(rename = "$value")]
     pub points: Option<Vec<PointsSequenceEnum>>,
@@ -46,16 +48,30 @@ pub struct Points {
 }
 
 impl Points {
-    pub fn new_empty() -> Self {
+    pub fn new_test() -> Self {
         Self {
             id: Some(format!("id{}", add_one_get().to_string())),
             name: None,
             color: None,
             comment: None,
             track: None,
-            timeUnit: None,
-            points: None,
+            time_unit: None,
+            points: Some(vec![]),
             unit: None,
+        }
+    }
+}
+
+impl UpcastTimeline for Points {
+    // this is to emulate upcasting
+    fn upcast(&self) -> TimeLine {
+        TimeLine {
+            id: self.id.clone(),
+            name: self.name.clone(),
+            color: self.color.clone(),
+            comment: self.comment.clone(),
+            track: self.track.clone(),
+            time_unit: self.time_unit.clone(),
         }
     }
 }

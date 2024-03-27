@@ -18,7 +18,7 @@ pub struct AutomationTarget {
 }
 
 impl AutomationTarget {
-    pub fn new_empty() -> Self {
+    pub fn new_test() -> Self {
         Self {
             parameter: None,
             expression: None,
