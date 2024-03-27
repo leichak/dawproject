@@ -31,7 +31,7 @@ pub struct Project {
     #[serde(rename = "Application")]
     pub application: Application,
     #[serde(rename = "Transport")]
-    transport: Option<Transport>,
+    pub transport: Option<Transport>,
     #[serde(rename = "Structure")]
     pub structure: Option<Structure>,
     #[serde(rename = "Arrangement")]

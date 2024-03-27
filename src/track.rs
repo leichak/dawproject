@@ -57,6 +57,20 @@ impl Track {
         }
     }
 
+    pub fn get_channel(&mut self) -> Option<&mut Channel> {
+        if let Some(c) = self.track_channel.iter_mut().find(|el| match el {
+            TrackChannelEnum::Channel(c) => true,
+            _ => false,
+        }) {
+            match c {
+                TrackChannelEnum::Channel(c) => return Some(c),
+                _ => (),
+            }
+        }
+
+        None
+    }
+
     pub fn get_id(&self) -> String {
         self.id.clone().unwrap()
     }

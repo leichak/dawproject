@@ -343,9 +343,9 @@ mod project_creator {
                 }
 
                 if i == 0 && features.contains(&Features::AUTOMATION) {
-                    let mut points = Points::new_empty();
+                    let mut points = Points::new_test();
                     //  points.target.parameter = track.channel.volume;
-                    let mut automation_target = AutomationTarget::new_empty();
+                    let mut automation_target = AutomationTarget::new_test();
                     automation_target.parameter = track
                         .track_channel
                         .iter()
@@ -750,11 +750,6 @@ mod project_creator {
                 .as_mut()
                 .unwrap()
                 .push(PointsSequenceEnum::Target(target));
-            automation
-                .points
-                .as_mut()
-                .unwrap()
-                .push(PointsSequenceEnum::Target(target));
         } else {
             let mut target = AutomationTarget::new_test();
             let mut expression_type = ExpressionType::new_test();
@@ -764,11 +759,6 @@ mod project_creator {
             target.controller = Some(1);
             target.expression = Some(expression_type);
             target.channel = Some(0);
-            automation
-                .points
-                .as_mut()
-                .unwrap()
-                .push(PointsSequenceEnum::Target(target));
             automation
                 .points
                 .as_mut()
@@ -816,16 +806,25 @@ mod project_creator {
                 .push(ArrangementTypeChoiceEnum::Points(automation));
         }
 
-        //instruments_track.track_channel
+        if let Some(c) = instruments_track.get_channel() {
+            c.destination = Some(master_track.get_id());
+        }
+        project
+            .structure
+            .as_mut()
+            .unwrap()
+            .sequence
+            .push(TrackChannelEnum::Track(master_track));
+        project
+            .structure
+            .as_mut()
+            .unwrap()
+            .sequence
+            .push(TrackChannelEnum::Track(instruments_track));
+        project.arrangement = Some(arrangement);
+        project.transport = Some(transport);
 
-        /*
-           instrumentTrack.channel.destination = masterTrack.channel;
-              project.structure.add(masterTrack);
-        project.structure.add(instrumentTrack);
-          project.arrangement.lanes = arrangementLanes;
-           */
-
-        Ok(())
+        save_test_project(project, name)
     }
 
     pub fn test_double_adapter() -> Result<(), ()> {
