@@ -518,8 +518,8 @@ mod project_creator {
         FileWithRelativePath,
     }
 
-    fn should_test_offset_and_fades(scenario: AudioScenario) -> bool {
-        match scenario {
+    fn should_test_offset_and_fades(scenario: &AudioScenario) -> bool {
+        match *scenario {
             AudioScenario::FileWithAbsolutePath => false,
             AudioScenario::FileWithRelativePath => false,
             _ => true,
@@ -529,13 +529,13 @@ mod project_creator {
     #[test]
     pub fn create_audio_example() -> Result<(), ()> {
         for (scenario, name) in AudioScenario::iter().zip(AudioScenario::VARIANTS.iter()) {
-            // create_audio_example(0, 0, scenario, name.to_string(), false);
-            // createAudioExample(0, 0, scenario, false);
-            // if (shouldTestOffsetAndFades(scenario)) {
-            //     createAudioExample(0, 0, scenario, true);
-            //     createAudioExample(1, 0, scenario, false);
-            //     createAudioExample(0, 1, scenario, false);
-            // }
+            create_project_audio_example(0.0, 0.0, &scenario, name.to_string(), false);
+
+            if should_test_offset_and_fades(&scenario) {
+                create_project_audio_example(0.0, 0.0, &scenario, name.to_string(), true)?;
+                create_project_audio_example(1.0, 0.0, &scenario, name.to_string(), false)?;
+                create_project_audio_example(0.0, 1.0, &scenario, name.to_string(), false)?;
+            }
         }
 
         Ok(())
@@ -544,7 +544,7 @@ mod project_creator {
     pub fn create_project_audio_example(
         play_start_offset: f64,
         clip_time: f64,
-        scenario: AudioScenario,
+        scenario: &AudioScenario,
         scenario_name: String,
         with_fades: bool,
     ) -> Result<(), ()> {
@@ -596,7 +596,7 @@ mod project_creator {
             arrangement.sequence = Some(vec![]);
         }
         let mut arrangement_lanes = Lanes::new_empty();
-        let mut arrangement_in_seconds = scenario == AudioScenario::RawBeats;
+        let mut arrangement_in_seconds = *scenario == AudioScenario::RawBeats;
 
         arrangement_lanes.time_unit = if arrangement_in_seconds {
             Some(TimeUnit::seconds)
@@ -609,7 +609,7 @@ mod project_creator {
         let mut sample_duration = 3.097;
         let mut audio = utility::create_audio(sample.clone(), 44100, 2, sample_duration);
 
-        if scenario == AudioScenario::FileWithAbsolutePath {
+        if *scenario == AudioScenario::FileWithAbsolutePath {
             if audio.files_sequence.is_none() {
                 audio.files_sequence = Some(vec![]);
             }
@@ -620,7 +620,7 @@ mod project_creator {
                 path: path,
                 external: Some(true),
             });
-        } else if scenario == AudioScenario::FileWithRelativePath {
+        } else if *scenario == AudioScenario::FileWithRelativePath {
             if audio.files_sequence.is_none() {
                 audio.files_sequence = Some(vec![]);
             }
@@ -630,7 +630,7 @@ mod project_creator {
             });
         }
 
-        if scenario == AudioScenario::Warped {
+        if *scenario == AudioScenario::Warped {
             let mut warps = Warps::new_test(TimeUnit::beats);
             warps
                 .warps_sequence
@@ -685,6 +685,11 @@ mod project_creator {
             .sequence
             .push(TrackChannelEnum::Track(audio_track));
 
+        Ok(())
+    }
+
+    pub fn test_double_adapter() -> Result<(), ()> {
+        // That might be unnecessary
         Ok(())
     }
 
