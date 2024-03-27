@@ -5,7 +5,7 @@ use crate::track::Track;
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Markers {
     // Extends Timeline
     #[serde(rename = "@id")]

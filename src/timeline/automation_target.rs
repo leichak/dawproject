@@ -3,7 +3,7 @@ use crate::expression_type::ExpressionType;
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct AutomationTarget {
     #[serde(rename = "@parameter")]
     pub parameter: Option<String>,

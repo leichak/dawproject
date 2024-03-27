@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize)]
-pub(crate) enum EqBandTypeEnum {
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub enum EqBandTypeEnum {
     highPass,
     lowPass,
     bandPass,

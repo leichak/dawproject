@@ -74,7 +74,7 @@ impl Project {
                         .filter(|el| match el {
                             TrackChannelEnum::Channel(c) => {
                                 if c.role.is_some() {
-                                    if c.role.unwrap() == MixerRoleEnum::Master {
+                                    if *c.role.as_ref().unwrap() == MixerRoleEnum::Master {
                                         true
                                     } else {
                                         false

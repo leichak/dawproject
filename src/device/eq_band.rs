@@ -3,7 +3,7 @@ use crate::{bool_parameter::BoolParameter, real_parameter::RealParameter};
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 enum EqBandParamsEnum {
     Freq(RealParameter),
     Gain(RealParameter),
@@ -11,8 +11,8 @@ enum EqBandParamsEnum {
     Enabled(BoolParameter),
 }
 
-#[derive(Debug, Deserialize, Serialize)]
-pub(crate) struct EqBand {
+#[derive(Debug, Deserialize, Serialize, Clone)]
+pub struct EqBand {
     #[serde(default)]
     eq_band_params: Vec<EqBandParamsEnum>,
     #[serde(rename = "@type")]

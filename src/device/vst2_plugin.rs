@@ -3,7 +3,7 @@ use crate::add_one_get;
 use serde::Deserialize;
 use serde::Serialize;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Vst2Plugin {
     // Extends plugin
     #[serde(rename = "@id")]

@@ -4,7 +4,7 @@ use super::device::DeviceElements;
 use super::device_role::DeviceRole;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct BuiltinDevice {
     // Extends device
     #[serde(rename = "@id")]

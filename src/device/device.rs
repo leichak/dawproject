@@ -5,7 +5,7 @@ use crate::add_one_get;
 use crate::bool_parameter::BoolParameter;
 use crate::file_reference::FileReference;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub enum DeviceElementsEnum {
     Parameters,
     Enabled(BoolParameter),
@@ -14,7 +14,7 @@ pub enum DeviceElementsEnum {
 
 pub type DeviceElements = Vec<DeviceElementsEnum>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 enum Parameters {
     parameter,
     RealParameter,
@@ -24,7 +24,7 @@ enum Parameters {
     TimeSignatureParameter,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Device {
     // Extends referenceable
     #[serde(rename = "@id")]

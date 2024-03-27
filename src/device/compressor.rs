@@ -4,7 +4,7 @@ use crate::add_one_get;
 use crate::{bool_parameter::BoolParameter, real_parameter::RealParameter};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 enum CompressorParamsEnum {
     Attack(RealParameter),
     AutoMakeup(BoolParameter),
@@ -17,7 +17,7 @@ enum CompressorParamsEnum {
 
 type CompressorParams = Vec<CompressorParamsEnum>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct Compressor {
     // Extendes builtInDevice
     #[serde(rename = "@id")]
