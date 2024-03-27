@@ -179,13 +179,13 @@ mod project_creator {
     use crate::timeline::timeline::TimeLine;
     use crate::timeline::warps::{Warps, WarpsSequenceEnum};
     use crate::timeline::UpcastTimeline;
-    use crate::track::Track;
+    use crate::track::{Track, TrackChannel};
     use crate::transport::{Transport, TransportSequence};
     use crate::unit::Unit;
     use crate::utility::{self, create_track};
     use crate::{arrangement, Features};
     use crate::{project::Project, reset_xml_id};
-    use strum::{EnumIter, IntoEnumIterator, VariantNames};
+    use strum::{EnumIter, VariantNames};
 
     pub fn create_empty_project() -> Project {
         reset_xml_id();
@@ -578,14 +578,12 @@ mod project_creator {
 
         //
 
-        if let Some(c) = audio_track.track_channel.iter_mut().find(|el| match el {
-            TrackChannelEnum::Channel(_) => true,
-            _ => false,
-        }) {
-            match c {
-                TrackChannelEnum::Channel(c) => c.destination = Some(master_track.get_id()),
-                _ => (),
-            }
+        if let Some(TrackChannelEnum::Channel(c)) = audio_track
+            .track_channel
+            .iter_mut()
+            .find(|el| matches!(el, TrackChannelEnum::Channel(_)))
+        {
+            c.destination = Some(master_track.get_id())
         }
 
         let mut arrangement = Arrangement::new_test(); // add to proj later
@@ -840,8 +838,8 @@ mod project_creator {
         let path_file = Path::new(&path_file);
         let path_xml = format!("target/{}.xml", name);
         let path_xml = Path::new(&path_xml);
-        DawProject::save(project.clone(), meta_data, embedded_files, path_file);
-        DawProject::save_xml(project, path_xml);
+        DawProject::save(project.clone(), meta_data, embedded_files, path_file)?;
+        DawProject::save_xml(project, path_xml)?;
         // Here comes additional thing to validate
 
         Ok(())

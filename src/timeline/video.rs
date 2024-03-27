@@ -20,7 +20,7 @@ pub struct Video {
     #[serde(rename = "@track")]
     track: Option<String>,
     #[serde(rename = "@timeUnit")]
-    timeUnit: Option<TimeUnit>,
+    time_unit: Option<TimeUnit>,
     #[serde(rename = "File")]
     files_sequence: Option<Vec<FileReference>>,
     #[serde(rename = "@duration")]
@@ -43,7 +43,7 @@ impl Video {
             color: None,
             comment: None,
             track: None,
-            timeUnit: None,
+            time_unit: None,
             files_sequence: None,
             duration: None,
             algorithm: None,
