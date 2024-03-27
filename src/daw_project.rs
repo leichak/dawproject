@@ -318,5 +318,10 @@ impl DawProject {
 }
 
 #[cfg(test)]
-#[test]
-fn test() {}
+mod tests {
+
+    // Write tests and code for saving the projects then use it in general tests and that's it
+
+    #[test]
+    fn save_project_test() {}
+}

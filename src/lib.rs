@@ -689,6 +689,7 @@ mod project_creator {
         Ok(())
     }
 
+    #[test]
     pub fn create_midi_automation_in_clips_example() -> Result<(), ()> {
         create_midi_automation_example("MIDI-CC1-AutomationOnTrack".to_string(), false, false)?;
         create_midi_automation_example("MIDI-CC1-AutomationInClips".to_string(), true, false)?;
