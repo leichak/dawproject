@@ -44,13 +44,13 @@ pub struct Clip {
 }
 
 impl Clip {
-    pub fn new_test(content: TimeLine, time: f64, duration: f64) -> Self {
+    pub fn new_test(_content: TimeLine, time: f64, duration: f64) -> Self {
         Clip {
             name: None,
             color: None,
             comment: None,
             notes_sequence_choice: None,
-            time: time,
+            time,
             duration: Some(duration),
             content_time_unit: None,
             play_start: None,

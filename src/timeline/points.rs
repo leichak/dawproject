@@ -50,7 +50,7 @@ pub struct Points {
 impl Points {
     pub fn new_test() -> Self {
         Self {
-            id: Some(format!("id{}", add_one_get().to_string())),
+            id: Some(format!("id{}", add_one_get())),
             name: None,
             color: None,
             comment: None,

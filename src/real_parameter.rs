@@ -30,13 +30,13 @@ pub struct RealParameter {
 impl RealParameter {
     pub fn new_test(unit: Unit) -> RealParameter {
         RealParameter {
-            id: Some(format!("id{}", add_one_get().to_string())),
+            id: Some(format!("id{}", add_one_get())),
             name: None,
             color: None,
             comment: None,
             parameter_id: None,
             value: None,
-            unit: unit,
+            unit,
             min: None,
             max: None,
         }

@@ -10,10 +10,10 @@ use zip::ZipWriter;
 
 use crate::{meta_data::MetaData, project::Project};
 
-const FORMAT_NAME: &'static str = "DAWProject exchange format";
-const FILE_EXTENSION: &'static str = "dawproject";
-const PROJECT_FILE: &'static str = "project.xml";
-const METADATA_FILE: &'static str = "metadata.xml";
+const FORMAT_NAME: &str = "DAWProject exchange format";
+const FILE_EXTENSION: &str = "dawproject";
+const PROJECT_FILE: &str = "project.xml";
+const METADATA_FILE: &str = "metadata.xml";
 
 pub struct DawProject {
     format_name: &'static str,
@@ -55,24 +55,24 @@ impl DawProject {
         match object {
             ObjectType::P(o) => {
                 match to_string(&o) {
-                    Ok(o_string) => return Ok(o_string),
-                    Err(_) => return Err(()),
-                };
+                    Ok(o_string) => Ok(o_string),
+                    Err(_) => Err(()),
+                }
             }
             ObjectType::M(o) => {
                 match to_string(&o) {
-                    Ok(o_string) => return Ok(o_string),
-                    Err(_) => return Err(()),
-                };
+                    Ok(o_string) => Ok(o_string),
+                    Err(_) => Err(()),
+                }
             }
-        };
+        }
     }
 
     pub fn from_xml(xml_string: String) -> Result<Project, ()> {
         match from_str(&xml_string) {
-            Ok(project) => return Ok(project),
-            Err(_) => return Err(()),
-        };
+            Ok(project) => Ok(project),
+            Err(_) => Err(()),
+        }
     }
 
     pub fn create_context() -> Result<(), ()> {
@@ -104,12 +104,12 @@ impl DawProject {
         };
 
         match fs::write(path, project_xml) {
-            Ok(_) => return Ok(()),
-            Err(_) => return Err(()),
+            Ok(_) => Ok(()),
+            Err(_) => Err(()),
         }
     }
 
-    pub fn validate(project: Project) -> Result<(), ()> {
+    pub fn validate(_project: Project) -> Result<(), ()> {
         /*
         Should be some sort of validation mechanism which checks whether
         xml-ed project struct work accordingly to schema
@@ -122,7 +122,7 @@ impl DawProject {
     pub fn save(
         project: Project,
         meta_data: MetaData,
-        embedded_files: HashMap<&Path, String>,
+        _embedded_files: HashMap<&Path, String>,
         zip_file_path: &Path,
     ) -> Result<(), ()> {
         let file = match std::fs::File::create(zip_file_path) {
@@ -142,12 +142,12 @@ impl DawProject {
             Err(_) => return Err(()),
         };
 
-        match Self::add_bytes_to_zip(&mut zip_writer, &project_xml.as_bytes(), PROJECT_FILE) {
+        match Self::add_bytes_to_zip(&mut zip_writer, project_xml.as_bytes(), PROJECT_FILE) {
             Ok(()) => (),
             Err(_) => return Err(()),
         }
 
-        match Self::add_bytes_to_zip(&mut zip_writer, &meta_data_xml.as_bytes(), METADATA_FILE) {
+        match Self::add_bytes_to_zip(&mut zip_writer, meta_data_xml.as_bytes(), METADATA_FILE) {
             Ok(()) => (),
             Err(_) => return Err(()),
         }
@@ -238,20 +238,20 @@ impl DawProject {
 
         for i in 0..archive.len() {
             let mut file = archive.by_index(i).unwrap();
-            let out_path = match file.enclosed_name() {
+            let _out_path = match file.enclosed_name() {
                 Some(path) => path.to_owned(),
                 None => continue,
             };
 
             if file.name() == PROJECT_FILE {
                 match file.read_to_string(&mut contents) {
-                    Ok(v) => (),
+                    Ok(_v) => (),
                     Err(_) => return Err(()),
                 };
             }
         }
 
-        let mut project: Project = match from_str(&contents) {
+        let project: Project = match from_str(&contents) {
             Ok(p) => p,
             Err(_) => return Err(()),
         };
@@ -267,20 +267,20 @@ impl DawProject {
 
         for i in 0..archive.len() {
             let mut file = archive.by_index(i).unwrap();
-            let out_path = match file.enclosed_name() {
+            let _out_path = match file.enclosed_name() {
                 Some(path) => path.to_owned(),
                 None => continue,
             };
 
             if file.name() == PROJECT_FILE {
                 match file.read_to_string(&mut contents) {
-                    Ok(v) => (),
+                    Ok(_v) => (),
                     Err(_) => return Err(()),
                 };
             }
         }
 
-        let mut metadata: MetaData = match from_str(&contents) {
+        let metadata: MetaData = match from_str(&contents) {
             Ok(p) => p,
             Err(_) => return Err(()),
         };
@@ -288,7 +288,7 @@ impl DawProject {
         Ok(metadata)
     }
 
-    pub fn stream_embedded(file: &Path, embedded_path: String) -> Result<(), ()> {
+    pub fn stream_embedded(_file: &Path, _embedded_path: String) -> Result<(), ()> {
         /*
              final ZipFile zipFile = new ZipFile (file);
         final ZipEntry entry = zipFile.getEntry (embeddedPath);

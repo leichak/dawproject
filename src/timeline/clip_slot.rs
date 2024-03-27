@@ -30,7 +30,7 @@ pub struct ClipSlot {
 impl ClipSlot {
     pub fn new_empty() -> Self {
         Self {
-            id: Some(format!("id{}", add_one_get().to_string())),
+            id: Some(format!("id{}", add_one_get())),
             name: None,
             color: None,
             comment: None,

@@ -28,7 +28,7 @@ impl TimeSignatureParameter {
             name: None,
             color: None,
             comment: None,
-            id: Some(format!("id{}", add_one_get().to_string())),
+            id: Some(format!("id{}", add_one_get())),
             parameter_id: None,
             numerator,
             denominator,

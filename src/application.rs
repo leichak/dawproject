@@ -18,7 +18,7 @@ impl Application {
 
     pub fn new_name_ver(name: String, version: f64) -> Self {
         Application {
-            name: name,
+            name,
             version: version.to_string(),
         }
     }

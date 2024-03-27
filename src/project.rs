@@ -69,35 +69,25 @@ impl Project {
             .iter()
             .find(|el| match el {
                 TrackChannelEnum::Track(t) => {
-                    if t.track_channel
+                    t.track_channel
                         .iter()
                         .filter(|el| match el {
                             TrackChannelEnum::Channel(c) => {
                                 if c.role.is_some() {
-                                    if *c.role.as_ref().unwrap() == MixerRoleEnum::Master {
-                                        true
-                                    } else {
-                                        false
-                                    }
+                                    *c.role.as_ref().unwrap() == MixerRoleEnum::Master
                                 } else {
                                     false
                                 }
                             }
                             _ => false,
                         })
-                        .count()
-                        == 0
-                    {
-                        false
-                    } else {
-                        true
-                    }
+                        .count() != 0
                 }
                 TrackChannelEnum::Channel(_) => false,
             })
         {
             match t {
-                TrackChannelEnum::Track(t) => return Some(&t),
+                TrackChannelEnum::Track(t) => return Some(t),
                 _ => (),
             }
         }

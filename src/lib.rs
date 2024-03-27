@@ -145,10 +145,8 @@ pub enum Features {
 mod project_creator {
 
     use std::collections::HashMap;
-    use std::fmt::format;
-    use std::fs::File;
+
     use std::path::Path;
-    use std::sync::Arc;
 
     use crate::arrangement::{Arrangement, ArrangementSequenceEnum};
     use crate::channel::{Channel, ChannelElementsEnum, DeviceTypes, Devices};
@@ -160,30 +158,30 @@ mod project_creator {
     use crate::expression_type::{ExpressionType, ExpressionTypeEnum};
     use crate::file_reference::FileReference;
     use crate::interpolation::{Interpolation, InterpolationEnum};
-    use crate::meta_data::{self, MetaData};
+    use crate::meta_data::MetaData;
     use crate::project::TrackChannelEnum;
     use crate::real_parameter::RealParameter;
-    use crate::timeline::audio::{self, Audio};
+
     use crate::timeline::automation_target::AutomationTarget;
-    use crate::timeline::clip::{self, Clip};
+    use crate::timeline::clip::Clip;
     use crate::timeline::clips::Clips;
     use crate::timeline::lanes::{ArrangementTypeChoiceEnum, Lanes};
     use crate::timeline::marker::Marker;
     use crate::timeline::markers::Markers;
     use crate::timeline::note::Note;
     use crate::timeline::notes::Notes;
-    use crate::timeline::point::Point;
+
     use crate::timeline::points::{Points, PointsSequenceEnum, PointsTypeEnum};
     use crate::timeline::real_point::RealPoint;
     use crate::timeline::time_unit::TimeUnit;
-    use crate::timeline::timeline::TimeLine;
+
     use crate::timeline::warps::{Warps, WarpsSequenceEnum};
     use crate::timeline::UpcastTimeline;
-    use crate::track::{Track, TrackChannel};
+
     use crate::transport::{Transport, TransportSequence};
     use crate::unit::Unit;
     use crate::utility::{self, create_track};
-    use crate::{arrangement, Features};
+    use crate::Features;
     use crate::{project::Project, reset_xml_id};
     use strum::{EnumIter, VariantNames};
 
@@ -203,7 +201,7 @@ mod project_creator {
             0.5,
         );
 
-        let mut master_track_ref = &mut master_track;
+        let master_track_ref = &mut master_track;
 
         if features.contains(&Features::PLUGINS) {
             let mut device = Vst3Plugin::new_empty();
@@ -297,7 +295,7 @@ mod project_creator {
 
         for i in 0..num_tracks {
             let mut track = utility::create_track(
-                format!("Track {}", (i + 1).to_string()),
+                format!("Track {}", (i + 1)),
                 vec![ContentType::notes],
                 crate::mixer_role::MixerRoleEnum::Regular,
                 1.0,
@@ -368,10 +366,10 @@ mod project_creator {
                     if points.points.is_none() {
                         points.points = Some(vec![]);
                     }
-                    let mut point = PointsSequenceEnum::PointType(PointsTypeEnum::RealPoint(
+                    let point = PointsSequenceEnum::PointType(PointsTypeEnum::RealPoint(
                         create_point(0.0, 0.0, InterpolationEnum::Linear),
                     ));
-                    let mut point_1 = PointsSequenceEnum::PointType(PointsTypeEnum::RealPoint(
+                    let point_1 = PointsSequenceEnum::PointType(PointsTypeEnum::RealPoint(
                         create_point(8.0, 1.0, InterpolationEnum::Linear),
                     ));
 
@@ -561,7 +559,7 @@ mod project_creator {
         }
 
         let mut project = create_empty_project();
-        let mut master_track = create_track(
+        let master_track = create_track(
             "Master".to_string(),
             vec![],
             crate::mixer_role::MixerRoleEnum::Master,
@@ -595,7 +593,7 @@ mod project_creator {
             arrangement.sequence = Some(vec![]);
         }
         let mut arrangement_lanes = Lanes::new_empty();
-        let mut arrangement_in_seconds = *scenario == AudioScenario::RawBeats;
+        let arrangement_in_seconds = *scenario == AudioScenario::RawBeats;
 
         arrangement_lanes.time_unit = if arrangement_in_seconds {
             Some(TimeUnit::seconds)
@@ -603,9 +601,9 @@ mod project_creator {
             Some(TimeUnit::beats)
         };
 
-        let mut sample = "white-glasses.wav".to_string();
+        let sample = "white-glasses.wav".to_string();
         let mut audio_clip = Clip::new_empty();
-        let mut sample_duration = 3.097;
+        let sample_duration = 3.097;
         let mut audio = utility::create_audio(sample.clone(), 44100, 2, sample_duration);
 
         if *scenario == AudioScenario::FileWithAbsolutePath {
@@ -616,7 +614,7 @@ mod project_creator {
                 utility::create_file_path_absolute_string(format!("test-data/{}", sample.clone()))
                     .unwrap();
             audio.files_sequence.as_mut().unwrap().push(FileReference {
-                path: path,
+                path,
                 external: Some(true),
             });
         } else if *scenario == AudioScenario::FileWithRelativePath {
@@ -706,7 +704,7 @@ mod project_creator {
         is_pitch_bend: bool,
     ) -> Result<(), ()> {
         let mut project = create_empty_project();
-        let mut master_track = create_track(
+        let master_track = create_track(
             "Master".to_string(),
             vec![],
             crate::mixer_role::MixerRoleEnum::Master,
@@ -765,7 +763,7 @@ mod project_creator {
                 .push(PointsSequenceEnum::Target(target));
         }
 
-        let mut points_values = [
+        let points_values = [
             (0.0, 0.0, InterpolationEnum::Linear),
             (1.0, 0.0, InterpolationEnum::Linear),
             (2.0, 0.5, InterpolationEnum::Linear),
@@ -788,7 +786,7 @@ mod project_creator {
         }
 
         if in_clips {
-            let mut note_clip = utility::create_clip(automation.upcast(), 0.0, 8.0);
+            let note_clip = utility::create_clip(automation.upcast(), 0.0, 8.0);
             let mut clips = utility::create_clips(vec![note_clip]);
             clips.track = Some(instruments_track.get_id());
             arrangement_lanes
@@ -832,8 +830,8 @@ mod project_creator {
     }
 
     pub fn save_test_project(project: Project, name: String) -> Result<(), ()> {
-        let mut meta_data = MetaData::new();
-        let mut embedded_files: HashMap<&Path, String> = HashMap::new();
+        let meta_data = MetaData::new();
+        let embedded_files: HashMap<&Path, String> = HashMap::new();
         let path_file = format!("target/{}.dawproject", name);
         let path_file = Path::new(&path_file);
         let path_xml = format!("target/{}.xml", name);

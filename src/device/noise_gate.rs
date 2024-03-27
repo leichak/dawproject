@@ -42,7 +42,7 @@ pub struct NoiseGate {
 impl NoiseGate {
     pub fn new_empty() -> Self {
         Self {
-            id: Some(format!("id{}", add_one_get().to_string())),
+            id: Some(format!("id{}", add_one_get())),
             device_elements: vec![],
             device_id: None,
             device_name: None,

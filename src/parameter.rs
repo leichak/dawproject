@@ -17,7 +17,7 @@ pub struct Parameter {
 impl Parameter {
     pub fn new() -> Self {
         Self {
-            id: Some(format!("id_{}", add_one_get().to_string())),
+            id: Some(format!("id_{}", add_one_get())),
             name: None,
             color: None,
             comment: None,

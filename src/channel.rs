@@ -1,7 +1,7 @@
 use crate::add_one_get;
 use crate::unit::Unit;
 use crate::{
-    bool_parameter::BoolParameter, device::au_plugin::AuPlugin,
+    device::au_plugin::AuPlugin,
     device::builtin_device::BuiltinDevice, device::clap_plugin::ClapPlugin,
     device::compressor::Compressor, device::device::Device, device::equalizer::Equalizer,
     device::limiter::Limiter, device::noise_gate::NoiseGate, device::vst2_plugin::Vst2Plugin,
@@ -82,7 +82,7 @@ impl Channel {
         pan.value = Some(pan_value);
 
         Self {
-            id: Some(format!("id_{}", add_one_get().to_string())),
+            id: Some(format!("id_{}", add_one_get())),
             name: None,
             color: None,
             comment: None,

@@ -1,12 +1,12 @@
-use crate::add_one_get;
+
 use crate::content_type::ContentType;
 use crate::mixer_role::MixerRoleEnum;
 use crate::timeline::{
-    audio::Audio, clip::Clip, clips::Clips, time_unit::TimeUnit, timeline::TimeLine, warp::Warp,
+    audio::Audio, clip::Clip, clips::Clips, timeline::TimeLine, warp::Warp,
 };
 use crate::track::Track;
 use std::fs::File;
-use std::io::{prelude::*, ErrorKind};
+use std::io::{ErrorKind};
 use std::path::Path;
 
 // create construtctors for all structs
@@ -45,13 +45,13 @@ pub fn create_clips(clips: Vec<Clip>) -> Clips {
 pub fn create_file_path_absolute_string(file_name: String) -> Result<String, ErrorKind> {
     let path_str = format!("./{}", file_name);
     let path = Path::new(&path_str);
-    let data_file = match File::create(path) {
+    let _data_file = match File::create(path) {
         Ok(file) => file,
         Err(_) => return Err(ErrorKind::Other),
     };
 
     match std::fs::canonicalize(path) {
         Ok(p) => return Ok(p.to_str().unwrap().to_string()),
-        Err(_) => return Err(ErrorKind::Other),
+        Err(_) => Err(ErrorKind::Other),
     }
 }

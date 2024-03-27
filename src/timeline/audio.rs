@@ -38,7 +38,7 @@ pub struct Audio {
 impl Audio {
     pub fn new_test(relative_path: String, sample_rate: i32, channels: i32, duration: f64) -> Self {
         Self {
-            id: Some(format!("id_{}", add_one_get().to_string())),
+            id: Some(format!("id_{}", add_one_get())),
             name: None,
             color: None,
             comment: None,
@@ -50,8 +50,8 @@ impl Audio {
             }]),
             duration: Some(duration),
             algorithm: None,
-            channels: channels,
-            sample_rate: sample_rate,
+            channels,
+            sample_rate,
         }
     }
 }

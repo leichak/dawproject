@@ -1,9 +1,9 @@
 use crate::add_one_get;
-use crate::channel::ChannelElementsEnum;
+
 use crate::mixer_role::MixerRoleEnum;
 use crate::project::TrackChannelEnum;
-use crate::real_parameter::RealParameter;
-use crate::unit::Unit;
+
+
 use crate::{channel::Channel, content_type::ContentType};
 use serde::Deserialize;
 use serde::Serialize;
@@ -47,19 +47,19 @@ impl Track {
         let channel = Channel::new_test(volume, pan, mixer_role);
 
         Track {
-            id: Some(format!("id_{}", add_one_get().to_string())),
+            id: Some(format!("id_{}", add_one_get())),
             name: Some(name),
             color: None,
             comment: None,
             track_channel: vec![TrackChannelEnum::Channel(channel)],
-            content_type: content_type,
+            content_type,
             loaded: false,
         }
     }
 
     pub fn get_channel(&mut self) -> Option<&mut Channel> {
         if let Some(c) = self.track_channel.iter_mut().find(|el| match el {
-            TrackChannelEnum::Channel(c) => true,
+            TrackChannelEnum::Channel(_c) => true,
             _ => false,
         }) {
             match c {
