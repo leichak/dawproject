@@ -5,10 +5,10 @@ use std::{
     str,
 };
 
-use quick_xml::{de::from_str, se::to_string};
-use zip::ZipWriter;
-
 use crate::{meta_data::MetaData, project::Project};
+use quick_xml::{de::from_str, se::to_string};
+use std::any::type_name;
+use zip::ZipWriter;
 
 const FORMAT_NAME: &str = "DAWProject exchange format";
 const FILE_EXTENSION: &str = "dawproject";
@@ -40,35 +40,42 @@ impl DawProject {
     pub fn export_schema() -> Result<String, ()> {
         /*
         This probably be able to export xml schema.xsd, but it is unnecessary since we will always derive it
-        from its parent project in Java.
+        from its parent project in Java. // or not?
          */
         Ok(String::new())
     }
 
     pub fn to_xml(object: ObjectType) -> Result<String, ()> {
         /*
-        I think it just takes project and saves it as xml file
-        So we can pass for example cloned object, generate String from it
-        and save it as xml file.
+        Function that takes object and returns String from that object that represents XML
          */
 
         match object {
-            ObjectType::P(o) => {
-                match to_string(&o) {
-                    Ok(o_string) => Ok(o_string),
-                    Err(_) => Err(()),
-                }
-            }
-            ObjectType::M(o) => {
-                match to_string(&o) {
-                    Ok(o_string) => Ok(o_string),
-                    Err(_) => Err(()),
-                }
-            }
+            ObjectType::P(o) => match to_string(&o) {
+                Ok(o_string) => Ok(o_string),
+                Err(_) => Err(()),
+            },
+            ObjectType::M(o) => match to_string(&o) {
+                Ok(o_string) => Ok(o_string),
+                Err(_) => Err(()),
+            },
         }
     }
 
-    pub fn from_xml(xml_string: String) -> Result<Project, ()> {
+    pub fn type_of<T>(_: T) -> &'static str {
+        type_name::<T>()
+    }
+
+    pub fn project_from_xml(xml_string: String) -> Result<Project, ()> {
+        // Essentially takes Project or
+        match from_str(&xml_string) {
+            Ok(project) => Ok(project),
+            Err(_) => Err(()),
+        }
+    }
+
+    pub fn metadata_from_xml(xml_string: String) -> Result<MetaData, ()> {
+        // Essentially takes Project or
         match from_str(&xml_string) {
             Ok(project) => Ok(project),
             Err(_) => Err(()),
@@ -86,14 +93,7 @@ impl DawProject {
         use std::fs;
         /*
           This is purely for file save handling
-
-          String projectXML = toXML(project);
-        FileOutputStream fileOutputStream = new FileOutputStream(file);
-        fileOutputStream.write(projectXML.getBytes(StandardCharsets.UTF_8));
-        fileOutputStream.close();
-           */
-
-        // For now our solution will replace old file
+        */
         let project_xml: String;
 
         match DawProject::to_xml(ObjectType::P(project)) {
@@ -111,11 +111,12 @@ impl DawProject {
 
     pub fn validate(_project: Project) -> Result<(), ()> {
         /*
-        Should be some sort of validation mechanism which checks whether
-        xml-ed project struct work accordingly to schema
-         */
-        // Irrelevant so fa until I will be able to export schema
+        This `validate` function takes a `Project` object, converts it to XML using `toXML`,
+        then validates the XML against an XML schema for `Project` objects, throwing an `IOException`
+        if validation fails due to a JAXB or SAX exception.
 
+        So it is safeguard
+        */
         Ok(())
     }
 
@@ -152,7 +153,7 @@ impl DawProject {
             Err(_) => return Err(()),
         }
 
-        // for (p, s) in embedded_files {
+        // for (p, s) in embedded_files { //
         //     match Self::add_bytes_to_zip(&mut zip_writer, , &s) {
         //         Ok(_) => (),
         //         Err(_) => return Err(()),
@@ -188,7 +189,7 @@ impl DawProject {
         Ok(())
     }
 
-    fn add_str_to_zip<W: std::io::Write + std::io::Seek>(
+    pub fn add_file_to_zip_from_str<W: std::io::Write + std::io::Seek>(
         zip_writer: &mut ZipWriter<W>,
         content: &str,
         file_name: &str,
@@ -215,19 +216,13 @@ impl DawProject {
     }
 
     pub fn strip_bom() {
-        // Thats just checks for byte order - I think that is irrelevant in that case
-        /* I do not know that that is
-        BOMInputStream bomInputStream = new BOMInputStream(inputStream ,
-        ByteOrderMark.UTF_8, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_32LE, ByteOrderMark.UTF_32BE);
-        Charset charset;
-        if(!bomInputStream.hasBOM()) charset = StandardCharsets.UTF_8;
-        else if(bomInputStream.hasBOM(ByteOrderMark.UTF_8)) charset = StandardCharsets.UTF_8;
-        else if(bomInputStream.hasBOM(ByteOrderMark.UTF_16LE)) charset = StandardCharsets.UTF_16LE;
-        else if(bomInputStream.hasBOM(ByteOrderMark.UTF_16BE)) charset = StandardCharsets.UTF_16BE;
-        else { throw new IOException("The charset is not supported.");}
-
-        return new InputStreamReader(bomInputStream, charset);
-           */
+        /*
+        This stripBom function takes an InputStream, detects and removes any Byte Order Marks (BOMs) present in the stream,
+        then returns an InputStreamReader using the appropriate Charset,
+        defaulting to UTF-8 if no BOM is found or if the BOM is not recognized as UTF-8,
+        UTF-16LE, or UTF-16BE. If the BOM is not recognized, it throws an IOException with the message
+        "The charset is not supported."
+        */
     }
 
     pub fn load_project(fname: &Path) -> Result<Project, ()> {
@@ -319,9 +314,56 @@ impl DawProject {
 
 #[cfg(test)]
 mod tests {
-
+    use super::DawProject;
+    use std::io::{read_to_string, Read};
+    use std::str::FromStr;
     // Write tests and code for saving the projects then use it in general tests and that's it
 
     #[test]
-    fn save_project_test() {}
+    fn create_zip_with_text_and_load_test() -> Result<(), String> {
+        let zip_file_path = "./test.zip";
+        let file = match std::fs::File::create(zip_file_path) {
+            Ok(f) => f,
+            Err(_) => return Err("Creation of file fails".to_string()),
+        };
+
+        let mut zip_writer = zip::ZipWriter::new(file);
+
+        let mut contents = String::from_str("This is just the test").unwrap();
+        let filename = "test.dawproject";
+
+        match DawProject::add_file_to_zip_from_str(&mut zip_writer, &contents, filename) {
+            Ok(_) => (),
+            Err(_) => return Err("Add file to zip fails".to_string()),
+        }
+
+        match zip_writer.finish() {
+            Ok(_) => (),
+            Err(_) => return Err("First finish fails".to_string()),
+        }
+
+        let zip_file = std::fs::File::open(zip_file_path).unwrap();
+        let mut archive = zip::ZipArchive::new(zip_file).unwrap();
+
+        let mut contents_read = String::new();
+
+        for i in 0..archive.len() {
+            let mut file = archive.by_index(i).unwrap();
+            let _out_path = match file.enclosed_name() {
+                Some(path) => path.to_owned(),
+                None => continue,
+            };
+
+            if file.name().contains(filename) {
+                match file.read_to_string(&mut contents_read) {
+                    Ok(_) => println!("File {}", file.name()),
+                    Err(_) => return Err("Reading to string fails".to_string()),
+                };
+            }
+        }
+
+        assert_eq!(contents, contents_read);
+
+        Ok(())
+    }
 }

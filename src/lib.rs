@@ -183,7 +183,7 @@ mod project_creator {
     use crate::utility::{self, create_track};
     use crate::Features;
     use crate::{project::Project, reset_xml_id};
-    use strum::{EnumIter, VariantNames};
+    use strum::{EnumIter, IntoEnumIterator, VariantNames};
 
     pub fn create_empty_project() -> Project {
         reset_xml_id();
@@ -838,7 +838,7 @@ mod project_creator {
         let path_xml = Path::new(&path_xml);
         DawProject::save(project.clone(), meta_data, embedded_files, path_file)?;
         DawProject::save_xml(project, path_xml)?;
-        // Here comes additional thing to validate
+        // Here comes additional thing to validate // but I do no know that that means exactly yet
 
         Ok(())
     }

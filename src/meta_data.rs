@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 enum MetaDataEnum {
     Title(String),
     Artist(String),
@@ -19,7 +19,7 @@ enum MetaDataEnum {
 
 type MetaDataVec = Vec<MetaDataEnum>;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct MetaData {
     meta_data: MetaDataVec,
 }
