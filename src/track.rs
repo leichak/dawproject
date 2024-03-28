@@ -3,7 +3,6 @@ use crate::add_one_get;
 use crate::mixer_role::MixerRoleEnum;
 use crate::project::TrackChannelEnum;
 
-
 use crate::{channel::Channel, content_type::ContentType};
 use serde::Deserialize;
 use serde::Serialize;

@@ -1,11 +1,11 @@
 use crate::add_one_get;
 use crate::unit::Unit;
 use crate::{
-    device::au_plugin::AuPlugin,
-    device::builtin_device::BuiltinDevice, device::clap_plugin::ClapPlugin,
-    device::compressor::Compressor, device::device::Device, device::equalizer::Equalizer,
-    device::limiter::Limiter, device::noise_gate::NoiseGate, device::vst2_plugin::Vst2Plugin,
-    device::vst3_plugin::Vst3Plugin, mixer_role::MixerRoleEnum, real_parameter::RealParameter,
+    device::au_plugin::AuPlugin, device::builtin_device::BuiltinDevice,
+    device::clap_plugin::ClapPlugin, device::compressor::Compressor, device::device::Device,
+    device::equalizer::Equalizer, device::limiter::Limiter, device::noise_gate::NoiseGate,
+    device::vst2_plugin::Vst2Plugin, device::vst3_plugin::Vst3Plugin, mixer_role::MixerRoleEnum,
+    real_parameter::RealParameter,
 };
 use serde::Deserialize;
 use serde::Serialize;

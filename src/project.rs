@@ -81,7 +81,8 @@ impl Project {
                             }
                             _ => false,
                         })
-                        .count() != 0
+                        .count()
+                        != 0
                 }
                 TrackChannelEnum::Channel(_) => false,
             })

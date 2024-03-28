@@ -127,7 +127,7 @@ fn load_daw_project_test() {
 </Project>
     "##;
 
-    let mut obj: Project = from_str(xml).unwrap();
+    let obj: Project = from_str(xml).unwrap();
 
     println!("Deserialized object {:#?}", obj);
 }
@@ -435,10 +435,10 @@ mod project_creator {
 
     #[test]
     pub fn save_daw_project() -> Result<(), ()> {
-        let mut features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO];
+        let features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO];
         let proj = create_dummy_project(3, features);
         let meta_data = MetaData::new();
-        let mut embedded_files: HashMap<&Path, String> = HashMap::new();
+        let embedded_files: HashMap<&Path, String> = HashMap::new();
 
         DawProject::save(
             proj,
@@ -452,31 +452,31 @@ mod project_creator {
 
     #[test]
     pub fn validate_daw_project() -> Result<(), ()> {
-        let mut features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO];
-        let proj = create_dummy_project(3, features);
+        let features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO];
+        let _proj = create_dummy_project(3, features);
 
         Ok(())
     }
 
     #[test]
     pub fn validate_complex_project() -> Result<(), ()> {
-        let mut features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO]; // more features
-        let proj = create_dummy_project(3, features);
+        let features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO]; // more features
+        let _proj = create_dummy_project(3, features);
 
         Ok(())
     }
 
     #[test]
     pub fn save_and_load_daw_project() -> Result<(), ()> {
-        let mut features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO];
+        let features = vec![Features::CLIPS, Features::NOTES, Features::AUDIO];
         let proj = create_dummy_project(3, features);
         let meta_data = MetaData::new();
-        let mut embedded_files: HashMap<&Path, String> = HashMap::new();
+        let embedded_files: HashMap<&Path, String> = HashMap::new();
         let file = Path::new("target/test.dawproject");
 
         DawProject::save(proj, meta_data, embedded_files, file)?;
 
-        let loaded_project = DawProject::load_project(file)?;
+        let _loaded_project = DawProject::load_project(file)?;
 
         //assert_eq!(proj.structure.unwrap(), loaded_project.structure.unwrap());
         //assert_eq!(proj.scenes.unwrap(), loaded_project.scenes.unwrap());

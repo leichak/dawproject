@@ -1,12 +1,9 @@
-
 use crate::content_type::ContentType;
 use crate::mixer_role::MixerRoleEnum;
-use crate::timeline::{
-    audio::Audio, clip::Clip, clips::Clips, timeline::TimeLine, warp::Warp,
-};
+use crate::timeline::{audio::Audio, clip::Clip, clips::Clips, timeline::TimeLine, warp::Warp};
 use crate::track::Track;
 use std::fs::File;
-use std::io::{ErrorKind};
+use std::io::ErrorKind;
 use std::path::Path;
 
 // create construtctors for all structs

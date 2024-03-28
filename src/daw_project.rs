@@ -315,7 +315,7 @@ impl DawProject {
 #[cfg(test)]
 mod tests {
     use super::DawProject;
-    use std::io::{read_to_string, Read};
+    use std::io::Read;
     use std::str::FromStr;
     // Write tests and code for saving the projects then use it in general tests and that's it
 
@@ -329,7 +329,7 @@ mod tests {
 
         let mut zip_writer = zip::ZipWriter::new(file);
 
-        let mut contents = String::from_str("This is just the test").unwrap();
+        let contents = String::from_str("This is just the test").unwrap();
         let filename = "test.dawproject";
 
         match DawProject::add_file_to_zip_from_str(&mut zip_writer, &contents, filename) {

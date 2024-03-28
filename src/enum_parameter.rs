@@ -1,8 +1,6 @@
 use serde::Deserialize;
 use serde::Serialize;
 
-
-
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct EnumParameter {
     #[serde(rename = "@id")]
